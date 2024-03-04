@@ -1,3 +1,4 @@
-rm -rf $FCCAnalyses/build
-rm -rf $FCCAnalyses/install
-rm *~
+rm -rf $FCCANALYSES/build
+rm -rf $FCCANALYSES/install
+rm -f *~
+rm -f $FCCANACONFS/*~

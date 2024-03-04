@@ -6,22 +6,35 @@ debug = False
 production = 'winter2023'
 detector = 'IDEA'
 
-## name/tag of the physics analysis
+
+## name/tag of the physics analysis (SET AUTOMATICALLY, DO NOT MODIFY)
 # analysis_name = 'ZllHqq'
 # analysis_name = 'ZnunuHqq'
 analysis_name = os.path.split(os.getcwd())[0].split('/')[-1]
 print('Analysis name: ', analysis_name)
 
-## analysis script
+
+## input and output directories (SET AUTOMATICALLY, DO NOT MODIFY)
+indir = '/eos/experiment/fcc/ee/generation/DelphesEvents/'+production+'/'+detector
+#outdir = '/eos/user/g/gmarchio/fcc-new/{:s}/analysis/root/IDEA/'.format(analysis_name)
+outdir = '/eos/user/g/gmarchio/fcc-test/{:s}/analysis-stage1/root/{:s}/'.format(analysis_name, detector)
+print('Input location: ', indir)
+print('Output location: ', outdir)
+
+
+## analysis script (SET AUTOMATICALLY, DO NOT MODIFY)
 # script = '../../{:s}/analysis.py'.format(analysis_name)
 anaconfigs = os.getenv('FCCANACONFS')
 if anaconfigs == '':
     anaconfigs = '../../../FCCAnalyses-config/%s/' % analysis_name
+
 print('Config directory: ', anaconfigs)
 script = '%s/analysis_stage1.py' % anaconfigs
 print('Analysis script: ' , script)
 
+
 ## run nev_per_job = -1 to run on all event in input root files
+# TRY LONGLUNCH IF JOBS DO NOT START
 #queue = 'longlunch'
 queue = 'workday'
 #queue = 'espresso'
@@ -30,6 +43,7 @@ nev_per_job = -1
 print('Condor queue: ', queue)
 print('Condor events per job: ', nev_per_job)
 
+
 ## list of samples to run on
 samples = []
 
@@ -37,27 +51,27 @@ if analysis_name=='ZllHqq':
     samples = [
             # Z(ll)H
             'wzp6_ee_eeH_Hbb_ecm240',
-            #'wzp6_ee_eeH_Hcc_ecm240',
-            #'wzp6_ee_eeH_Hss_ecm240',
-            #'wzp6_ee_eeH_Hgg_ecm240',
-            #'wzp6_ee_eeH_Htautau_ecm240',
-            #'wzp6_ee_eeH_HWW_ecm240',
-            #'wzp6_ee_eeH_HZZ_ecm240',
-            #'wzp6_ee_mumuH_Hbb_ecm240',
-            #'wzp6_ee_mumuH_Hcc_ecm240',
-            #'wzp6_ee_mumuH_Hss_ecm240',
-            #'wzp6_ee_mumuH_Hgg_ecm240',
-            #'wzp6_ee_mumuH_Htautau_ecm240',
-            #'wzp6_ee_mumuH_HWW_ecm240',
-            #'wzp6_ee_mumuH_HZZ_ecm240',
+            'wzp6_ee_eeH_Hcc_ecm240',
+            'wzp6_ee_eeH_Hss_ecm240',
+            'wzp6_ee_eeH_Hgg_ecm240',
+            'wzp6_ee_eeH_Htautau_ecm240',
+            'wzp6_ee_eeH_HWW_ecm240',
+            'wzp6_ee_eeH_HZZ_ecm240',
+            'wzp6_ee_mumuH_Hbb_ecm240',
+            'wzp6_ee_mumuH_Hcc_ecm240',
+            'wzp6_ee_mumuH_Hss_ecm240',
+            'wzp6_ee_mumuH_Hgg_ecm240',
+            'wzp6_ee_mumuH_Htautau_ecm240',
+            'wzp6_ee_mumuH_HWW_ecm240',
+            'wzp6_ee_mumuH_HZZ_ecm240',
         ]
     samples.extend([
         # bkg
-        #'p8_ee_WW_ecm240',
-        #'p8_ee_ZZ_ecm240',
-        #'p8_ee_Zqq_ecm240',
-        #'wzp6_ee_mumu_ecm240',
-        #'wzp6_ee_ee_Mee_30_150_ecm240'    
+        'p8_ee_WW_ecm240',
+        'p8_ee_ZZ_ecm240',
+        'p8_ee_Zqq_ecm240',
+        'wzp6_ee_mumu_ecm240',
+        'wzp6_ee_ee_Mee_30_150_ecm240'
         ])
 elif analysis_name == 'ZnunuHqq':
     samples = [
@@ -113,9 +127,19 @@ elif analysis_name == 'ZnunuHqq':
     ])
 
 
-indir = '/eos/experiment/fcc/ee/generation/DelphesEvents/'+production+'/'+detector
-#outdir = '/eos/user/g/gmarchio/fcc-new/{:s}/analysis/root/IDEA/'.format(analysis_name)
-outdir = '/eos/user/g/gmarchio/fcc-test/{:s}/analysis-stage1/root/{:s}/'.format(analysis_name, detector)
+from datetime import datetime
+now = datetime.now()
+string = now.strftime('%Y-%m-%d-%H:%M:%S')
+logfile = 'condor-sub-%s.txt' %string
+
+outf = open(logfile, 'w')
+outf.write('Analysis name: %s\n' % analysis_name)
+outf.write('Input location: %s\n' % indir)
+outf.write('Output location: %s\n' % outdir)
+outf.write('Config directory: %s\n' % anaconfigs)
+outf.write('Analysis script: %s\n' % script)
+outf.write('Condor queue: %s\n' % queue)
+outf.write('Condor events per job: %s\n\n' % nev_per_job)
 
 
 ### run condor jobs
@@ -127,4 +151,5 @@ for s in samples:
     if debug:
         cmd += '--dry'
     print(cmd)
+    outf.write(cmd)
     os.system(cmd)
