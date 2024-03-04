@@ -16,7 +16,6 @@ print('Analysis name: ', analysis_name)
 
 ## input and output directories (SET AUTOMATICALLY, DO NOT MODIFY)
 indir = '/eos/experiment/fcc/ee/generation/DelphesEvents/'+production+'/'+detector
-#outdir = '/eos/user/g/gmarchio/fcc-new/{:s}/analysis/root/IDEA/'.format(analysis_name)
 outdir = '/eos/user/g/gmarchio/fcc-test/{:s}/analysis-stage1/root/{:s}/'.format(analysis_name, detector)
 print('Input location: ', indir)
 print('Output location: ', outdir)
@@ -143,7 +142,7 @@ outf.write('Condor events per job: %s\n\n' % nev_per_job)
 
 
 ### run condor jobs
-#os.system('rm -rf std/*')
+# os.system('rm -rf std/*')
 for s in samples:
     cmd = 'python submitAnalysisJobs.py --indir {}/{} '.format(indir, s)
     cmd += '--outdir {}/{} '.format(outdir, s)
