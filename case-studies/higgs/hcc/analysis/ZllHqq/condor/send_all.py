@@ -49,20 +49,20 @@ samples = []
 if analysis_name=='ZllHqq':
     samples = [
             # Z(ll)H
-            # 'wzp6_ee_eeH_Hbb_ecm240',
-            # 'wzp6_ee_eeH_Hcc_ecm240',
-            # 'wzp6_ee_eeH_Hss_ecm240',
-            # 'wzp6_ee_eeH_Hgg_ecm240',
-            # 'wzp6_ee_eeH_Htautau_ecm240',
-            # 'wzp6_ee_eeH_HWW_ecm240',
-            # 'wzp6_ee_eeH_HZZ_ecm240',
-            # 'wzp6_ee_mumuH_Hbb_ecm240',
-            # 'wzp6_ee_mumuH_Hcc_ecm240',
-            # 'wzp6_ee_mumuH_Hss_ecm240',
-            # 'wzp6_ee_mumuH_Hgg_ecm240',
-            # 'wzp6_ee_mumuH_Htautau_ecm240',
-            # 'wzp6_ee_mumuH_HWW_ecm240',
-            # 'wzp6_ee_mumuH_HZZ_ecm240',
+            'wzp6_ee_eeH_Hbb_ecm240',
+            'wzp6_ee_eeH_Hcc_ecm240',
+            'wzp6_ee_eeH_Hss_ecm240',
+            'wzp6_ee_eeH_Hgg_ecm240',
+            'wzp6_ee_eeH_Htautau_ecm240',
+            'wzp6_ee_eeH_HWW_ecm240',
+            'wzp6_ee_eeH_HZZ_ecm240',
+            'wzp6_ee_mumuH_Hbb_ecm240',
+            'wzp6_ee_mumuH_Hcc_ecm240',
+            'wzp6_ee_mumuH_Hss_ecm240',
+            'wzp6_ee_mumuH_Hgg_ecm240',
+            'wzp6_ee_mumuH_Htautau_ecm240',
+            'wzp6_ee_mumuH_HWW_ecm240',
+            'wzp6_ee_mumuH_HZZ_ecm240',
         ]
     samples.extend([
         # bkg

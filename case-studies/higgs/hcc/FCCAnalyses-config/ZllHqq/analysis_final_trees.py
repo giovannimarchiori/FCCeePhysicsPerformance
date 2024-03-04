@@ -5,6 +5,8 @@ configdir = os.getenv('FCCANACONFS')
 sys.path.append(configdir)
 from analysis_final_common import *
 
+outputDir += '/trees'
+
 # produces ROOT TTrees, default is False
 doTree = True
 saveTabular = False
