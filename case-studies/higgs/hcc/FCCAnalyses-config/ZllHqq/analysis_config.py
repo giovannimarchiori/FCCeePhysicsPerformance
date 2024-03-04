@@ -1,54 +1,57 @@
-# import common definitions
-import os, sys
-configdir = os.getenv('FCCANACONFS')
-sys.path.append(configdir)
-from analysis_config import *
+production = 'winter2023'
+detector = 'IDEA'
 
-# Input directory where the files produced at the pre-selection level are
-inputDir = ''
-# Output directory where the output files will be saved
-outputDir = ''
+import os
+user = os.getlogin()
 
-if user == 'almaloiz':
-    inputDir = ' /eos/user/a/almaloiz/thesis/fcc/root/IDEA_newtagger/ZllHqq/'
-    outputDir = '/eos/user/a/almaloiz/thesis/fcc/root/IDEA_newtagger/ZllHqq/finalsel/'
-elif user == 'gmarchio':
-    if hostname == 'lxplus.cern.ch':
-        inputDir = '/eos/user/g/gmarchio/fcc-test/ZllHqq/analysis-stage1/root/%s/' % (detector)
-        outputDir = '/eos/user/g/gmarchio/fcc-test/ZllHqq/analysis-final/root/%s/' % (detector)
+import socket
+hostname = socket.gethostname()
+
+# Directory that will contain the output files
+baseDir = ''
+import re
+if user == 'gmarchio':
+    if re.match(r'^lxplus.*\.cern\.ch$', hostname):
+        hostname = 'lxplus.cern.ch'
+        basedir = '/eos/user/g/gmarchio/fcc-test/ZllHqq/%s/%s/' % (production, detector)
     elif hostname == 'apcatlas01.in2p3.fr':
-        inputDir = basedir+'/analysis-stage1/'
-        outputDir = basedir+'/analysis-final/'
+        basedir = '/home/gmarchio/work/fcc/analysis/output/ZllHqq/%s/%s/' % (production, detector)
+
+# Dictonary that contains all the cross section informations etc...
+procDict = 'FCCee_procDict_%s_%s.json' % (production, detector)
+
+# Add MySample_p8_ee_ZH_ecm240 as it is not an offical process
+# procDictAdd={"'wzp6_ee_eeH_Hbb_ecm240'":{"numberOfEvents": 10000000, "sumOfWeights": 10000000, "crossSection": 0.201868, "kfactor": 1.0, "matchingEfficiency": 1.0}}
 
 # Number of CPUs to use
-# nCPUS = 96
+nCPUS = 96
 
 # List of samples
-# process_list_sig = {
-#     'wzp6_ee_eeH_Hbb_ecm240': {},
-#     'wzp6_ee_eeH_Hcc_ecm240': {},
-#     'wzp6_ee_eeH_Hgg_ecm240': {},
-#     'wzp6_ee_eeH_Hss_ecm240': {},
-#     'wzp6_ee_eeH_Htautau_ecm240': {},
-#     'wzp6_ee_eeH_HWW_ecm240': {},
-#     'wzp6_ee_eeH_HZZ_ecm240': {},
-#     #
-#     'wzp6_ee_mumuH_Hbb_ecm240': {},
-#     'wzp6_ee_mumuH_Hcc_ecm240': {},
-#     'wzp6_ee_mumuH_Hgg_ecm240': {},
-#     'wzp6_ee_mumuH_Hss_ecm240': {},
-#     'wzp6_ee_mumuH_Htautau_ecm240': {},
-#     'wzp6_ee_mumuH_HWW_ecm240': {},
-#     'wzp6_ee_mumuH_HZZ_ecm240': {},
-# }
-# process_list_bkg = {
-#     'p8_ee_ZZ_ecm240': {},
-#     'p8_ee_WW_ecm240': {},
-#     'p8_ee_Zqq_ecm240': {},
-#     'wzp6_ee_mumu_ecm240': {},
-#     'wzp6_ee_ee_Mee_30_150_ecm240': {},
-# }
-# processList = process_list_sig | process_list_bkg
+process_list_sig = {
+    'wzp6_ee_eeH_Hbb_ecm240': {},
+    'wzp6_ee_eeH_Hcc_ecm240': {},
+    'wzp6_ee_eeH_Hgg_ecm240': {},
+    'wzp6_ee_eeH_Hss_ecm240': {},
+    'wzp6_ee_eeH_Htautau_ecm240': {},
+    'wzp6_ee_eeH_HWW_ecm240': {},
+    'wzp6_ee_eeH_HZZ_ecm240': {},
+    #
+    'wzp6_ee_mumuH_Hbb_ecm240': {},
+    'wzp6_ee_mumuH_Hcc_ecm240': {},
+    'wzp6_ee_mumuH_Hgg_ecm240': {},
+    'wzp6_ee_mumuH_Hss_ecm240': {},
+    'wzp6_ee_mumuH_Htautau_ecm240': {},
+    'wzp6_ee_mumuH_HWW_ecm240': {},
+    'wzp6_ee_mumuH_HZZ_ecm240': {},
+}
+process_list_bkg = {
+    'p8_ee_ZZ_ecm240': {},
+    'p8_ee_WW_ecm240': {},
+    'p8_ee_Zqq_ecm240': {},
+    'wzp6_ee_mumu_ecm240': {},
+    'wzp6_ee_ee_Mee_30_150_ecm240': {},
+}
+processList = process_list_sig | process_list_bkg
 
 #
 nosel = '0<1'
@@ -58,7 +61,7 @@ sel_cosThetaZ = '(zed_leptonic_cos_theta < 0.8)'
 sel_mrecoil = '(zed_leptonic_recoil_m > 120 && zed_leptonic_recoil_m < 140)'
 sel_mjj = '(higgs_hadronic_m>50 && higgs_hadronic_m<140)'
 sel_leptonveto = '(n_extraleptons<1)'
-sel_dmergeok = '(event_d23 >0.) && (event_d34>0.) && (event_d45>0.)'
+sel_dmergeok = '(event_d23 >0) && (event_d34>0) && (event_d45>0)'
 
 final_selec = nosel
 final_selec += (' && ' + sel_Z)

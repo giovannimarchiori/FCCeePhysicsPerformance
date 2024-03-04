@@ -1,11 +1,13 @@
+# import common definitions
+import os, sys
+configdir = os.getenv('FCCANACONFS')
+sys.path.append(configdir)
+from analysis_config import *
+
 import subprocess
 import math
-import os
 
 debug = False
-
-# directory where hists and cutflow files are saved
-basedir = '/eos/user/g/gmarchio/fcc-test/ZllHqq/analysis-final/root/IDEA/hists/'
 
 # Z(ll)+jets sample is Pythia8 Z(ll) (False) or WzPy6 ee+mumu (True)
 splitZllByFlavour = True
@@ -58,6 +60,10 @@ cutList = {
     'finalsel_e'  : 'l=e',
     'finalsel_mu' : 'l=mu',
     }
+
+# directory containing the cutflow files
+basedir += 'analysis-final/hists/'
+
 
 yieldsInitial = {}
 yieldsFinal = {}

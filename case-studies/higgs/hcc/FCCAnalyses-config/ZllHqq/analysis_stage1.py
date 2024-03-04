@@ -1,9 +1,15 @@
+# import common definitions
+import os, sys
+configdir = os.getenv('FCCANACONFS')
+sys.path.append(configdir)
+from analysis_config import *
+
 # Mandatory: List of processes
-processList = {
+# processList = {
     # 'p8_ee_ZZ_ecm240':{},#Run the full statistics in one output file named <outputDir>/p8_ee_ZZ_ecm240.root
     # 'p8_ee_WW_ecm240':{'fraction':0.5, 'chunks':2}, #Run 50% of the statistics in two files named <outputDir>/p8_ee_WW_ecm240/chunk<N>.root
     # 'p8_ee_ZH_ecm240':{'fraction':0.2, 'output':'p8_ee_ZH_ecm240_out'} #Run 20% of the statistics in one file named <outputDir>/p8_ee_ZH_ecm240_out.root (example on how to change the output name)
-    'wzp6_ee_eeH_Hbb_ecm240': {'chunks': 4},
+    # 'wzp6_ee_eeH_Hbb_ecm240': {'chunks': 4},
     # 'wzp6_ee_eeH_Hcc_ecm240': {'chunks':4},
     # 'wzp6_ee_eeH_Hgg_ecm240': {'chunks':4},
     # 'wzp6_ee_eeH_Hss_ecm240': {'chunks':4},
@@ -29,16 +35,17 @@ processList = {
 
 # Mandatory: Production tag when running over EDM4Hep centrally produced events,
 # this points to the yaml files for getting sample statistics
-prodTag = 'FCCee/winter2023/IDEA/'
+prodTag = 'FCCee/%s/%s/' % (production, detector)
 
 outputDirEos = '/eos/user/g/gmarchio/fcc-test/ZllHqq/analysis/root/IDEA/'
 eosType = 'eosuser'
+
 # Optional: ncpus, default is 4
-nCPUS = 32
+# nCPUS = 32
 
 # Optional running on HTCondor, default is False
 runBatch = False
-# runBatch = False
+# runBatch = True
 
 # Optional batch queue name when running on HTCondor, default is workday
 # batchQueue = 'longlunch'
