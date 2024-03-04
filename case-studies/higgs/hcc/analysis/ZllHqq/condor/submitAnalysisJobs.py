@@ -101,6 +101,7 @@ log                   = std/condor.$(ClusterId).log
     for job in range(len(list_of_infiles)):
 
         basename = "chunk_" + str(job)
+        # basename = "events_" + str(job)
         outputFile = outdir + "/" + basename + ".root"
         inputFile = list_of_infiles[job]
         # print outdir, basename, outputFile
@@ -124,11 +125,14 @@ log                   = std/condor.$(ClusterId).log
         f.write(cmdfile)
 
     ### submitting jobs
-    if jobCount > 0:
-        if not args.dry:
+    if not args.dry:
+        if jobCount > 0:
             print("")
             print("[Submitting jobs] ... ")
             os.system("condor_submit condor_analysis.sub")
+        else:
+            print("")
+            print("No jobs to submit ... ")
 
 
 # _______________________________________________________________________________________
