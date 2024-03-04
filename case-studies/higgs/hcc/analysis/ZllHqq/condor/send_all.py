@@ -1,52 +1,63 @@
-import os, sys
-
 debug = False
 
-## MC production to run on
-production = 'winter2023'
-detector = 'IDEA'
+# import common definitions
+import os, sys
+configdir = os.getenv('FCCANACONFS')
+if configdir == '':
+    configdir = '../../../FCCAnalyses-config/%s/' % analysis
+print('Config directory: ', configdir)
+if not os.path.isdir(configdir):
+    print('Config directory not found')
+    exit(1)
+sys.path.append(configdir)
+from analysis_config import *
 
 
-## name/tag of the physics analysis (SET AUTOMATICALLY, DO NOT MODIFY)
-# analysis_name = 'ZllHqq'
-# analysis_name = 'ZnunuHqq'
-analysis_name = os.path.split(os.getcwd())[0].split('/')[-1]
-print('Analysis name: ', analysis_name)
+# MC production to run on (SET IN ANALYSIS_CONFIG)
+# production = 'winter2023'
+# detector = 'IDEA'
 
 
-## input and output directories (SET AUTOMATICALLY, DO NOT MODIFY)
-indir = '/eos/experiment/fcc/ee/generation/DelphesEvents/'+production+'/'+detector
-outdir = '/eos/user/g/gmarchio/fcc-test/{:s}/analysis-stage1/root/{:s}/'.format(analysis_name, detector)
-print('Input location: ', indir)
+# name/tag of the physics analysis (SET IN ANALYSIS_CONFIG, DO NOT MODIFY)
+# analysis = 'ZllHqq'
+# analysis = 'ZnunuHqq'
+# analysis = os.path.split(os.getcwd())[0].split('/')[-1]
+
+
+# input and output directories (SET AUTOMATICALLY, DO NOT MODIFY)
+indir = '/eos/experiment/fcc/ee/generation/DelphesEvents/'+production+'/'+detector+'/'
+outdir = basedir + '/analysis-stage1/'
+print('Input directory: ', indir)
+if not os.path.isdir(indir):
+    print('Input directory not found')
+    exit(1)
 print('Output location: ', outdir)
 
 
-## analysis script (SET AUTOMATICALLY, DO NOT MODIFY)
-# script = '../../{:s}/analysis.py'.format(analysis_name)
-anaconfigs = os.getenv('FCCANACONFS')
-if anaconfigs == '':
-    anaconfigs = '../../../FCCAnalyses-config/%s/' % analysis_name
-
-print('Config directory: ', anaconfigs)
-script = '%s/analysis_stage1.py' % anaconfigs
+# analysis script (SET AUTOMATICALLY, DO NOT MODIFY)
+# script = '../../{:s}/analysis.py'.format(analysis)
+script = '%s/analysis_stage1.py' % configdir
 print('Analysis script: ' , script)
+if not os.path.isfile(script):
+    print('Script not found')
+    exit(1)
 
 
-## run nev_per_job = -1 to run on all event in input root files
+# run nev_per_job = -1 to run on all event in input root files
 # TRY LONGLUNCH IF JOBS DO NOT START
-#queue = 'longlunch'
+# queue = 'longlunch'
 queue = 'workday'
-#queue = 'espresso'
-#nev_per_job = 100
+# queue = 'espresso'
+# nev_per_job = 100
 nev_per_job = -1
 print('Condor queue: ', queue)
 print('Condor events per job: ', nev_per_job)
 
 
-## list of samples to run on
+# list of samples to run on (TODO: take from analysis_config)
 samples = []
 
-if analysis_name=='ZllHqq':
+if analysis == 'ZllHqq':
     samples = [
             # Z(ll)H
             'wzp6_ee_eeH_Hbb_ecm240',
@@ -72,7 +83,7 @@ if analysis_name=='ZllHqq':
         'wzp6_ee_mumu_ecm240',
         'wzp6_ee_ee_Mee_30_150_ecm240'
         ])
-elif analysis_name == 'ZnunuHqq':
+elif analysis == 'ZnunuHqq':
     samples = [
             # Z(nunu)H
             'wzp6_ee_nunuH_Hbb_ecm240',
@@ -132,10 +143,10 @@ string = now.strftime('%Y-%m-%d-%H:%M:%S')
 logfile = 'condor-sub-%s.txt' %string
 
 outf = open(logfile, 'w')
-outf.write('Analysis name: %s\n' % analysis_name)
+outf.write('Analysis name: %s\n' % analysis)
 outf.write('Input location: %s\n' % indir)
 outf.write('Output location: %s\n' % outdir)
-outf.write('Config directory: %s\n' % anaconfigs)
+outf.write('Config directory: %s\n' % configdir)
 outf.write('Analysis script: %s\n' % script)
 outf.write('Condor queue: %s\n' % queue)
 outf.write('Condor events per job: %s\n\n' % nev_per_job)

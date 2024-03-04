@@ -13,12 +13,10 @@ if user == 'almaloiz':
     inputDir = ' /eos/user/a/almaloiz/thesis/fcc/root/IDEA_newtagger/ZllHqq/'
     outputDir = '/eos/user/a/almaloiz/thesis/fcc/root/IDEA_newtagger/ZllHqq/finalsel/'
 elif user == 'gmarchio':
-    if hostname == 'lxplus.cern.ch':
-        inputDir = '/eos/user/g/gmarchio/fcc-test/ZllHqq/analysis-stage1/root/%s/' % (detector)
-        outputDir = '/eos/user/g/gmarchio/fcc-test/ZllHqq/analysis-final/root/%s/' % (detector)
-    elif hostname == 'apcatlas01.in2p3.fr':
-        inputDir = basedir+'/analysis-stage1/'
-        outputDir = basedir+'/analysis-final/'
+    inputDir = basedir+'/analysis-stage1/'
+    outputDir = basedir+'/analysis-final/'
+print('Input directory: ', inputDir)
+print('Output_directory: ', outputDir)
 
 # Number of CPUs to use
 # nCPUS = 96

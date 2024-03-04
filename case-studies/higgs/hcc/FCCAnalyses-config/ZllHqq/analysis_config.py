@@ -1,5 +1,10 @@
+analysis = 'ZllHqq'
 production = 'winter2023'
 detector = 'IDEA'
+
+print('Analysis: ', analysis)
+print('Production: ', production)
+print('Detector: ', detector)
 
 import os
 user = os.getlogin()
@@ -8,17 +13,19 @@ import socket
 hostname = socket.gethostname()
 
 # Directory that will contain the output files
-baseDir = ''
+basedir = ''
 import re
 if user == 'gmarchio':
     if re.match(r'^lxplus.*\.cern\.ch$', hostname):
         hostname = 'lxplus.cern.ch'
-        basedir = '/eos/user/g/gmarchio/fcc-test/ZllHqq/%s/%s/' % (production, detector)
+        basedir = '/eos/user/g/gmarchio/fcc/analysis/%s/%s/%s/' % (analysis, production, detector)
     elif hostname == 'apcatlas01.in2p3.fr':
-        basedir = '/home/gmarchio/work/fcc/analysis/output/ZllHqq/%s/%s/' % (production, detector)
+        basedir = '/home/gmarchio/work/fcc/analysis/output/%s/%s/%s/' % (analysis, production, detector)
+print('Base directory for output: ', basedir)
 
 # Dictonary that contains all the cross section informations etc...
 procDict = 'FCCee_procDict_%s_%s.json' % (production, detector)
+print('Dictionary: ', procDict)
 
 # Add MySample_p8_ee_ZH_ecm240 as it is not an offical process
 # procDictAdd={"'wzp6_ee_eeH_Hbb_ecm240'":{"numberOfEvents": 10000000, "sumOfWeights": 10000000, "crossSection": 0.201868, "kfactor": 1.0, "matchingEfficiency": 1.0}}
