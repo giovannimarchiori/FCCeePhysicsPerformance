@@ -9,7 +9,12 @@ outputDir += '/hists'
 
 # produces ROOT TTrees, default is False
 doTree = False
+
+# save cutflow, normalised to luminosity intLumi
+# histograms will be scaled to 1/pb instead
 saveTabular = True
+doScale = True  # scale to reference lumi
+intLumi = 5000000 # reference lumi in 1/pb
 
 cutList = cutList_histOnly
 

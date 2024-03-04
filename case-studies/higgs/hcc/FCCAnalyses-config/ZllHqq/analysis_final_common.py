@@ -18,20 +18,20 @@ nCPUS = 32
 # List of samples
 process_list_sig = {
     "wzp6_ee_eeH_Hbb_ecm240": {},
-    # "wzp6_ee_eeH_Hcc_ecm240": {},
-    # "wzp6_ee_eeH_Hgg_ecm240": {},
-    # "wzp6_ee_eeH_Hss_ecm240": {},
-    # "wzp6_ee_eeH_Htautau_ecm240": {},
-    # "wzp6_ee_eeH_HWW_ecm240": {},
-    # "wzp6_ee_eeH_HZZ_ecm240": {},
-    # "wzp6_ee_mumuH_Hbb_ecm240": {},
-    # "wzp6_ee_mumuH_Hcc_ecm240": {},
-    # "wzp6_ee_mumuH_Hgg_ecm240": {},
-    # "wzp6_ee_mumuH_Hss_ecm240": {},
-    # "wzp6_ee_mumuH_Htautau_ecm240": {},
-    # "wzp6_ee_mumuH_HWW_ecm240": {},
-    # "wzp6_ee_mumuH_HZZ_ecm240": {},
+    "wzp6_ee_eeH_Hcc_ecm240": {},
+    "wzp6_ee_eeH_Hgg_ecm240": {},
+    "wzp6_ee_eeH_Hss_ecm240": {},
+    "wzp6_ee_eeH_Htautau_ecm240": {},
+    "wzp6_ee_eeH_HWW_ecm240": {},
+    "wzp6_ee_eeH_HZZ_ecm240": {},
     #
+    "wzp6_ee_mumuH_Hbb_ecm240": {},
+    "wzp6_ee_mumuH_Hcc_ecm240": {},
+    "wzp6_ee_mumuH_Hgg_ecm240": {},
+    "wzp6_ee_mumuH_Hss_ecm240": {},
+    "wzp6_ee_mumuH_Htautau_ecm240": {},
+    "wzp6_ee_mumuH_HWW_ecm240": {},
+    "wzp6_ee_mumuH_HZZ_ecm240": {},
 }
 process_list_bkg = {
     # "p8_ee_ZZ_ecm240": {},
@@ -72,8 +72,8 @@ cutList_treeOnly = {
 
 # Dictionary of the list of cuts for hists only. The key is the name of the selection that will be added to the output file.
 cutList_histOnly = {}
-cutList_histOnly["Nosel"       ] = "0<1"
-cutList_histOnly["selN_Z"      ] = cutList_histOnly["Nosel"    ] + " && (zed_leptonic_flavour>0)"
+cutList_histOnly["selNone"     ] = "0<1"
+cutList_histOnly["selN_Z"      ] = cutList_histOnly["selNone"  ] + " && (zed_leptonic_flavour>0)"
 cutList_histOnly["selN_mZ"     ] = cutList_histOnly["selN_Z"   ] + " && (zed_leptonic_m > 81 && zed_leptonic_m < 101)"
 cutList_histOnly["selN_cos"    ] = cutList_histOnly["selN_mZ"  ] + " && (zed_leptonic_cos_theta < 0.8)"
 cutList_histOnly["selN_H"      ] = cutList_histOnly["selN_cos" ] + " && (zed_leptonic_recoil_m > 120 && zed_leptonic_recoil_m<140)"
