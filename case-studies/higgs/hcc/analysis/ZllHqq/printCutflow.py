@@ -2,7 +2,7 @@ import subprocess
 import math
 import os
 
-debug = True
+debug = False
 
 # directory where hists and cutflow files are saved
 basedir = '/eos/user/g/gmarchio/fcc-test/ZllHqq/analysis-final/root/IDEA/hists/'
@@ -51,15 +51,12 @@ cutList = {
     'selN_mZ'     : 'm(ll) 81-101 GeV',
     'selN_cos'    : '|cos(theta_ll)|<0.8',
     'selN_H'      : 'm(recoil) 120-140 GeV',
-#    'selN_mhad'   : '100<m(jets)<140 GeV',    
-#    'selN_miss'   : 'Emiss < 30 GeV',
+#    'selN_mhad'  : '100<m(jets)<140 GeV',
+#    'selN_miss'  : 'Emiss < 30 GeV',
     'selN_lepveto': 'max p(extra lep) < 25 GeV',
-#    'selN_nn'     : 'dmerge > 0',
-    'selN_e'      : 'l=e',
-    'selN_mu'     : 'l=mu',
-#    'finalsel'    : '(d23+2.5d34)<1250',
-#    'finalsel_e'  : 'l=e',
-#    'finalsel_mu' : 'l=mu',
+    'finalsel'    : 'dmerge > 0',
+    'finalsel_e'  : 'l=e',
+    'finalsel_mu' : 'l=mu',
     }
 
 yieldsInitial = {}
@@ -105,7 +102,6 @@ for cut in cutList:
         for subproc in processes[proc]:
             filename = basedir+'/'+subproc+'_cutflow_weighted.txt'
             if os.path.isfile(filename):
-                if cut==" 
                 cmd = "grep \ " + cut + "\  " + basedir + "/"+subproc+"_cutflow_weighted.txt | awk '{print $5}'"
                 if debug: print(cmd)
                 subproc_return = subprocess.Popen(cmd, shell=True, stdout=subprocess.PIPE).stdout.read().decode()
@@ -114,12 +110,12 @@ for cut in cutList:
         else:
             yields[proc] += 0.0
         sumYields += yields[proc]
-    if (cut=='Nosel'): yieldsInitial=dict(yields)
-    #if (cut=='finalsel'): yieldsFinal=dict(yields)
+    if (cut=='selNone'): yieldsInitial=dict(yields)
+    if (cut=='finalsel'): yieldsFinal=dict(yields)
     #if (cut=='selN_nn'): yieldsFinal=dict(yields)
-    if (cut=='selN_lepveto'): yieldsFinal=dict(yields)
-    if (cut=='selN_e'): yieldsFinal_e=dict(yields)
-    if (cut=='selN_mu'): yieldsFinal_mu = dict(yields)
+    #if (cut=='selN_lepveto'): yieldsFinal=dict(yields)
+    if (cut=='finalsel_e'): yieldsFinal_e=dict(yields)
+    if (cut=='finalsel_mu'): yieldsFinal_mu = dict(yields)
     print('{:25s} '.format(cutList[cut]), end='')
     if printSig:
         sig = {}
@@ -132,7 +128,7 @@ for cut in cutList:
         print('')
     else:
         eff = {}        
-        if cut!='Nosel' and cut!='selN_e' and cut!='selN_mu':
+        if cut!='selNone' and cut!='finalsel_e' and cut!='finalsel_mu':
             for proc in processes:
                 eff[proc] = 100.*yields[proc]/yieldsPrevious[proc]
                 print('{:10.0f} {:5.0f} '.format(yields[proc], eff[proc]), end='')
