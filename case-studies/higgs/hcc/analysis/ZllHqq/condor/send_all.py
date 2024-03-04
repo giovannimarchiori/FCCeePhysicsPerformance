@@ -151,4 +151,5 @@ for s in samples:
         cmd += '--dry'
     print(cmd)
     outf.write(cmd)
+    outf.write('\n')
     os.system(cmd)

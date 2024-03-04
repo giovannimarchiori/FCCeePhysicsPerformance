@@ -100,7 +100,7 @@ log                   = std/condor.$(ClusterId).log
 
     for job in range(len(list_of_infiles)):
 
-        basename = "events_" + str(job)
+        basename = "chunk_" + str(job)
         outputFile = outdir + "/" + basename + ".root"
         inputFile = list_of_infiles[job]
         # print outdir, basename, outputFile
