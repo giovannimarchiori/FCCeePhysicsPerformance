@@ -47,19 +47,14 @@ processes.update({
 })
 
 
-cutList = {
-    'selNone'     : 'No cuts',
-    'selN_Z'      : 'one Z->ll candidate',
-    'selN_mZ'     : 'm(ll) 81-101 GeV',
-    'selN_cos'    : '|cos(theta_ll)|<0.8',
-    'selN_H'      : 'm(recoil) 120-140 GeV',
-#    'selN_mhad'  : '100<m(jets)<140 GeV',
-#    'selN_miss'  : 'Emiss < 30 GeV',
-    'selN_lepveto': 'max p(extra lep) < 25 GeV',
-    'finalsel'    : 'dmerge > 0',
-    'finalsel_e'  : 'l=e',
-    'finalsel_mu' : 'l=mu',
-    }
+cutList = {}
+#for cut in cutList_histOnly:
+#    cutList[cut] = cutDict[cut]['label']
+for cut in sel:
+    cutList[cut] = cutDict[cut]['label']
+cutList['finalsel'] = 'All cuts'
+cutList['finalsel_e'] = 'l=e'
+cutList['finalsel_mu'] = 'l=mu'
 
 # directory containing the cutflow files
 basedir += 'analysis-final/hists/'

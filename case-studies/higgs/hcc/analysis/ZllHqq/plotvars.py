@@ -25,6 +25,8 @@ def plotvars():
     print(basedir)
     
     # vars: varname, preselection, cutmin, cutmax, axis title, legend position, plot type
+    # could be replaced with dictionary
+    # list of cuts could be taken from config files
     vars = [
         # momentum of all leptons (selNone)
         ('all_leptons_p', 'selNone', 25., 80., 'p(l_{rec}) [GeV]', 0.7, 'lin'),
@@ -32,40 +34,42 @@ def plotvars():
         # type or reconstructed Z candidate (0=none, 1=Zee, 2=Zmm) (selNone)
         ('zed_flavour',   'selNone', 0.5,    -9999., 'Z type', 0.7, 'lin'),
         
-        # momentum of Z leptons (selN_Z)
-        ('zed_leptons_p', 'selN_Z', 9999., -9999., 'p(l_{Z}) [GeV]', 0.7, 'lin'),
+        # momentum of Z leptons (sel_Z)
+        ('zed_leptons_p', 'sel_Z', 9999., -9999., 'p(l_{Z}) [GeV]', 0.7, 'lin'),
         
-        # zed candidate mass (selN_Z)
-        ('dilepton_mass_2', 'selN_Z', 81., 101.,   'm_{ll} [GeV]', 0.15, 'lin'),
+        # zed candidate mass (sel_Z)
+        ('dilepton_mass_2', 'sel_Z', 81., 101.,   'm_{ll} [GeV]', 0.15, 'lin'),
         
-        # zed candidate direction (selN_mZ)
-        ('cos_theta_Z', 'selN_mZ', 9999., 0.8,   '|cos#theta_{ll}|', 0.15, 'lin'),
+        # zed candidate direction (sel_mZ)
+        ('cos_theta_Z', 'sel_mZ', 9999., 0.8,   '|cos#theta_{ll}|', 0.15, 'lin'),
         
-        # leptonic recoil mass (selN_cos)
-        ('m_recoil_2', 'selN_cos', 120., 140.,   'm_{recoil} [GeV]', 0.15, 'lin'),
+        # leptonic recoil mass (sel_cosThetaZ)
+        ('m_recoil_2', 'sel_cosThetaZ', 120., 140.,   'm_{recoil} [GeV]', 0.15, 'lin'),
         
-        # jets momenta (selN_H)
-        ('all_jets_p', 'selN_H', 15., 100.,   'p^{j} [GeV]', 0.7, 'lin'),
-        ('jets_p', 'selN_H', 9999., -9999.,   'p^{j} [GeV]', 0.7, 'lin'),
+        # jets momenta (sel_mrecoil)
+        ('all_jets_p', 'sel_mrecoil', 15., 100.,   'p^{j} [GeV]', 0.7, 'lin'),
+        ('jets_p', 'sel_mrecoil', 9999., -9999.,   'p^{j} [GeV]', 0.7, 'lin'),
         
-        # invariant mass of the jets (selN_H)
-        ('hadronic_mass_zoom', 'selN_H', 100., 140.,  'm_{jets} [GeV]', 0.15, 'lin'),
+        # invariant mass of the jets (sel_mrecoil)
+        # ('hadronic_mass_zoom', 'sel_mrecoil', 100., 140.,  'm_{jets} [GeV]', 0.15, 'lin'),
+        # no cut
+        ('hadronic_mass_zoom', 'sel_mrecoil', 9999., -9999.,  'm_{jets} [GeV]', 0.15, 'lin'),        
         
         # missing energy (selN_mhad)
-        # ('missing_e',       'selN_mhad', 9999.,  30.,   'p_{miss} [GeV]', 0.7, 'lin'),
-        ('missing_e',       'selN_H', 9999.,  30.,   'p_{miss} [GeV]', 0.7, 'lin'),
+        # ('missing_e',       'sel_mjj', 9999.,  30.,   'p_{miss} [GeV]', 0.7, 'lin'),
+        ('missing_e',       'sel_mrecoil', 9999.,  -9999.,   'p_{miss} [GeV]', 0.7, 'lin'),
         
         # number of additional high-p electrons and muons (selN_miss)
-        # ('N_extra_leptons', 'selN_miss', 0.5, -9999., 'N(l^{high p,extra})', 0.7, 'lin'),
-        ('N_extra_leptons', 'selN_H', 0.5, -9999., 'N(l^{high p,extra})', 0.7, 'lin'),
+        # ('N_extra_leptons', 'sel_emiss', 0.5, -9999., 'N(l^{high p,extra})', 0.7, 'lin'),
+        ('N_extra_leptons', 'sel_mrecoil', 0.5, -9999., 'N(l^{high p,extra})', 0.7, 'lin'),
         
         # dmerge (selN_miss)
-        # ('jets_d23',       'selN_miss', 2.0,  -9999.,  'd_{23}', 0.7, 'log'),
-        # ('jets_d34',       'selN_miss', 1.5,  -9999.,  'd_{34}', 0.7, 'log'),
-        # ('jets_d45',       'selN_miss', 1.0,  -9999.,  'd_{45}', 0.7, 'log'),
-        ('jets_d23',       'selN_H', 2.0,  -9999.,  'd_{23}', 0.7, 'log'),
-        ('jets_d34',       'selN_H', 1.5,  -9999.,  'd_{34}', 0.7, 'log'),
-        ('jets_d45',       'selN_H', 1.0,  -9999.,  'd_{45}', 0.7, 'log'),
+        # ('jets_d23',       'sel_emiss', 2.0,  -9999.,  'd_{23}', 0.7, 'log'),
+        # ('jets_d34',       'sel_emiss', 1.5,  -9999.,  'd_{34}', 0.7, 'log'),
+        # ('jets_d45',       'sel_emiss', 1.0,  -9999.,  'd_{45}', 0.7, 'log'),
+        ('jets_d23',       'sel_leptonveto', 0.0,  -9999.,  'd_{23}', 0.7, 'log'),
+        ('jets_d34',       'sel_leptonveto', 0.5,  -9999.,  'd_{34}', 0.7, 'log'),
+        ('jets_d45',       'sel_leptonveto', 0.0,  -9999.,  'd_{45}', 0.7, 'log'),
         
         # tagger score
         # 'trainNN'
