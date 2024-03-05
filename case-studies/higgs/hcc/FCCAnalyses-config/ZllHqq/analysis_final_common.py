@@ -63,7 +63,8 @@ final_selec += (' && ' + sel_Z)
 final_selec += (' && ' + sel_mZ)
 final_selec += (' && ' + sel_cosThetaZ)
 final_selec += (' && ' + sel_mrecoil)
-final_selec += (' && ' + sel_mjj)
+# do not apply cut, include in NN - will kill H(tautau) otherwise
+# final_selec += (' && ' + sel_mjj)
 # do not apply cut, include in NN - will kill H(tautau) otherwise
 # final_selec += ' && (etmiss < 30)'
 final_selec += (' && ' + sel_leptonveto)
@@ -83,9 +84,10 @@ cutList_histOnly['selN_Z'      ] = cutList_histOnly['selNone'  ] + ' && (zed_lep
 cutList_histOnly['selN_mZ'     ] = cutList_histOnly['selN_Z'   ] + ' && (zed_leptonic_m > 81 && zed_leptonic_m < 101)'
 cutList_histOnly['selN_cos'    ] = cutList_histOnly['selN_mZ'  ] + ' && (zed_leptonic_cos_theta < 0.8)'
 cutList_histOnly['selN_H'      ] = cutList_histOnly['selN_cos' ] + ' && (zed_leptonic_recoil_m > 120 && zed_leptonic_recoil_m<140)'
-#cutList_histOnly['selN_mhad'   ] = cutList_histOnly['selN_H'   ] + ' && (higgs_hadronic_m > 100 && higgs_hadronic_m < 140)'
-#cutList_histOnly['selN_miss'   ] = cutList_histOnly['selN_mhad'] + ' && (etmiss < 30)'
-#cutList_histOnly['selN_lepveto'] = cutList_histOnly['selN_miss'] + ' && (n_extraleptons<1)'
+# cuts on m_had and emiss suppress H->tautau..
+# cutList_histOnly['selN_mhad'   ] = cutList_histOnly['selN_H'   ] + ' && (higgs_hadronic_m > 100 && higgs_hadronic_m < 140)'
+# cutList_histOnly['selN_miss'   ] = cutList_histOnly['selN_mhad'] + ' && (etmiss < 30)'
+# cutList_histOnly['selN_lepveto'] = cutList_histOnly['selN_miss'] + ' && (n_extraleptons<1)'
 cutList_histOnly['selN_lepveto'] = cutList_histOnly['selN_H'] + ' && (n_extraleptons<1)'
 cutList_histOnly['finalsel'    ] = final_selec
 cutList_histOnly['finalsel_e'  ] = final_selec + ' && zed_leptonic_flavour==1'
