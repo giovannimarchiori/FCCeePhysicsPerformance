@@ -12,13 +12,11 @@ from ROOT import kRed, kPink, kOrange, kCyan, kBlue, kGreen, kViolet, kBlack
 from ROOT import kDashed, gPad
 from ROOT import TCanvas, THStack, TLegend, TFile, TLine, TH1D
 import math
+import argparse
 
-
-signalOnly = False
 splitZHother = True
 
-
-def plotvars():
+def plotvars(signalOnly = False):
 
     from analysis_config import basedir
     # basedir = analysis_config.basedir
@@ -255,4 +253,7 @@ def plotvars():
             c.Print('{:s}/{:s}_{:s}_sigbkg.pdf'.format(plotpath,var,sel))
 
 if __name__ == "__main__":
-    plotvars()
+    parser = argparse.ArgumentParser()
+    parser.add_argument("--signalOnly", action="store_true")  # default is false
+    args = parser.parse_args()
+    plotvars(args.signalOnly)
