@@ -1,73 +1,95 @@
-# do plots of histograms produced by finalSel
+# do plots of histograms produced by fccanalysis final
 
+# import common definitions
+import os, sys
+configdir = os.getenv('FCCANACONFS')
+sys.path.append(configdir)
+from analysis_config import *
+
+# import ROOT and other libraries
 import ROOT
 from ROOT import kRed, kPink, kOrange, kCyan, kBlue, kGreen, kViolet, kBlack
 from ROOT import kDashed, gPad
 from ROOT import TCanvas, THStack, TLegend, TFile, TLine, TH1D
 import math
-import os
 
-signalOnly = True
+
+signalOnly = False
 splitZHother = True
+
 
 def plotvars():
 
+    from analysis_config import basedir
+    # basedir = analysis_config.basedir
+    print(basedir)
+    
     # vars: varname, preselection, cutmin, cutmax, axis title, legend position, plot type
     vars = [
-        # momentum of all leptons (Nosel)
-        ('all_leptons_p', 'Nosel', 25., 80., 'p(l_{rec}) [GeV]', 0.7, 'lin'),
-
-         # type or reconstructed Z candidate (0=none, 1=Zee, 2=Zmm) (Nosel)
-        ('zed_flavour',   'Nosel', 0.5,    -9999., 'Z type', 0.7, 'lin'),
-
-         # momentum of Z leptons (selN_Z)
+        # momentum of all leptons (selNone)
+        ('all_leptons_p', 'selNone', 25., 80., 'p(l_{rec}) [GeV]', 0.7, 'lin'),
+        
+        # type or reconstructed Z candidate (0=none, 1=Zee, 2=Zmm) (selNone)
+        ('zed_flavour',   'selNone', 0.5,    -9999., 'Z type', 0.7, 'lin'),
+        
+        # momentum of Z leptons (selN_Z)
         ('zed_leptons_p', 'selN_Z', 9999., -9999., 'p(l_{Z}) [GeV]', 0.7, 'lin'),
-
-         # zed candidate mass (selN_Z)
+        
+        # zed candidate mass (selN_Z)
         ('dilepton_mass_2', 'selN_Z', 81., 101.,   'm_{ll} [GeV]', 0.15, 'lin'),
-
-         # zed candidate direction (selN_mZ)
+        
+        # zed candidate direction (selN_mZ)
         ('cos_theta_Z', 'selN_mZ', 9999., 0.8,   '|cos#theta_{ll}|', 0.15, 'lin'),
-
-         # leptonic recoil mass (selN_cos)
+        
+        # leptonic recoil mass (selN_cos)
         ('m_recoil_2', 'selN_cos', 120., 140.,   'm_{recoil} [GeV]', 0.15, 'lin'),
-
-         # jets momenta (selN_H)
+        
+        # jets momenta (selN_H)
         ('all_jets_p', 'selN_H', 15., 100.,   'p^{j} [GeV]', 0.7, 'lin'),
         ('jets_p', 'selN_H', 9999., -9999.,   'p^{j} [GeV]', 0.7, 'lin'),
-
-         # invariant mass of the jets (selN_H)
+        
+        # invariant mass of the jets (selN_H)
         ('hadronic_mass_zoom', 'selN_H', 100., 140.,  'm_{jets} [GeV]', 0.15, 'lin'),
-
-         # missing energy (selN_mhad)
-        ('missing_e',       'selN_mhad', 9999.,  30.,   'p_{miss} [GeV]', 0.7, 'lin'),
-
-         # number of additional high-p electrons and muons (selN_miss)
-        ('N_extra_leptons', 'selN_miss', 0.5, -9999., 'N(l^{high p,extra})', 0.7, 'lin'),
-
-         # dmerge (selN_miss)
-        ('jets_d23',       'selN_miss', 2.0,  -9999.,  'd_{23}', 0.7, 'log'),
-        ('jets_d34',       'selN_miss', 1.5,  -9999.,  'd_{34}', 0.7, 'log'),
-        ('jets_d45',       'selN_miss', 1.0,  -9999.,  'd_{45}', 0.7, 'log'),
-
-         # tagger score
-        ('jet1_isB',       'trainNN', 9999., -9999.,  'isB(j1)', 0.7, 'log'),
-        ('jet2_isB',       'trainNN', 9999., -9999.,  'isB(j2)', 0.7, 'log'),
-        ('jet1_isC',       'trainNN', 9999., -9999.,  'isC(j1)', 0.7, 'log'),
-        ('jet2_isC',       'trainNN', 9999., -9999.,  'isC(j2)', 0.7, 'log'),
-        ('jet1_isG',       'trainNN', 9999., -9999.,  'isG(j1)', 0.7, 'log'),
-        ('jet2_isG',       'trainNN', 9999., -9999.,  'isG(j2)', 0.7, 'log'),
-        ('jet1_isS',       'trainNN', 9999., -9999.,  'isS(j1)', 0.7, 'log'),
-        ('jet2_isS',       'trainNN', 9999., -9999.,  'isS(j2)', 0.7, 'log'),
-        ('jet1_isQ',       'trainNN', 9999., -9999.,  'isQ(j1)', 0.7, 'log'),
-        ('jet2_isQ',       'trainNN', 9999., -9999.,  'isQ(j2)', 0.7, 'log'),
+        
+        # missing energy (selN_mhad)
+        # ('missing_e',       'selN_mhad', 9999.,  30.,   'p_{miss} [GeV]', 0.7, 'lin'),
+        ('missing_e',       'selN_H', 9999.,  30.,   'p_{miss} [GeV]', 0.7, 'lin'),
+        
+        # number of additional high-p electrons and muons (selN_miss)
+        # ('N_extra_leptons', 'selN_miss', 0.5, -9999., 'N(l^{high p,extra})', 0.7, 'lin'),
+        ('N_extra_leptons', 'selN_H', 0.5, -9999., 'N(l^{high p,extra})', 0.7, 'lin'),
+        
+        # dmerge (selN_miss)
+        # ('jets_d23',       'selN_miss', 2.0,  -9999.,  'd_{23}', 0.7, 'log'),
+        # ('jets_d34',       'selN_miss', 1.5,  -9999.,  'd_{34}', 0.7, 'log'),
+        # ('jets_d45',       'selN_miss', 1.0,  -9999.,  'd_{45}', 0.7, 'log'),
+        ('jets_d23',       'selN_H', 2.0,  -9999.,  'd_{23}', 0.7, 'log'),
+        ('jets_d34',       'selN_H', 1.5,  -9999.,  'd_{34}', 0.7, 'log'),
+        ('jets_d45',       'selN_H', 1.0,  -9999.,  'd_{45}', 0.7, 'log'),
+        
+        # tagger score
+        # 'trainNN'
+        ('jet1_isB',       'finalsel', 9999., -9999.,  'isB(j1)', 0.7, 'log'),
+        ('jet2_isB',       'finalsel', 9999., -9999.,  'isB(j2)', 0.7, 'log'),
+        ('jet1_isC',       'finalsel', 9999., -9999.,  'isC(j1)', 0.7, 'log'),
+        ('jet2_isC',       'finalsel', 9999., -9999.,  'isC(j2)', 0.7, 'log'),
+        ('jet1_isG',       'finalsel', 9999., -9999.,  'isG(j1)', 0.7, 'log'),
+        ('jet2_isG',       'finalsel', 9999., -9999.,  'isG(j2)', 0.7, 'log'),
+        ('jet1_isS',       'finalsel', 9999., -9999.,  'isS(j1)', 0.7, 'log'),
+        ('jet2_isS',       'finalsel', 9999., -9999.,  'isS(j2)', 0.7, 'log'),
+        ('jet1_isU',       'finalsel', 9999., -9999.,  'isU(j1)', 0.7, 'log'),
+        ('jet2_isU',       'finalsel', 9999., -9999.,  'isU(j2)', 0.7, 'log'),
+        ('jet1_isD',       'finalsel', 9999., -9999.,  'isD(j1)', 0.7, 'log'),
+        ('jet2_isD',       'finalsel', 9999., -9999.,  'isD(j2)', 0.7, 'log'),
+        ('jet1_isTAU',     'finalsel', 9999., -9999.,  'isTAU(j1)', 0.7, 'log'),
+        ('jet2_isTAU',     'finalsel', 9999., -9999.,  'isTAU(j2)', 0.7, 'log'),
 
          # the other 4 vars used in the NN
-        ('hadronic_mass',  'trainNN', 9999., -9999.,  'm_{jets} [GeV]', 0.7, 'lin'),
-        ('missing_e',      'trainNN', 9999., -9999.,  'p_{miss} [GeV]', 0.7, 'lin'),
+        ('hadronic_mass',  'finalsel', 9999., -9999.,  'm_{jets} [GeV]', 0.7, 'lin'),
+        ('missing_e',      'finalsel', 9999., -9999.,  'p_{miss} [GeV]', 0.7, 'lin'),
 
-        ('jets_d23',       'trainNN', 9999., -9999.,  'd_{23}', 0.7, 'lin'),
-        ('jets_d34',       'trainNN', 9999., -9999.,  'd_{34}', 0.7, 'lin'),
+        ('jets_d23',       'finalsel', 9999., -9999.,  'd_{23}', 0.7, 'lin'),
+        ('jets_d34',       'finalsel', 9999., -9999.,  'd_{34}', 0.7, 'lin'),
     ]
 
     processes = [
@@ -130,8 +152,10 @@ def plotvars():
         kBlack
     ])
 
-    baseDir = '/eos/user/g/gmarchio/fcc-test/ZllHqq/analysis-final/root/IDEA'
-    plotpath = baseDir.replace('root','plots') + '/nostack'
+    # baseDir = '/eos/user/g/gmarchio/fcc-test/ZllHqq/analysis-final/root/IDEA'
+    # directory containing the cutflow files
+    basedir += 'analysis-final/hists/'
+    plotpath = basedir.replace('hists','plots') + '/nostack'
     if not os.path.isdir(plotpath):
         os.makedirs(plotpath)
 
@@ -161,7 +185,7 @@ def plotvars():
                 # if (signalOnly and not 'wzp6_ee_mumuH' in proc): continue
 
                 # open file with histos
-                fileName = '{:s}/hists/{:s}_{:s}_histo.root'.format(baseDir,proc,sel)
+                fileName = '{:s}/{:s}_{:s}_histo.root'.format(basedir,proc,sel)
                 print('Opening file ', fileName)
                 f = TFile.Open(fileName, 'READ')
 
@@ -224,7 +248,7 @@ def plotvars():
         if signalOnly:
             c.Print('{:s}/{:s}_{:s}_signal.pdf'.format(plotpath,var,sel))
         else:
-            c.Print('{:s}/{:s}_{:s}.pdf'.format(plotpath,var,sel))
+            c.Print('{:s}/{:s}_{:s}_sigbkg.pdf'.format(plotpath,var,sel))
 
 if __name__ == "__main__":
     plotvars()
