@@ -1,4 +1,4 @@
-analysis = 'ZllHqq'
+analysis = 'ZvvHqq-APC'
 production = 'winter2023'
 detector = 'IDEA'
 
@@ -35,28 +35,52 @@ nCPUS = 96
 
 # List of samples
 process_list_sig = {
-    'wzp6_ee_eeH_Hbb_ecm240': {},
-    'wzp6_ee_eeH_Hcc_ecm240': {},
-    'wzp6_ee_eeH_Hgg_ecm240': {},
-    'wzp6_ee_eeH_Hss_ecm240': {},
-    'wzp6_ee_eeH_Htautau_ecm240': {},
-    'wzp6_ee_eeH_HWW_ecm240': {},
-    'wzp6_ee_eeH_HZZ_ecm240': {},
-    #
-    'wzp6_ee_mumuH_Hbb_ecm240': {},
-    'wzp6_ee_mumuH_Hcc_ecm240': {},
-    'wzp6_ee_mumuH_Hgg_ecm240': {},
-    'wzp6_ee_mumuH_Hss_ecm240': {},
-    'wzp6_ee_mumuH_Htautau_ecm240': {},
-    'wzp6_ee_mumuH_HWW_ecm240': {},
-    'wzp6_ee_mumuH_HZZ_ecm240': {},
+    # Z(nunu)H
+    'wzp6_ee_nunuH_Hbb_ecm240' : {},
+    'wzp6_ee_nunuH_Hcc_ecm240' : {},
+    'wzp6_ee_nunuH_Hss_ecm240' : {},
+    'wzp6_ee_nunuH_Hgg_ecm240' : {},
+    'wzp6_ee_nunuH_Htautau_ecm240' : {},
+    'wzp6_ee_nunuH_HWW_ecm240' : {},
+    'wzp6_ee_nunuH_HZZ_ecm240' : {},
+    # Z(bb)H
+    'wzp6_ee_bbH_Hbb_ecm240' : {},
+    'wzp6_ee_bbH_Hcc_ecm240' : {},
+    'wzp6_ee_bbH_Hss_ecm240' : {},
+    'wzp6_ee_bbH_Hgg_ecm240' : {},
+    'wzp6_ee_bbH_Htautau_ecm240' : {},
+    'wzp6_ee_bbH_HWW_ecm240' : {},
+    'wzp6_ee_bbH_HZZ_ecm240' : {},
+    # Z(cc)H
+    'wzp6_ee_ccH_Hbb_ecm240' : {},
+    'wzp6_ee_ccH_Hcc_ecm240' : {},
+    'wzp6_ee_ccH_Hss_ecm240' : {},
+    'wzp6_ee_ccH_Hgg_ecm240' : {},
+    'wzp6_ee_ccH_Htautau_ecm240' : {},
+    'wzp6_ee_ccH_HWW_ecm240' : {},
+    'wzp6_ee_ccH_HZZ_ecm240' : {},
+    # Z(ss)H
+    'wzp6_ee_ssH_Hbb_ecm240' : {},
+    'wzp6_ee_ssH_Hcc_ecm240' : {},
+    'wzp6_ee_ssH_Hss_ecm240' : {},
+    'wzp6_ee_ssH_Hgg_ecm240' : {},
+    'wzp6_ee_ssH_Htautau_ecm240' : {},
+    'wzp6_ee_ssH_HWW_ecm240' : {},
+    'wzp6_ee_ssH_HZZ_ecm240' : {},
+    # Z(qq)H
+    'wzp6_ee_qqH_Hbb_ecm240' : {},
+    'wzp6_ee_qqH_Hcc_ecm240' : {},
+    'wzp6_ee_qqH_Hss_ecm240' : {},
+    'wzp6_ee_qqH_Hgg_ecm240' : {},
+    'wzp6_ee_qqH_Htautau_ecm240' : {},
+    'wzp6_ee_qqH_HWW_ecm240' : {},
+    'wzp6_ee_qqH_HZZ_ecm240' : {},
 }
 process_list_bkg = {
     'p8_ee_ZZ_ecm240': {},
     'p8_ee_WW_ecm240': {},
     'p8_ee_Zqq_ecm240': {},
-    'wzp6_ee_mumu_ecm240': {},
-    'wzp6_ee_ee_Mee_30_150_ecm240': {},
+    'wzp6_ee_nuenueZ_ecm240' : {}
 }
 processList = process_list_sig | process_list_bkg
 
@@ -101,14 +125,6 @@ cutDict = {
         'cut' : '(event_d23 >0.) && (event_d34>0.)',
         'label' :  'd23>0, d34>0',
     },
-    'sel_Zee' : {
-        'cut' : '(zed_leptonic_flavour==1)',
-        'label' : 'l=e',
-    },
-    'sel_Zmumu' : {
-        'cut' : '(zed_leptonic_flavour==2)',
-        'label' : 'l=mu',
-    },
 }
 
 # the selection to be applied:
@@ -148,5 +164,3 @@ cutList_treeOnly = {
 # The key is the name of the selection that will be added to the output file.
 cutList_histOnly = cuts
 cutList_histOnly['finalsel'    ] = final_selec
-cutList_histOnly['finalsel_e'  ] = final_selec + ' && ' + cutDict['sel_Zee']['cut']
-cutList_histOnly['finalsel_mu' ] = final_selec + ' && ' + cutDict['sel_Zmumu']['cut']

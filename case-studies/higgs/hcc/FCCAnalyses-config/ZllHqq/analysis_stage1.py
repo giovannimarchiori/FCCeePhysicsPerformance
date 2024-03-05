@@ -325,8 +325,6 @@ class RDFanalysis:
         # CALCULATE REMAINING VARIABLES
         df3 = (
             df2
-            # check tht they are properly calculated
-            # in my code I had added them to jetClusteringHelper...
             .Define('event_d23', 'JetClusteringUtils::get_exclusive_dmerge(_jet, 2)')
             .Define('event_d34', 'JetClusteringUtils::get_exclusive_dmerge(_jet, 3)')
             .Define('event_d45', 'JetClusteringUtils::get_exclusive_dmerge(_jet, 4)')
