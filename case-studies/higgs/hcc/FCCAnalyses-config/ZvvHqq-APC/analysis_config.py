@@ -83,6 +83,8 @@ process_list_bkg = {
     'wzp6_ee_nuenueZ_ecm240' : {}
 }
 processList = process_list_sig | process_list_bkg
+# for debug use only one sample
+# processList = { 'wzp6_ee_nunuH_Hbb_ecm240' : {} }
 
 # dictionary of possible cuts
 cutDict = {
@@ -90,53 +92,46 @@ cutDict = {
         'cut' : '(0<1)',
         'label' : 'No cuts',
     },
-    'sel_Z' : {
-        'cut' : '(zed_leptonic_flavour>0)',
-        'label' : 'one Z->ll candidate',
-        },
-    'sel_mZ' : {
-        'cut' : '(zed_leptonic_m > 81 && zed_leptonic_m < 101)',
-        'label' : 'm(ll) 81-101 GeV',
-        },
-    'sel_cosThetaZ' : {
-        'cut' : '(zed_leptonic_cos_theta < 0.8)',
-        'label' : '|cos(theta_ll)|<0.8',
+    'sel_nolep' : {
+        'cut': 'n_selected_leptons<1',
+        'label' : 'No leptons with p>20 GeV',
     },
-    'sel_mrecoil' : {
-        'cut' : '(zed_leptonic_recoil_m > 120 && zed_leptonic_recoil_m < 140)',
-        'label' : 'm(recoil) 120-140 GeV',
+    'sel_jetE' : {
+        'cut' : '(jet1_E>15 && jet1_E<105 && jet2_E>10 && jet2_E<70)',
+        'label' : '15<E_j1<105, 10<E_j2<70 GeV',
     },
-    'sel_mjj' : {
-      #  'cut' : '(higgs_hadronic_m>100 && higgs_hadronic_m<140)',
-      #  'label' : '100<m(jets)<140 GeV',
-        'cut' : '(higgs_hadronic_m>50 && higgs_hadronic_m<140)',
-        'label' : '50<m(jets)<140 GeV',
+    'sel_cosThetaJJ' : {
+        'cut' : 'higgs_hadronic_cos_theta<0.9',
+        'label' : '|cos(theta_jj)|<0.9',
     },
-    'sel_emiss' : {
-        'cut' : '(etmiss < 30)',
-        'label' : 'Emiss < 30 GeV',
-    },                
-    'sel_leptonveto' : {
-        'cut' : '(n_extraleptons<1)',
-        'label' : 'max p(extra lep) < 25 GeV',
+    'sel_cosSumThetaJJ' : {
+        'cut' : 'higgs_hadronic_cos_dTheta_jj>0.5',
+        'label' : 'cos(th_j1+th_j2)>0.5',
     },
+    'sel_cosDPhiJJ' : {
+        'cut' : 'higgs_hadronic_cos_dPhi_jj<0.999',
+        'label' : 'cos(phi_j1-phi_j2)<0.999',
+    },
+    'sel_mvis_mmiss'   : {
+        'cut' : '(mvis > 70 && mvis < 150 && higgs_hadronic_recoil_m>60 && higgs_hadronic_recoil_m<250)',
+        'label' : '70<mvis<150, 60<mmiss<250 GeV'
+    },    
     'sel_dmergeok'   : {
         # '(event_d23 >0.) && (event_d34>0.) && (event_d45>0.)'
         'cut' : '(event_d23 >0.) && (event_d34>0.)',
-        'label' :  'd23>0, d34>0',
+        'label' : 'd23>0, d34>0',
     },
 }
 
 # the selection to be applied:
 sel = [
     'selNone',
-    'sel_Z',
-    'sel_mZ',
-    'sel_cosThetaZ',
-    'sel_mrecoil',
-    # 'sel_mjj',     # removed, will kill H(tautau) otherwise)
-    # 'sel_emiss',   # removed, will kill H(tautau) otherwise)
-    'sel_leptonveto',
+    'sel_nolep',
+    'sel_jetE',
+    'sel_cosThetaJJ',
+    'sel_cosSumThetaJJ',
+    'sel_cosDPhiJJ',
+    'sel_mvis_mmiss',
     'sel_dmergeok',
 ]
 final_sel_cut = 'sel_dmergeok'

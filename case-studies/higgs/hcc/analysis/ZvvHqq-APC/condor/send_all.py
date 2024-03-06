@@ -134,7 +134,6 @@ elif analysis == 'ZvvHqq-APC':
         #'wzp6_ee_mumu_ecm240',
         #'wzp6_ee_ee_Mee_30_150_ecm240'    
     ])
-samples=['wzp6_ee_nunuH_Hcc_ecm240']
 
 from datetime import datetime
 now = datetime.now()
