@@ -43,6 +43,12 @@ process_list_sig = {
     'wzp6_ee_nunuH_Htautau_ecm240' : {},
     'wzp6_ee_nunuH_HWW_ecm240' : {},
     'wzp6_ee_nunuH_HZZ_ecm240' : {},
+    'wzp6_ee_nunuH_Huu_ecm240' : {},
+    'wzp6_ee_nunuH_Hdd_ecm240' : {},
+    'wzp6_ee_nunuH_Hbs_ecm240' : {},
+    'wzp6_ee_nunuH_Hbd_ecm240' : {},
+    'wzp6_ee_nunuH_Hsd_ecm240' : {},
+    'wzp6_ee_nunuH_Hcu_ecm240' : {},
     # Z(bb)H
     'wzp6_ee_bbH_Hbb_ecm240' : {},
     'wzp6_ee_bbH_Hcc_ecm240' : {},
