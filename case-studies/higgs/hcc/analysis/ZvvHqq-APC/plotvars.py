@@ -23,37 +23,31 @@ def plotvars(signalOnly = False):
     vars = [
         # momentum of all leptons (SelNone)
         ('leptons_p'                          , 'selNone',           9999.,     20., 'p(leptons) [GeV]'            , 0.7, 'lin'),
-
         # missing mass
-        ('higgs_hadronic_recoil_mass'         , 'selNone',           9999.,  -9999., 'm_{miss} [GeV]'              , 0.7, 'lin'),
-
+        ('mmiss'                              , 'selNone',           9999.,  -9999., 'm_{miss} [GeV]'              , 0.7, 'lin'),
         # number of high momentum leptons
         ('n_selected_leptons'                 , 'selNone',           9999.,     1.0, 'N(high-p leptons)'           , 0.7, 'lin'),
-#        ('higgs_hadronic_mass'                , 'sel_dmerge',       100.,    135., 'm_{jj} [GeV]'                , 0.7, 'lin'),
-#        ('higgs_hadronic_mass'                , 'sel_dmerge',      9999.,  -9999., 'm_{jj} [GeV]'                , 0.7, 'lin'),   		
-#        ('mvis'                               , 'sel_dmerge',      9999.,  -9999., 'm_{vis} [GeV]'               , 0.7, 'lin'),
         # energy of leading and subleading jets
-        ('jet1_E'                             , 'sel_nolep',         45.,    105., 'E_{j1} [GeV]'                , 0.15, 'lin'),   
-        ('jet2_E'                             , 'sel_nolep',         20.,     70., 'E_{j2} [GeV]'                , 0.7, 'lin'),
+        ('jet1_E'                             , 'sel_nolep',           15.,    105., 'E_{j1} [GeV]'                , 0.15, 'lin'),   
+        ('jet2_E'                             , 'sel_nolep',           10.,     70., 'E_{j2} [GeV]'                , 0.7, 'lin'),
         # number of constituents of leading and subleading jet
-        ('jet1_nconst'                        , 'sel_jetE',          10.,  -9999., 'N^{const}_{j1}'              , 0.7, 'lin'),
-        ('jet2_nconst'                        , 'sel_jetE',           6.,  -9999., 'N^{const}_{j2}'              , 0.7, 'lin'),
-#        ('missing_e'                          , 'sel_nconst',        20.,     70., 'p_{miss} [GeV]'              , 0.15, 'lin'),    
-#        ('higgs_hadronic_cos_theta'           , 'sel_pmiss',       9999.,     0.9, 'cos(#theta_{jj})'            , 0.15, 'log'),
+        # ('jet1_nconst'                        , 'sel_jetE',          10.,  -9999., 'N^{const}_{j1}'              , 0.7, 'lin'),
+        # ('jet2_nconst'                        , 'sel_jetE',           6.,  -9999., 'N^{const}_{j2}'              , 0.7, 'lin')
+        # needless now that we have tau-ID
+        ('jet1_nconst'                        , 'sel_jetE',          9999.,  -9999., 'N^{const}_{j1}'              , 0.7, 'lin'),
+        ('jet2_nconst'                        , 'sel_jetE',          9999.,  -9999., 'N^{const}_{j2}'              , 0.7, 'lin'),
         # cosine of polar angle of dijet system
-        ('higgs_hadronic_cos_theta'           , 'sel_nconst',        9999.,     0.9, 'cos(#theta_{jj})'            , 0.15, 'log'),
+        # ('higgs_hadronic_cos_theta'           , 'sel_pmiss',       9999.,     0.9, 'cos(#theta_{jj})'            , 0.15, 'log'),
+        # ('higgs_hadronic_cos_theta'           , 'sel_nconst',      9999.,     0.9, 'cos(#theta_{jj})'            , 0.15, 'log'),
+        ('higgs_hadronic_cos_theta'           , 'sel_jetE',          9999.,     0.9, 'cos(#theta_{jj})'            , 0.15, 'log'),        
         # are two jets back-to-back in theta?
         ('higgs_hadronic_cosSumThetaJJ'       , 'sel_cosThetaJJ',      0.5,   9999., 'cos(#theta_{j1}+#theta_{j2})', 0.15, 'log'),  
-#        ('jets_d23'                           , 'sel_cosSumThetaJJ', 500.,  -9999., 'd_{23}'                      , 0.7, 'log'), 
-#        ('jets_d34'                           , 'sel_cosSumThetaJJ', 250.,  -9999., 'd_{34}'                      , 0.7, 'log'), 
-#        ('jets_d45'                           , 'sel_cosSumThetaJJ', 100.,  -9999., 'd_{45}'                      , 0.7, 'log'), 
-#        ('higgs_hadronic_cosDeltaPhiJJ_zoom'  , 'sel_mjj1',         9999.,   0.999, 'cos(#phi_{j1}-#phi_{j2})'    , 0.15, 'log'),
         # are two jets back-to-back in phi?        
         ('higgs_hadronic_cosDeltaPhiJJ_zoom'  , 'sel_cosSumThetaJJ', 9999.,   0.999, 'cos(#phi_{j1}-#phi_{j2})'    , 0.15, 'log'),
         # missing momentum
         ('pmiss'                              , 'sel_cosDPhiJJ',     9999.,  -9999., 'p_{miss} [GeV]'              , 0.15, 'lin'),
         # missing mass
-        ('higgs_hadronic_recoil_mass'         , 'sel_cosDPhiJJ',       50.,    140., 'm_{miss} [GeV]'              , 0.7, 'lin'),
+        ('mmiss'                              , 'sel_cosDPhiJJ',       50.,    140., 'm_{miss} [GeV]'              , 0.7, 'lin'),
         # visible mass
         ('mvis'                               , 'sel_cosDPhiJJ',       70.,    150., 'm_{vis} [GeV]'               , 0.7, 'lin'),
         # missing mass, zoomed
@@ -61,20 +55,24 @@ def plotvars(signalOnly = False):
         # visible mass, zoomed
         ('mvis_zoom'                          , 'sel_cosDPhiJJ',     9999.,  -9999., 'm_{vis} [GeV]'               , 0.7, 'lin'),
         # tagging score for leading and subleading jets
-        ('jet1_isB'                           , 'trainNN',         9999.,  -9999., 'isB(j1)'                     , 0.7, 'log'), 
-        ('jet2_isB'                           , 'trainNN',         9999.,  -9999., 'isB(j2)'                     , 0.7, 'log'), 
-        ('jet1_isC'                           , 'trainNN',         9999.,  -9999., 'isC(j1)'                     , 0.7, 'log'), 
-        ('jet2_isC'                           , 'trainNN',         9999.,  -9999., 'isC(j2)'                     , 0.7, 'log'), 
-        ('jet1_isG'                           , 'trainNN',         9999.,  -9999., 'isG(j1)'                     , 0.7, 'log'), 
-        ('jet2_isG'                           , 'trainNN',         9999.,  -9999., 'isG(j2)'                     , 0.7, 'log'), 
-        ('jet1_isS'                           , 'trainNN',         9999.,  -9999., 'isS(j1)'                     , 0.7, 'log'), 
-        ('jet2_isS'                           , 'trainNN',         9999.,  -9999., 'isS(j2)'                     , 0.7, 'log'), 
-        ('jet1_isQ'                           , 'trainNN',         9999.,  -9999., 'isQ(j1)'                     , 0.7, 'log'), 
-        ('jet2_isQ'                           , 'trainNN',         9999.,  -9999., 'isQ(j2)'                     , 0.7, 'log'),
+        ('jet1_isB'                           , 'finalsel',         9999.,  -9999., 'isB(j1)'                     , 0.7, 'log'), 
+        ('jet2_isB'                           , 'finalsel',         9999.,  -9999., 'isB(j2)'                     , 0.7, 'log'), 
+        ('jet1_isC'                           , 'finalsel',         9999.,  -9999., 'isC(j1)'                     , 0.7, 'log'), 
+        ('jet2_isC'                           , 'finalsel',         9999.,  -9999., 'isC(j2)'                     , 0.7, 'log'), 
+        ('jet1_isG'                           , 'finalsel',         9999.,  -9999., 'isG(j1)'                     , 0.7, 'log'), 
+        ('jet2_isG'                           , 'finalsel',         9999.,  -9999., 'isG(j2)'                     , 0.7, 'log'), 
+        ('jet1_isS'                           , 'finalsel',         9999.,  -9999., 'isS(j1)'                     , 0.7, 'log'), 
+        ('jet2_isS'                           , 'finalsel',         9999.,  -9999., 'isS(j2)'                     , 0.7, 'log'), 
+        ('jet1_isU'                           , 'finalsel',         9999.,  -9999., 'isU(j1)'                     , 0.7, 'log'), 
+        ('jet2_isU'                           , 'finalsel',         9999.,  -9999., 'isU(j2)'                     , 0.7, 'log'),
+        ('jet1_isD'                           , 'finalsel',         9999.,  -9999., 'isD(j1)'                     , 0.7, 'log'), 
+        ('jet2_isD'                           , 'finalsel',         9999.,  -9999., 'isD(j2)'                     , 0.7, 'log'),
+        ('jet1_isTAU'                         , 'finalsel',         9999.,  -9999., 'isTAU(j1)'                   , 0.7, 'log'), 
+        ('jet2_isTAU'                         , 'finalsel',         9999.,  -9999., 'isTAU(j2)'                   , 0.7, 'log'),
         # dmerge for 3->2 and 4->3 steps
-        ('jets_d23'                           , 'trainNN',         9999.,  -9999., 'd_{23}'                      , 0.7, 'lin'),
-        ('jets_d34'                           , 'trainNN',         9999.,  -9999., 'd_{34}'                      , 0.7, 'lin'),
-#        ('higgs_hadronic_mass'                , 'trainNN',         9999.,  -9999., 'm_{jj} [GeV]'                , 0.7, 'lin'),         
+        ('jets_d23'                           , 'finalsel',         9999.,  -9999., 'd_{23}'                      , 0.7, 'lin'),
+        ('jets_d34'                           , 'finalsel',         9999.,  -9999., 'd_{34}'                      , 0.7, 'lin'),
+#        ('higgs_hadronic_mass'                , 'finalsel',         9999.,  -9999., 'm_{jj} [GeV]'                , 0.7, 'lin'),         
     ]
     
     processes = [
