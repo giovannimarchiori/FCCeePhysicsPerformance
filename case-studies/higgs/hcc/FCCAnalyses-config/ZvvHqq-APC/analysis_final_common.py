@@ -25,7 +25,14 @@ print('Output_directory: ', outputDir)
 # List of samples (defined in analysis_config)
 # Can be overridden with:
 # processList = { : {} }
-
+# processList = {
+#     'wzp6_ee_nunuH_Huu_ecm240' : {},
+#     'wzp6_ee_nunuH_Hdd_ecm240' : {},
+#     'wzp6_ee_nunuH_Hbs_ecm240' : {},
+#     'wzp6_ee_nunuH_Hbd_ecm240' : {},
+#     'wzp6_ee_nunuH_Hsd_ecm240' : {},
+#     'wzp6_ee_nunuH_Hcu_ecm240' : {},
+# }
 # Dictionary of the list of cuts when applying the selection and saving the trees.
 # The key is the name of the selection that will be added to the output file
 # Defined in analysis_config, can be overridden with:

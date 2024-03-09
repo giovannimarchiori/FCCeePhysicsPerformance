@@ -5,6 +5,7 @@ import os, sys
 configdir = os.getenv('FCCANACONFS')
 sys.path.append(configdir)
 from analysis_config import *
+from analysis_plots import *
 
 # import ROOT and other libraries
 import ROOT
@@ -15,6 +16,7 @@ import math
 import argparse
 
 splitZHother = True
+#splitZHother = False
 
 def plotvars(signalOnly = False):
 
@@ -75,70 +77,36 @@ def plotvars(signalOnly = False):
 #        ('higgs_hadronic_mass'                , 'finalsel',         9999.,  -9999., 'm_{jj} [GeV]'                , 0.7, 'lin'),         
     ]
     
-    processes = [
-        [ 'wzp6_ee_nunuH_Hbb_ecm240' ],
-        [ 'wzp6_ee_nunuH_Hcc_ecm240' ],
-        [ 'wzp6_ee_nunuH_Hgg_ecm240' ],
-        [ 'wzp6_ee_nunuH_Hss_ecm240' ]
-    ]
-    processLabels = [
-        '#nu#bar{#nu}H(b#bar{b})',
-        '#nu#bar{#nu}H(c#bar{c})',
-        '#nu#bar{#nu}H(gg)',
-        '#nu#bar{#nu}H(s#bar{s})'
-    ]
-    processColors = [
-        kRed-2,
-        kPink+1,
-        kOrange,
-        kCyan-6
-    ]
+    processes = {
+        'ZHbb' : ['wzp6_ee_nunuH_Hbb_ecm240'],
+        'ZHcc' : ['wzp6_ee_nunuH_Hcc_ecm240'],
+        'ZHss' : ['wzp6_ee_nunuH_Hss_ecm240'],
+        'ZHgg' : ['wzp6_ee_nunuH_Hgg_ecm240']
+    }
     if splitZHother:
-        processes.extend([
-            ['wzp6_ee_nunuH_Htautau_ecm240'],
-            ['wzp6_ee_nunuH_HWW_ecm240'],
-            ['wzp6_ee_nunuH_HZZ_ecm240'],
-        ])
-        processLabels.extend([
-            '#nu#bar{#nu}H(#tau#tau)',
-            '#nu#bar{#nu}H(WW)',
-            '#nu#bar{#nu}H(ZZ)'
-
-        ])
-        processColors.extend([
-            #kBlue+2,
-            kYellow+2,
-            kBlue,
-            kBlue-2
-        ])
+        processes.update({
+            'ZHuu' : ['wzp6_ee_nunuH_Huu_ecm240'],
+            'ZHdd' : ['wzp6_ee_nunuH_Hdd_ecm240'],
+            'ZHtautau' : ['wzp6_ee_nunuH_Htautau_ecm240'],
+            'ZHWW' : ['wzp6_ee_nunuH_HWW_ecm240'],
+            'ZHZZ' : ['wzp6_ee_nunuH_HZZ_ecm240'],
+        })
     else:
-        processes.extend([
-            [
+        processes.update({
+            'ZHother' : [
+                'wzp6_ee_nunuH_Huu_ecm240',
+                'wzp6_ee_nunuH_Hdd_ecm240',
                 'wzp6_ee_nunuH_Htautau_ecm240',
                 'wzp6_ee_nunuH_HWW_ecm240',
                 'wzp6_ee_nunuH_HZZ_ecm240'
             ]
-        ])
-        processLabels.extend(['#nu#bar{#nu}H(other)'])
-        processColors.extend([kBlue])
-    processes.extend([
-        [ 'p8_ee_ZZ_ecm240' ],
-        [ 'p8_ee_WW_ecm240' ],
-        [ 'p8_ee_Zqq_ecm240' ],
-        [ 'wzp6_ee_nuenueZ_ecm240' ],
-    ])
-    processLabels.extend([
-        'ZZ',
-        'WW',
-        'Z/#gamma*(q#bar{q})',
-        '#nu_{e}#bar{#nu}_{e}Z',    
-    ])
-    processColors.extend([
-        kGreen+2,
-        kRed,
-        kViolet,
-        kBlack
-    ])
+        })
+    processes.update({
+        'ZZ' : [ 'p8_ee_ZZ_ecm240' ],
+        'WW' : [ 'p8_ee_WW_ecm240' ],
+        'Zgamma' : [ 'p8_ee_Zqq_ecm240' ],
+        'nuenueZ' : [ 'wzp6_ee_nuenueZ_ecm240' ],
+    })
 
     basedir += 'analysis-final/hists/'
     plotpath = basedir.replace('hists','plots') + '/nostack'
@@ -161,12 +129,12 @@ def plotvars(signalOnly = False):
         
         # loop over the processes
         hist = {}
-        for iProcess in range(len(processes)):
+        for process, sampleList in processes.items():
 
-            procLabel = processLabels[iProcess]
-            hist[iProcess] = TH1D()
+            procLabel = processLabels[process]
+            hist[process] = TH1D()
             first = True
-            for proc in processes[iProcess]:
+            for proc in sampleList:
                 if (signalOnly and not 'wzp6_ee_nunuH' in proc): continue
 
                 # open file with histos
@@ -178,28 +146,28 @@ def plotvars(signalOnly = False):
                 print('Getting histogram ', var)
                 h = f.Get(var)
                 if first:
-                    hist[iProcess] = h.Clone(procLabel)
+                    hist[process] = h.Clone(procLabel)
                     first = False
-                    hist[iProcess].SetLineColor(processColors[iProcess])
-                    hist[iProcess].SetLineWidth(3)
-                    hist[iProcess].SetDirectory(0)                  
+                    hist[process].SetLineColor(tcolormap[process])
+                    hist[process].SetLineWidth(3)
+                    hist[process].SetDirectory(0)
                 else:
-                    hist[iProcess].Add(h)
+                    hist[process].Add(h)
                 #h.SetDirectory(0)
 
                 # set graphic attributes of histo
-                #h.SetLineColor(processColors[iProcess])
+                #h.SetLineColor(processColors[process])
                 #h.SetLineWidth(3)
 
             # normalize histo to 1
-            if hist[iProcess].Integral()!=0.0:
-                hist[iProcess].Scale(1./hist[iProcess].Integral(), 'nosw2')
+            if hist[process].Integral()!=0.0:
+                hist[process].Scale(1./hist[process].Integral(), 'nosw2')
 
             # add histos to stack and legend
             # do not draw histograms with too few entries otherwise plot will have large spikes
-            if hist[iProcess].GetEntries()>300.:
-                hs.Add(hist[iProcess])
-                leg.AddEntry(hist[iProcess],procLabel,'L')
+            if hist[process].GetEntries()>300.:
+                hs.Add(hist[process])
+                leg.AddEntry(hist[process],procLabel,'L')
 
 
         # draw the histo stack and legend
