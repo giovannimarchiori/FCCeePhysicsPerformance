@@ -190,14 +190,6 @@ f = open(procDict, 'r')
 procDict = json.load(f)
 
 print('{:15s} {:>15s} {:>10s} {:>15s} {:>15s}'.format('Process', 'sigma [fb]', 'Ngen', 'Lgen [/fb]', 'Lgen/L'))
-for proc in processSamples:
-    pr = processSamples[proc]
-    xsection = 1e3*procDict[pr]["crossSection"]*procDict[pr]["kfactor"]*procDict[pr]["matchingEfficiency"]
-    events = procDict[pr]["sumOfWeights"]
-    lumi = events/xsection
-    lumiratio = lumi/lumiRef
-    print('{:15s} {:15.9f} {:10.0f} {:15.0f} {:15.3f}'.format(proc, xsection, events, lumi, lumiratio))
-
 outf = open(outFile, 'w')
 outf.write('\\begin{table}[!htbp]\n')
 outf.write('\\centering\n')
@@ -210,12 +202,22 @@ outf.write('\\begin{tabular}{llrrr}\n')
 outf.write('\\toprule\n')
 outf.write('{:20s} & {:>15s} & {:>15s} & {:>15s} & {:>15s} \\\\\n'.format('Process', '$\\sigma$ [fb]', '$N_\\mathrm{gen}$', '$L_\\mathrm{gen}$ [fb$^{-1}$]', '$L_\\mathrm{gen}/L$'))
 outf.write('\\midrule\n')
+
 for proc in processSamples:
     pr = processSamples[proc]
+    if (pr=='wzp6_ee_eeH_Huu_ecm240' or
+        pr=='wzp6_ee_eeH_Hdd_ecm240' or
+        pr=='wzp6_ee_mumuH_Huu_ecm240' or
+        pr=='wzp6_ee_mumuH_Hdd_ecm240'):
+        print('Skipping sample', pr)
+        print('Please check if they have been produced recently and in that case remove this part of the code')
+        continue
+
     xsection = 1e3*procDict[pr]["crossSection"]*procDict[pr]["kfactor"]*procDict[pr]["matchingEfficiency"]
     events = procDict[pr]["sumOfWeights"]
     lumi = events/xsection
     lumiratio = lumi/lumiRef
+    print('{:15s} {:15.9f} {:10.0f} {:15.0f} {:15.3f}'.format(proc, xsection, events, lumi, lumiratio))
     outf.write('{:20s} & {:15.9f} & {:15.0f} & {:15.0f} & {:15.3f} \\\\\n'.format(processLabels[proc], xsection, events, lumi, lumiratio))
 outf.write('\\bottomrule\n')
 outf.write('\\end{tabular}\n')
