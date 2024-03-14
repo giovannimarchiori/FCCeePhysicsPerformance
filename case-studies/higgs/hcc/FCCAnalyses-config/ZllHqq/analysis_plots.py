@@ -7,6 +7,8 @@ from analysis_config import *
 import ROOT
 
 # global parameters
+showFirstGen = False
+showLFV = False
 inputDir = basedir  + '/analysis-final/hists/'
 outdir = inputDir.replace('hists', 'plots')
 intLumi = 5.0e06  # in pb-1
@@ -60,38 +62,24 @@ extralabel['sel_Z'] = '1 Z(ll) candidate (2 SFOS l, 25<p_{l}<80GeV)'
 extralabel['sel_mZ'] = '81<m_{ll}<101 GeV'
 extralabel['sel_cosThetaZ'] = '81<m_{ll}<101 GeV, |cos#theta_{ll}|<0.8'
 extralabel['sel_mrecoil'] = '81<m_{ll}<101 GeV, |cos#theta_{ll}|<0.8, 120<m_{recoil}<140 GeV'
-extralabel[
-    'sel_mjj'
-] = '81<m_{ll}<101 GeV, |cos#theta_{ll}|<0.8, 120<m_{recoil}<140 GeV, 100<m_{jets}<140 GeV'
-extralabel[
-    'sel_emiss'
-] = '81<m_{ll}<101 GeV, |cos#theta_{ll}|<0.8, 120<m_{recoil}<140 GeV, 100<m_{jets}<140 GeV, E_{miss}<30 GeV'
-extralabel[
-    'sel_leptonveto'
-] = 'Z(ll), m_{ll}, |cos#theta_{ll}|, m_{recoil}, m_{jets}, E_{miss}, lep. veto'
-extralabel[
-    'sel_dmergeok'
-] = 'Z(ll), m_{ll}, |cos#theta_{ll}|, m_{recoil}, m_{jets}, E_{miss}, lep. veto, d_{ij}>0'
-extralabel[
-    'finalsel'
-] = 'Z(ll), m_{ll}, |cos#theta_{ll}|, m_{recoil}, m_{jets}, E_{miss}, lep. veto'
+extralabel['sel_mjj'] = '81<m_{ll}<101 GeV, |cos#theta_{ll}|<0.8, 120<m_{recoil}<140 GeV, 100<m_{jets}<140 GeV'
+extralabel['sel_emiss'] = '81<m_{ll}<101 GeV, |cos#theta_{ll}|<0.8, 120<m_{recoil}<140 GeV, 100<m_{jets}<140 GeV, E_{miss}<30 GeV'
+extralabel['sel_leptonveto'] = 'Z(ll), m_{ll}, |cos#theta_{ll}|, m_{recoil}, m_{jets}, E_{miss}, lep. veto'
+extralabel['sel_dmergeok'] = 'Z(ll), m_{ll}, |cos#theta_{ll}|, m_{recoil}, m_{jets}, E_{miss}, lep. veto, d_{ij}>0'
+extralabel['finalsel'] = 'Z(ll), m_{ll}, |cos#theta_{ll}|, m_{recoil}, m_{jets}, E_{miss}, lep. veto'
 
-
-
+palette = {}
 colors = {}
-colors['ZH'] = ROOT.kBlack
-colors['ZHbb'] = ROOT.kRed - 2
-colors['ZHcc'] = ROOT.kPink + 1
-colors['ZHgg'] = ROOT.kOrange
-colors['ZHss'] = ROOT.kCyan - 6
-colors['ZHtautau'] = ROOT.kBlue + 2
-colors['ZHWW'] = ROOT.kBlue
-colors['ZHZZ'] = ROOT.kBlue - 2
-colors['WW'] = ROOT.kRed
-colors['ZZ'] = ROOT.kGreen + 2
-colors['ZHnonhad'] = ROOT.kBlue
-colors['Zgamma'] = ROOT.kViolet
-
+icolor=2000
+for process, colorname in processColors.items():
+    color = colordict[colorname]
+    r = int(color[1:3],16)
+    g = int(color[4:6],16)
+    b = int(color[5:8],16)
+    palette[process] = ROOT.TColor(icolor,r/255.,g/255.,b/255.,colorname)
+    colors[process] = icolor
+    icolor+=1
+    
 plots = {}
 
 plots['ZH'] = {
@@ -125,16 +113,24 @@ plots['ZH'] = {
     },
 }
 
+if showFirstGen:
+    plots['ZH']['signal'].update({
+        'ZHuu': ['wzp6_ee_eeH_Huu_ecm240', 'wzp6_ee_mumuH_Huu_ecm240'],
+        'ZHdd': ['wzp6_ee_eeH_Hdd_ecm240', 'wzp6_ee_mumuH_Hdd_ecm240'],
+    })
+
+if showLFV:
+    plots['ZH']['signal'].update({
+        'ZHcu': ['wzp6_ee_eeH_Hcu_ecm240', 'wzp6_ee_mumuH_Hcu_ecm240'],
+        'ZHbs': ['wzp6_ee_eeH_Hbs_ecm240', 'wzp6_ee_mumuH_Hbs_ecm240'],
+        'ZHbd': ['wzp6_ee_eeH_Hbd_ecm240', 'wzp6_ee_mumuH_Hbd_ecm240'],
+        'ZHsd': ['wzp6_ee_eeH_Hsd_ecm240', 'wzp6_ee_mumuH_Hsd_ecm240'],
+    })
+    
 legend = {}
-# legend['ZH'] = 'Total'
-legend['ZHbb'] = 'llH(b#bar{b})'
-legend['ZHcc'] = 'llH(c#bar{c})'
-legend['ZHgg'] = 'llH(gg)'
-legend['ZHss'] = 'llH(s#bar{s})'
-legend['ZHZZ'] = 'llH(ZZ)'
-legend['ZHWW'] = 'llH(WW)'
-legend['ZHtautau'] = 'llH(#tau#tau)'
-legend['ZHnonhad'] = 'llH(other)'
-legend['ZZ'] = 'ZZ'
-legend['WW'] = 'WW'
+for procType in plots['ZH']:
+    for proc in plots['ZH'][procType]:
+        legend[proc] = processLabels[proc]
+
+# override default legend titles with e.g.
 legend['Zgamma'] = 'Z/#gamma*'

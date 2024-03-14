@@ -5,6 +5,7 @@ import os, sys
 configdir = os.getenv('FCCANACONFS')
 sys.path.append(configdir)
 from analysis_config import *
+from analysis_plots import *
 
 # import ROOT and other libraries
 import ROOT
@@ -15,11 +16,14 @@ import math
 import argparse
 
 splitZHother = True
+#splitZHother = False
+
+showFirstGen = False
+showLFV = True
 
 def plotvars(signalOnly = False):
 
     from analysis_config import basedir
-    # basedir = analysis_config.basedir
     print(basedir)
     
     # vars: varname, preselection, cutmin, cutmax, axis title, legend position, plot type
@@ -94,65 +98,60 @@ def plotvars(signalOnly = False):
         ('jets_d34',       'finalsel', 9999., -9999.,  'd_{34}', 0.7, 'lin'),
     ]
 
-    processes = [
-        ['wzp6_ee_eeH_Hbb_ecm240',    'wzp6_ee_mumuH_Hbb_ecm240'],
-        ['wzp6_ee_eeH_Hcc_ecm240',    'wzp6_ee_mumuH_Hcc_ecm240'],
-        ['wzp6_ee_eeH_Hgg_ecm240',    'wzp6_ee_mumuH_Hgg_ecm240'],
-        ['wzp6_ee_eeH_Hss_ecm240',    'wzp6_ee_mumuH_Hss_ecm240']]
-    processLabels = [
-        'llH(b#bar{b})',
-        'llH(c#bar{c})',
-        'llH(gg)',
-        'llH(s#bar{s})']
-    processColors = [
-        kRed-2,
-        kPink+1,
-        kOrange,
-        kCyan-6]
-
+    # list of processes to draw (and how to group them)
+    processes = {
+        'ZHbb' : ['wzp6_ee_eeH_Hbb_ecm240',    'wzp6_ee_mumuH_Hbb_ecm240'],
+        'ZHcc' : ['wzp6_ee_eeH_Hcc_ecm240',    'wzp6_ee_mumuH_Hcc_ecm240'],
+        'ZHgg' : ['wzp6_ee_eeH_Hss_ecm240',    'wzp6_ee_mumuH_Hss_ecm240'],
+        'ZHgg' : ['wzp6_ee_eeH_Hgg_ecm240',    'wzp6_ee_mumuH_Hgg_ecm240'],
+    }
     if splitZHother:
-        processes.extend([
-            ['wzp6_ee_eeH_Htautau_ecm240','wzp6_ee_mumuH_Htautau_ecm240'],
-            ['wzp6_ee_eeH_HWW_ecm240',    'wzp6_ee_mumuH_HWW_ecm240'],
-            ['wzp6_ee_eeH_HZZ_ecm240',    'wzp6_ee_mumuH_HZZ_ecm240']
-            ])
-        processLabels.extend([
-            'llH(#tau#tau)',
-            'llH(WW)',
-            'llH(ZZ)',
-            ])
-        processColors.extend([
-            kBlue+2,
-            kBlue,
-            kBlue-2
-            ])
+        if showFirstGen:
+            processes.update({
+                'ZHuu'     : ['wzp6_ee_eeH_Huu_ecm240', 'wzp6_ee_mumuH_Huu_ecm240'],
+                'ZHdd'     : ['wzp6_ee_eeH_Hdd_ecm240', 'wzp6_ee_mumuH_Hdd_ecm240'],
+                'ZHtautau' : ['wzp6_ee_eeH_Htautau_ecm240','wzp6_ee_mumuH_Htautau_ecm240'],
+                'ZHWW'     : ['wzp6_ee_eeH_HWW_ecm240',    'wzp6_ee_mumuH_HWW_ecm240'],
+                'ZHZZ'     : ['wzp6_ee_eeH_HZZ_ecm240',    'wzp6_ee_mumuH_HZZ_ecm240']
+            })
+        else:
+            processes.update({
+                'ZHtautau' : ['wzp6_ee_eeH_Htautau_ecm240','wzp6_ee_mumuH_Htautau_ecm240'],
+                'ZHWW'     : ['wzp6_ee_eeH_HWW_ecm240',    'wzp6_ee_mumuH_HWW_ecm240'],
+                'ZHZZ'     : ['wzp6_ee_eeH_HZZ_ecm240',    'wzp6_ee_mumuH_HZZ_ecm240']
+        })
     else:
-        processes.extend([
-            'wzp6_ee_eeH_Htautau_ecm240','wzp6_ee_mumuH_Htautau_ecm240',
-            'wzp6_ee_eeH_HWW_ecm240',    'wzp6_ee_mumuH_HWW_ecm240',
-            'wzp6_ee_eeH_HZZ_ecm240',    'wzp6_ee_mumuH_HZZ_ecm240'
-        ])
-        processLabels.extend(['llH(other)'])
-        processColors.extend([kBlue])
-        
-    processes.extend([
-        ['p8_ee_ZZ_ecm240'],
-        ['p8_ee_WW_ecm240'],
-        ['p8_ee_Zqq_ecm240'],
-        ['wzp6_ee_ee_Mee_30_150_ecm240', 'wzp6_ee_mumu_ecm240']
-    ])
-    processLabels.extend([
-        'ZZ',
-        'WW',
-        'Z/#gamma*(q#bar{q})',
-        'Z/#gamma*(ll)',
-    ])
-    processColors.extend([
-        kGreen+2,
-        kRed,
-        kViolet,
-        kBlack
-    ])
+        if showFirstGen:
+            processes.update({
+                'ZHother' : [
+                    'wzp6_ee_eeH_Huu_ecm240', 'wzp6_ee_mumuH_Huu_ecm240',
+                    'wzp6_ee_eeH_Hdd_ecm240', 'wzp6_ee_mumuH_Hdd_ecm240',
+                    'wzp6_ee_eeH_Htautau_ecm240','wzp6_ee_mumuH_Htautau_ecm240',
+                    'wzp6_ee_eeH_HWW_ecm240',    'wzp6_ee_mumuH_HWW_ecm240',
+                    'wzp6_ee_eeH_HZZ_ecm240',    'wzp6_ee_mumuH_HZZ_ecm240'
+                ]
+            })
+        else:
+            processes.update({
+                'ZHother' : [
+                    'wzp6_ee_eeH_Htautau_ecm240','wzp6_ee_mumuH_Htautau_ecm240',
+                    'wzp6_ee_eeH_HWW_ecm240',    'wzp6_ee_mumuH_HWW_ecm240',
+                    'wzp6_ee_eeH_HZZ_ecm240',    'wzp6_ee_mumuH_HZZ_ecm240'
+                ]
+            })
+    if showLFV:
+        processes.update({
+            'ZHcu'     : ['wzp6_ee_eeH_Hcu_ecm240', 'wzp6_ee_mumuH_Hcu_ecm240'],
+            'ZHbd'     : ['wzp6_ee_eeH_Hbd_ecm240', 'wzp6_ee_mumuH_Hbd_ecm240'],
+            'ZHbs'     : ['wzp6_ee_eeH_Hbs_ecm240', 'wzp6_ee_mumuH_Hbs_ecm240'],
+            'ZHsd'     : ['wzp6_ee_eeH_Hsd_ecm240', 'wzp6_ee_mumuH_Hsd_ecm240'],
+        })
+    processes.update({
+        'ZZ'  : ['p8_ee_ZZ_ecm240'],
+        'WW'  : ['p8_ee_WW_ecm240'],
+        'Zqq' : ['p8_ee_Zqq_ecm240'],
+        'Zll' : ['wzp6_ee_ee_Mee_30_150_ecm240', 'wzp6_ee_mumu_ecm240']
+    })
 
     # baseDir = '/eos/user/g/gmarchio/fcc-test/ZllHqq/analysis-final/root/IDEA'
     # directory containing the cutflow files
@@ -177,14 +176,13 @@ def plotvars(signalOnly = False):
         
         # loop over the processes
         hist = {}
-        for iProcess in range(len(processes)):
+        for process, sampleList in processes.items():
 
-            procLabel = processLabels[iProcess]
-            hist[iProcess] = TH1D()
+            procLabel = processLabels[process]
+            hist[process] = TH1D()
             first = True
-            for proc in processes[iProcess]:
+            for proc in sampleList:
                 if (signalOnly and not 'wzp6_ee_eeH' in proc and not 'wzp6_ee_mumuH' in proc): continue
-                # if (signalOnly and not 'wzp6_ee_mumuH' in proc): continue
 
                 # open file with histos
                 fileName = '{:s}/{:s}_{:s}_histo.root'.format(basedir,proc,sel)
@@ -195,28 +193,23 @@ def plotvars(signalOnly = False):
                 print('Getting histogram ', var)
                 h = f.Get(var)
                 if first:
-                    hist[iProcess] = h.Clone(procLabel)
+                    hist[process] = h.Clone(procLabel)
                     first = False
-                    hist[iProcess].SetLineColor(processColors[iProcess])
-                    hist[iProcess].SetLineWidth(3)
-                    hist[iProcess].SetDirectory(0)                  
+                    hist[process].SetLineColor(colors[process])
+                    hist[process].SetLineWidth(3)
+                    hist[process].SetDirectory(0)                  
                 else:
-                    hist[iProcess].Add(h)
-                #h.SetDirectory(0)
-
-                # set graphic attributes of histo
-                #h.SetLineColor(processColors[iProcess])
-                #h.SetLineWidth(3)
+                    hist[process].Add(h)
 
             # normalize histo to 1
-            if hist[iProcess].Integral()!=0.0:
-                hist[iProcess].Scale(1./hist[iProcess].Integral(), 'nosw2')
+            if hist[process].Integral()!=0.0:
+                hist[process].Scale(1./hist[process].Integral(), 'nosw2')
 
             # add histos to stack and legend
             # do not draw histograms with too few entries otherwise plot will have large spikes
-            if hist[iProcess].GetEntries()>300.:
-                hs.Add(hist[iProcess])
-                leg.AddEntry(hist[iProcess],procLabel,'L')
+            if hist[process].GetEntries()>300.:
+                hs.Add(hist[process])
+                leg.AddEntry(hist[process], procLabel, 'L')
 
 
         # draw the histo stack and legend

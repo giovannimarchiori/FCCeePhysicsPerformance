@@ -18,6 +18,9 @@ import argparse
 splitZHother = True
 #splitZHother = False
 
+showFirstGen = True
+showLFV = True
+
 def plotvars(signalOnly = False):
 
     from analysis_config import basedir
@@ -84,27 +87,50 @@ def plotvars(signalOnly = False):
         'ZHgg' : ['wzp6_ee_nunuH_Hgg_ecm240']
     }
     if splitZHother:
-        processes.update({
-            'ZHuu' : ['wzp6_ee_nunuH_Huu_ecm240'],
-            'ZHdd' : ['wzp6_ee_nunuH_Hdd_ecm240'],
-            'ZHtautau' : ['wzp6_ee_nunuH_Htautau_ecm240'],
-            'ZHWW' : ['wzp6_ee_nunuH_HWW_ecm240'],
-            'ZHZZ' : ['wzp6_ee_nunuH_HZZ_ecm240'],
-        })
+        if showFirstGen:
+            processes.update({
+                'ZHuu'     : ['wzp6_ee_nunuH_Huu_ecm240'],
+                'ZHdd'     : ['wzp6_ee_nunuH_Hdd_ecm240'],
+                'ZHtautau' : ['wzp6_ee_nunuH_Htautau_ecm240'],
+                'ZHWW'     : ['wzp6_ee_nunuH_HWW_ecm240'],
+                'ZHZZ'     : ['wzp6_ee_nunuH_HZZ_ecm240'],
+            })
+        else:
+            processes.update({
+                'ZHtautau' : ['wzp6_ee_nunuH_Htautau_ecm240'],
+                'ZHWW'     : ['wzp6_ee_nunuH_HWW_ecm240'],
+                'ZHZZ'     : ['wzp6_ee_nunuH_HZZ_ecm240'],
+            })            
     else:
+        if showFirstGen:
+            processes.update({
+                'ZHother' : [
+                    'wzp6_ee_nunuH_Huu_ecm240',
+                    'wzp6_ee_nunuH_Hdd_ecm240',
+                    'wzp6_ee_nunuH_Htautau_ecm240',
+                    'wzp6_ee_nunuH_HWW_ecm240',
+                    'wzp6_ee_nunuH_HZZ_ecm240'
+                ]
+            })
+        else:
+            processes.update({
+                'ZHother' : [
+                    'wzp6_ee_nunuH_Htautau_ecm240',
+                    'wzp6_ee_nunuH_HWW_ecm240',
+                    'wzp6_ee_nunuH_HZZ_ecm240'
+                ]
+            })
+    if showLFV:
         processes.update({
-            'ZHother' : [
-                'wzp6_ee_nunuH_Huu_ecm240',
-                'wzp6_ee_nunuH_Hdd_ecm240',
-                'wzp6_ee_nunuH_Htautau_ecm240',
-                'wzp6_ee_nunuH_HWW_ecm240',
-                'wzp6_ee_nunuH_HZZ_ecm240'
-            ]
+            'ZHcu'     : ['wzp6_ee_nunuH_Hcu_ecm240'],
+            'ZHbd'     : ['wzp6_ee_nunuH_Hbd_ecm240'],
+            'ZHbs'     : ['wzp6_ee_nunuH_Hbs_ecm240'],
+            'ZHsd'     : ['wzp6_ee_nunuH_Hsd_ecm240'],
         })
     processes.update({
-        'ZZ' : [ 'p8_ee_ZZ_ecm240' ],
-        'WW' : [ 'p8_ee_WW_ecm240' ],
-        'Zgamma' : [ 'p8_ee_Zqq_ecm240' ],
+        'ZZ'      : [ 'p8_ee_ZZ_ecm240' ],
+        'WW'      : [ 'p8_ee_WW_ecm240' ],
+        'Zgamma'  : [ 'p8_ee_Zqq_ecm240' ],
         'nuenueZ' : [ 'wzp6_ee_nuenueZ_ecm240' ],
     })
 

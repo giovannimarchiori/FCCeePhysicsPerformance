@@ -27,9 +27,6 @@ print('Base directory for output: ', basedir)
 procDict = 'FCCee_procDict_%s_%s.json' % (production, detector)
 print('Dictionary: ', procDict)
 
-# Add MySample_p8_ee_ZH_ecm240 as it is not an offical process
-# procDictAdd={"'wzp6_ee_eeH_Hbb_ecm240'":{"numberOfEvents": 10000000, "sumOfWeights": 10000000, "crossSection": 0.201868, "kfactor": 1.0, "matchingEfficiency": 1.0}}
-
 # Number of CPUs to use
 nCPUS = 96
 
@@ -145,7 +142,7 @@ for i, cut in enumerate(sel):
         cuts[cut] = cutDict[cut]['cut']
     else:
         cuts[cut] = cuts[sel[i-1]] + ' && ' + cutDict[cut]['cut']
-    print("  %s : %s" % (cut, cuts[cut]))
+    print('  %s : %s' % (cut, cuts[cut]))
 
 # the final selection
 final_selec = cuts[final_sel_cut]
@@ -162,3 +159,119 @@ cutList_histOnly = cuts
 cutList_histOnly['finalsel'    ] = final_selec
 cutList_histOnly['finalsel_e'  ] = final_selec + ' && ' + cutDict['sel_Zee']['cut']
 cutList_histOnly['finalsel_mu' ] = final_selec + ' && ' + cutDict['sel_Zmumu']['cut']
+
+# Dictionary of colors
+# 18 colors generated with https://mokole.com/palette.html
+colordict = {
+    'darkslategray':  '#2f4f4f',
+    'maroon': '#800000',
+    'green':  '#008000',
+    'purple': '#800080',
+    'red':  '#ff0000',
+    'darkorange': '#ff8c00',
+    'yellow':  '#ffff00',
+    'mediumblue': '#0000cd',
+    'lawngreen':  '#7cfc00',
+    'turquoise': '#40e0d0',
+    'mediumspringgreen':  '#00fa9a',
+    'royalblue': '#4169e1',
+    'darksalmon':  '#e9967a',
+    'deepskyblue': '#00bfff',
+    'fuchsia':  '#ff00ff',
+    'khaki': '#f0e68c',
+    'plum':  '#dda0dd',
+    'deeppink': '#ff1493',
+}
+
+processColors = {
+    'ZHbb' : 'darkslategray',
+    'ZHcc' : 'maroon',
+    'ZHss' : 'green',
+    'ZHgg' : 'purple',
+    'ZHother' : 'red',
+    'ZHtautau' : 'red',
+    'ZHWW' : 'darkorange',
+    'ZHZZ' : 'yellow',
+    'ZHuu' : 'mediumblue',
+    'ZHdd' : 'lawngreen',
+    'ZHbs' : 'turquoise',
+    'ZHbd' : 'mediumspringgreen',
+    'ZHsd' : 'royalblue',
+    'ZHcu' : 'darksalmon',
+    'ZZ': 'fuchsia',
+    'WW': 'khaki',
+    'Zgamma': 'plum',
+    'Zll' : 'deeppink',
+    'Zqq' : 'deepskyblue'
+    }
+
+processColors.update({
+    'wzp6_ee_eeH_Hbb_ecm240' : processColors['ZHbb'],
+    'wzp6_ee_eeH_Hcc_ecm240' : processColors['ZHcc'],
+    'wzp6_ee_eeH_Hss_ecm240' : processColors['ZHss'],
+    'wzp6_ee_eeH_Hgg_ecm240' : processColors['ZHgg'],
+    'wzp6_ee_eeH_Htautau_ecm240' : processColors['ZHtautau'],
+    'wzp6_ee_eeH_HWW_ecm240' : processColors['ZHWW'],
+    'wzp6_ee_eeH_HZZ_ecm240' : processColors['ZHZZ'],
+    'wzp6_ee_eeH_Huu_ecm240' : processColors['ZHuu'],
+    'wzp6_ee_eeH_Hdd_ecm240' : processColors['ZHdd'],
+    'wzp6_ee_eeH_Hbs_ecm240' : processColors['ZHbs'],
+    'wzp6_ee_eeH_Hbd_ecm240' : processColors['ZHbd'],
+    'wzp6_ee_eeH_Hsd_ecm240' : processColors['ZHsd'],
+    'wzp6_ee_eeH_Hcu_ecm240' : processColors['ZHcu'],
+    'p8_ee_ZZ_ecm240': processColors['ZZ'],
+    'p8_ee_WW_ecm240': processColors['WW'],
+    'p8_ee_Zqq_ecm240': processColors['Zqq'],
+    'wzp6_ee_mumu_ecm240': processColors['Zll'],
+    'wzp6_ee_ee_Mee_30_150_ecm240': processColors['Zll'],
+})
+
+processLabels = {
+    'wzp6_ee_eeH_Hbb_ecm240' : 'eeH(b#bar{b})',
+    'wzp6_ee_eeH_Hcc_ecm240' : 'eeH(c#bar{c})',
+    'wzp6_ee_eeH_Hss_ecm240' : 'eeH(s#bar{s})',
+    'wzp6_ee_eeH_Huu_ecm240' : 'eeH(d#bar{d})',
+    'wzp6_ee_eeH_Hdd_ecm240' : 'eeH(u#bar{u})',
+    'wzp6_ee_eeH_Hgg_ecm240' : 'eeH(gg)',
+    'wzp6_ee_eeH_Htautau_ecm240' : 'eeH(#tau#tau)',
+    'wzp6_ee_eeH_HWW_ecm240' : 'eeH(WW)',
+    'wzp6_ee_eeH_HZZ_ecm240' : 'eeH(ZZ)',
+    'wzp6_ee_eeH_Hnonhad_ecm240' : 'eeH(other)',
+    'wzp6_ee_mumuH_Hbb_ecm240' : '#mu#muH(b#bar{b})',
+    'wzp6_ee_mumuH_Hcc_ecm240' : '#mu#muH(c#bar{c})',
+    'wzp6_ee_mumuH_Hss_ecm240' : '#mu#muH(s#bar{s})',
+    'wzp6_ee_mumuH_Huu_ecm240' : '#mu#muH(d#bar{d})',
+    'wzp6_ee_mumuH_Hdd_ecm240' : '#mu#muH(u#bar{u})',
+    'wzp6_ee_mumuH_Hgg_ecm240' : '#mu#muH(gg)',
+    'wzp6_ee_mumuH_Htautau_ecm240' : '#mu#muH(#tau#tau)',
+    'wzp6_ee_mumuH_HWW_ecm240' : '#mu#muH(WW)',
+    'wzp6_ee_mumuH_HZZ_ecm240' : '#mu#muH(ZZ)',
+    'wzp6_ee_mumuH_Hnonhad_ecm240' : '#mu#muH(other)',
+    'p8_ee_ZZ_ecm240' : 'ZZ',
+    'p8_ee_WW_ecm240' : 'WW',
+    'p8_ee_Zqq_ecm240' : 'Z/#gamma*(q#bar{q})',
+    'wzp6_ee_mumu_ecm240': 'Z/#gamma*(#mu#mu)',
+    'wzp6_ee_ee_Mee_30_150_ecm240': 'Z/#gamma*(ee)',
+}
+
+processLabels.update({
+    'ZHbb' : 'llH(b#bar{b})',
+    'ZHcc' : 'llH(c#bar{c})',
+    'ZHss' : 'llH(s#bar{s})',
+    'ZHuu' : 'llH(d#bar{d})',
+    'ZHdd' : 'llH(u#bar{u})',
+    'ZHgg' : 'llH(gg)',
+    'ZHtautau' : 'llH(#tau#tau)',
+    'ZHWW' : 'llH(WW)',
+    'ZHZZ' : 'llH(ZZ)',
+    'ZHother' : 'llH(other)',
+    'ZHcu' : 'llH(c#bar{u})',
+    'ZHbs' : 'llH(b#bar{s})',
+    'ZHbd' : 'llH(b#bar{b})',
+    'ZHsd' : 'llH(s#bar{d})',
+    'ZZ' : 'ZZ',
+    'WW' : 'WW',
+    'Zll' : 'Z/#gamma*(ee/#mu#mu})',
+    'Zqq' : 'Z/#gamma*(q/#bar{q})',
+    'Zgamma' : 'Z/#gamma*(ee/#mu#mu/q#bar{q})',
+})
