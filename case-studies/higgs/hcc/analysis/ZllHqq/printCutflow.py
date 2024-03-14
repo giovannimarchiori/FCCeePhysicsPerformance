@@ -18,6 +18,15 @@ splitZHother = True
 # print significance or efficiency
 printSig = False
 
+# show bkg or not
+showBkg = False
+
+# show LFV decays or not
+showLFV = True
+
+# show uu and dd decays or not
+showFirstGen = False
+
 processes = {
     'ZHbb'      : ['wzp6_ee_eeH_Hbb_ecm240',     'wzp6_ee_mumuH_Hbb_ecm240'],
     'ZHcc'      : ['wzp6_ee_eeH_Hcc_ecm240',     'wzp6_ee_mumuH_Hcc_ecm240'],
@@ -34,17 +43,30 @@ else:
         'ZHnonhad': ['wzp6_ee_eeH_Htautau_ecm240', 'wzp6_ee_mumuH_Htautau_ecm240',
                      'wzp6_ee_eeH_HWW_ecm240',     'wzp6_ee_mumuH_HWW_ecm240',
                      'wzp6_ee_eeH_HZZ_ecm240',     'wzp6_ee_mumuH_HZZ_ecm240']})
-processes.update({
-    'ZZ'        : ['p8_ee_ZZ_ecm240'],
-    'WW'        : ['p8_ee_WW_ecm240'],
-})
-if splitZllByFlavour:
-    processes.update({'Zll': ['wzp6_ee_ee_Mee_30_150_ecm240', 'wzp6_ee_mumu_ecm240']})
-else:
-    processes.update({'Zll': ['p8_ee_Zll_ecm240']})
-processes.update({
-    'Zqq'       : ['p8_ee_Zqq_ecm240']
-})
+if showFirstGen:
+    processes.update({
+        'ZHuu'    : ['wzp6_ee_eeH_Huu_ecm240', 'wzp6_ee_mumuH_Huu_ecm240'],
+        'ZHdd'    : ['wzp6_ee_eeH_Hdd_ecm240', 'wzp6_ee_mumuH_Hdd_ecm240'],
+    })
+if showLFV:
+    processes.update({
+        'ZHcu'    : ['wzp6_ee_eeH_Hcu_ecm240', 'wzp6_ee_mumuH_Hcu_ecm240'],
+        'ZHbd'    : ['wzp6_ee_eeH_Hbd_ecm240', 'wzp6_ee_mumuH_Hbd_ecm240'],
+        'ZHbs'    : ['wzp6_ee_eeH_Hbs_ecm240', 'wzp6_ee_mumuH_Hbs_ecm240'],
+        'ZHsd'    : ['wzp6_ee_eeH_Hsd_ecm240', 'wzp6_ee_mumuH_Hsd_ecm240'],
+    })
+if showBkg:
+    processes.update({
+        'ZZ'        : ['p8_ee_ZZ_ecm240'],
+        'WW'        : ['p8_ee_WW_ecm240'],
+    })
+    if splitZllByFlavour:
+        processes.update({'Zll': ['wzp6_ee_ee_Mee_30_150_ecm240', 'wzp6_ee_mumu_ecm240']})
+    else:
+        processes.update({'Zll': ['p8_ee_Zll_ecm240']})
+    processes.update({
+        'Zqq'       : ['p8_ee_Zqq_ecm240']
+    })
 
 
 cutList = {}

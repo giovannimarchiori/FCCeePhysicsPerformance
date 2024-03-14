@@ -17,6 +17,15 @@ splitZHother = True
 # print significance or efficiency
 printSig = False
 
+# show bkg or not
+showBkg = False
+
+# show LFV decays or not
+showLFV = True
+
+# show uu and dd decays or not
+showFirstGen = True
+
 processes = {
     'vvHbb'      : ['wzp6_ee_nunuH_Hbb_ecm240'],
     'vvHcc'      : ['wzp6_ee_nunuH_Hcc_ecm240'],
@@ -35,40 +44,54 @@ else:
                       'wzp6_ee_nunuH_HWW_ecm240',
                       'wzp6_ee_nunuH_HZZ_ecm240']
     })
-processes.update({
-    'qqH'       : ['wzp6_ee_qqH_Hbb_ecm240',
-                                   'wzp6_ee_qqH_Hcc_ecm240',
-                                   'wzp6_ee_qqH_Hss_ecm240',
-                                   'wzp6_ee_qqH_Hgg_ecm240',
-                   'wzp6_ee_qqH_Htautau_ecm240',
-                                   'wzp6_ee_qqH_HWW_ecm240',
-                                   'wzp6_ee_qqH_HZZ_ecm240',
-                   'wzp6_ee_ssH_Hbb_ecm240',
-                                   'wzp6_ee_ssH_Hcc_ecm240',
-                                   'wzp6_ee_ssH_Hss_ecm240',
-                                   'wzp6_ee_ssH_Hgg_ecm240',
-                   'wzp6_ee_ssH_Htautau_ecm240',
-                                   'wzp6_ee_ssH_HWW_ecm240',
-                                   'wzp6_ee_ssH_HZZ_ecm240',
-                   'wzp6_ee_ccH_Hbb_ecm240',
-                                   'wzp6_ee_ccH_Hcc_ecm240',
-                                   'wzp6_ee_ccH_Hss_ecm240',
-                                   'wzp6_ee_ccH_Hgg_ecm240',
-                   'wzp6_ee_ccH_Htautau_ecm240',
-                                   'wzp6_ee_ccH_HWW_ecm240',
-                                   'wzp6_ee_ccH_HZZ_ecm240',
-                   'wzp6_ee_bbH_Hbb_ecm240',
-                                   'wzp6_ee_bbH_Hcc_ecm240',
-                                   'wzp6_ee_bbH_Hss_ecm240',
-                                   'wzp6_ee_bbH_Hgg_ecm240',
-                   'wzp6_ee_bbH_Htautau_ecm240',
-                                   'wzp6_ee_bbH_HWW_ecm240',
-                                   'wzp6_ee_bbH_HZZ_ecm240'],
-    'nuenueZ'   : ['wzp6_ee_nuenueZ_ecm240'],
-    'Zqq'       : ['p8_ee_Zqq_ecm240'],
-    'WW'        : ['p8_ee_WW_ecm240'],
-    'ZZ'        : ['p8_ee_ZZ_ecm240']
-})
+if showFirstGen:
+    processes.update({
+        'vvHuu'    : ['wzp6_ee_nunuH_Huu_ecm240'],
+        'vvHdd'    : ['wzp6_ee_nunuH_Hdd_ecm240'],
+    })
+if showLFV:
+    processes.update({
+        'vvHcu'    : ['wzp6_ee_nunuH_Hcu_ecm240'],
+        'vvHbd'    : ['wzp6_ee_nunuH_Hbd_ecm240'],
+        'vvHbs'    : ['wzp6_ee_nunuH_Hbs_ecm240'],
+        'vvHsd'    : ['wzp6_ee_nunuH_Hsd_ecm240'],
+    })
+
+if showBkg:
+    processes.update({
+        'qqH'       : ['wzp6_ee_qqH_Hbb_ecm240',
+                       'wzp6_ee_qqH_Hcc_ecm240',
+                       'wzp6_ee_qqH_Hss_ecm240',
+                       'wzp6_ee_qqH_Hgg_ecm240',
+                       'wzp6_ee_qqH_Htautau_ecm240',
+                       'wzp6_ee_qqH_HWW_ecm240',
+                       'wzp6_ee_qqH_HZZ_ecm240',
+                       'wzp6_ee_ssH_Hbb_ecm240',
+                       'wzp6_ee_ssH_Hcc_ecm240',
+                       'wzp6_ee_ssH_Hss_ecm240',
+                       'wzp6_ee_ssH_Hgg_ecm240',
+                       'wzp6_ee_ssH_Htautau_ecm240',
+                       'wzp6_ee_ssH_HWW_ecm240',
+                       'wzp6_ee_ssH_HZZ_ecm240',
+                       'wzp6_ee_ccH_Hbb_ecm240',
+                       'wzp6_ee_ccH_Hcc_ecm240',
+                       'wzp6_ee_ccH_Hss_ecm240',
+                       'wzp6_ee_ccH_Hgg_ecm240',
+                       'wzp6_ee_ccH_Htautau_ecm240',
+                       'wzp6_ee_ccH_HWW_ecm240',
+                       'wzp6_ee_ccH_HZZ_ecm240',
+                       'wzp6_ee_bbH_Hbb_ecm240',
+                       'wzp6_ee_bbH_Hcc_ecm240',
+                       'wzp6_ee_bbH_Hss_ecm240',
+                       'wzp6_ee_bbH_Hgg_ecm240',
+                       'wzp6_ee_bbH_Htautau_ecm240',
+                       'wzp6_ee_bbH_HWW_ecm240',
+                       'wzp6_ee_bbH_HZZ_ecm240'],
+        'nuenueZ'   : ['wzp6_ee_nuenueZ_ecm240'],
+        'Zqq'       : ['p8_ee_Zqq_ecm240'],
+        'WW'        : ['p8_ee_WW_ecm240'],
+        'ZZ'        : ['p8_ee_ZZ_ecm240']
+    })
 
 cutList = {}
 #for cut in cutList_histOnly:
