@@ -31,7 +31,7 @@ from analysis_config import *
     # 'p8_ee_Zqq_ecm240': {'chunks': 8},
     # 'wzp6_ee_mumu_ecm240': {'chunks': 6},
     # 'wzp6_ee_ee_Mee_30_150_ecm240': {'chunks': 8},
-}
+# }
 
 # Mandatory: Production tag when running over EDM4Hep centrally produced events,
 # this points to the yaml files for getting sample statistics
