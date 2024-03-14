@@ -204,7 +204,7 @@ processColors = {
     'qqH' : 'deepskyblue',
     'ZZ': 'fuchsia',
     'WW': 'khaki',
-    'Zgamma': 'plum',
+    'Zqq': 'plum',
     'nuenueZ' : 'deeppink'
     }
 
@@ -224,7 +224,7 @@ processColors.update({
      'wzp6_ee_nunuH_Hcu_ecm240' : processColors['ZHcu'],
      'p8_ee_ZZ_ecm240': processColors['ZZ'],
      'p8_ee_WW_ecm240': processColors['WW'],
-     'p8_ee_Zqq_ecm240': processColors['Zgamma'],
+     'p8_ee_Zqq_ecm240': processColors['Zqq'],
      'wzp6_ee_nuenueZ_ecm240' : processColors['nuenueZ'],
 })
 
@@ -262,6 +262,7 @@ processLabels.update({
     'ZHsd' : '#nu#bar{#nu}H(s#bar{d})',
     'ZZ' : 'ZZ',
     'WW' : 'WW',
-    'Zgamma' : 'Z/#gamma*(q#bar{q})',
+    'Zqq' : 'Z/#gamma*(q#bar{q})',
     'nuenueZ' : '#nu_{e}#bar{#nu}_{e}Z',
+    'qqH' : 'q#bar{q}H',
 })

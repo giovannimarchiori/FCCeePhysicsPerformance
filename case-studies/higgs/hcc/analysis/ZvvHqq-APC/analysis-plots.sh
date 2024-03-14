@@ -1,4 +1,4 @@
 python plotvars.py
 python plotvars.py --signalOnly
-# fccanalysis plots $FCCANACONFS/analysis_plots.py
+fccanalysis plots $FCCANACONFS/analysis_plots.py
 

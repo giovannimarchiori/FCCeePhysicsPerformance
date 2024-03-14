@@ -12,7 +12,7 @@ showLFV = False
 inputDir = basedir  + '/analysis-final/hists/'
 outdir = inputDir.replace('hists', 'plots')
 intLumi = 5.0e06  # in pb-1
-ana_tex = 'e^{+}e^{-} #rightarrow ZH #rightarrow l^{+}l^{-} + X'
+ana_tex = 'e^{+}e^{-} #rightarrow ZH #rightarrow #nu#bar{#nu} + X'
 delphesVersion = '3.4.2'
 energy = 240.0
 collider = 'FCC-ee'
@@ -21,52 +21,30 @@ formats = ['pdf']
 yaxis = ['lin']
 stacksig = ['stack', 'nostack']
 fillsig = False
-# scaleSig = 1.0
+scaleSig = 1.0
 xleg = 0.67
 
 # Plots signal (resp. background) ordered by their yield
 yieldOrder = True
 
-# variables = [
-#     'zed_flavour',
-#     'all_leptons_p',
-#     'zed_leptons_p',
-#     'extraleptons_p',
-#     'N_extra_leptons',
-#     'all_jets_p',
-#     'jets_p',
-#     'N_jets',
-#     'cos_theta_Z',
-#     'missing_e',
-#     'dilepton_mass',
-#     'dilepton_mass_2',
-#     'dilepton_charge',
-#     'hadronic_mass',
-#     'hadronic_mass_2',
-#     'hadronic_mass_zoom',
-#     'm_recoil',
-#     'm_recoil_2',
-# ]
-variables = [ 'm_recoil', 'm_recoil_2' ]
+# variables = ['missing_e', 'dijets_mass', 'higgs_hadronic_recoil_mass', "jet1_npart", "jet2_npart", "dijets_cos_theta", 'jets_d23', 'dijets_mass_bb']
+variables = ['mvis', 'mvis_zoom', 'higgs_hadronic_recoil_mass_zoom']
 
 # Dictionary with the analysis name as a key, and the list of selections to be plotted for this analysis.
 # The name of the selections should be the same than in the final selection
 # Use cuts defined in analysis_config
 selections = {}
-selections['ZH'] = sel
+# do plot for all selection steps
+# selections['ZH'] = sel
+# override, do only for 1st and last tep
+selections['ZH'] = ['selNone', 'sel_dmergeok']
 
 # these could be moved to analysis config
 extralabel = {}
 extralabel['selNone'] = 'No selection'
-extralabel['sel_Z'] = '1 Z(ll) candidate (2 SFOS l, 25<p_{l}<80GeV)'
-extralabel['sel_mZ'] = '81<m_{ll}<101 GeV'
-extralabel['sel_cosThetaZ'] = '81<m_{ll}<101 GeV, |cos#theta_{ll}|<0.8'
-extralabel['sel_mrecoil'] = '81<m_{ll}<101 GeV, |cos#theta_{ll}|<0.8, 120<m_{recoil}<140 GeV'
-extralabel['sel_mjj'] = '81<m_{ll}<101 GeV, |cos#theta_{ll}|<0.8, 120<m_{recoil}<140 GeV, 100<m_{jets}<140 GeV'
-extralabel['sel_emiss'] = '81<m_{ll}<101 GeV, |cos#theta_{ll}|<0.8, 120<m_{recoil}<140 GeV, 100<m_{jets}<140 GeV, E_{miss}<30 GeV'
-extralabel['sel_leptonveto'] = 'Z(ll), m_{ll}, |cos#theta_{ll}|, m_{recoil}, m_{jets}, E_{miss}, lep. veto'
-extralabel['sel_dmergeok'] = 'Z(ll), m_{ll}, |cos#theta_{ll}|, m_{recoil}, m_{jets}, E_{miss}, lep. veto, d_{ij}>0'
-extralabel['finalsel'] = 'Z(ll), m_{ll}, |cos#theta_{ll}|, m_{recoil}, m_{jets}, E_{miss}, lep. veto'
+## extralable['selNone'] = 'No selection'
+## extralabel['sel_mvis_mmiss'] = 'Final selection'
+extralabel['sel_dmergeok'] = 'Final selection'
 
 colors = {}
 palette = {}
@@ -95,19 +73,43 @@ plots['ZH'] = {
     'backgrounds': {
         'WW': ['p8_ee_WW_ecm240'],
         'ZZ': ['p8_ee_ZZ_ecm240'],
-        'Zgamma': [
-            'wzp6_ee_mumu_ecm240',
-            'wzp6_ee_ee_Mee_30_150_ecm240',
-            'p8_ee_Zqq_ecm240',
-        ],
-        
+        'Zqq': ['p8_ee_Zqq_ecm240'],
+        'nuenueZ' : ['wzp6_ee_nuenueZ_ecm240'],
+        'qqH':
+        [
+            'wzp6_ee_qqH_Hbb_ecm240',
+            'wzp6_ee_qqH_Hcc_ecm240',
+            'wzp6_ee_qqH_Hgg_ecm240',
+            'wzp6_ee_qqH_Hss_ecm240',
+            'wzp6_ee_qqH_HWW_ecm240',
+            'wzp6_ee_qqH_HZZ_ecm240',
+            'wzp6_ee_qqH_Htautau_ecm240',
+            'wzp6_ee_ssH_Hbb_ecm240',
+            'wzp6_ee_ssH_Hcc_ecm240',
+            'wzp6_ee_ssH_Hgg_ecm240',
+            'wzp6_ee_ssH_Hss_ecm240',
+            'wzp6_ee_ssH_HWW_ecm240',
+            'wzp6_ee_ssH_HZZ_ecm240',
+            'wzp6_ee_ssH_Htautau_ecm240',
+            'wzp6_ee_ccH_Hbb_ecm240',
+            'wzp6_ee_ccH_Hcc_ecm240',
+            'wzp6_ee_ccH_Hgg_ecm240',
+            'wzp6_ee_ccH_Hss_ecm240',
+            'wzp6_ee_ccH_HWW_ecm240',
+            'wzp6_ee_ccH_HZZ_ecm240',
+            'wzp6_ee_ccH_Htautau_ecm240',
+            'wzp6_ee_bbH_Hbb_ecm240',
+            'wzp6_ee_bbH_Hcc_ecm240',
+            'wzp6_ee_bbH_Hgg_ecm240',
+            'wzp6_ee_bbH_Hss_ecm240',
+            'wzp6_ee_bbH_HWW_ecm240',
+            'wzp6_ee_bbH_HZZ_ecm240',
+            'wzp6_ee_bbH_Htautau_ecm240',
+        ]
         # 'ZHnonhad': [
-        #     'wzp6_ee_eeH_Htautau_ecm240',
-        #     'wzp6_ee_mumuH_Htautau_ecm240',
-        #     'wzp6_ee_eeH_HWW_ecm240',
-        #     'wzp6_ee_mumuH_HWW_ecm240',
-        #     'wzp6_ee_eeH_HZZ_ecm240',
-        #     'wzp6_ee_mumuH_HZZ_ecm240',
+        #     'wzp6_ee_nunuH_Htautau_ecm240',
+        #     'wzp6_ee_nunuH_HWW_ecm240',
+        #     'wzp6_ee_nunuH_HZZ_ecm240',
         # ],
 
     },
@@ -133,4 +135,4 @@ for procType in plots['ZH']:
         legend[proc] = processLabels[proc]
 
 # override default legend titles with e.g.
-# legend['Zgamma'] = 'Z/#gamma*'
+# legend['Zqq'] = 'Z/#gamma*'

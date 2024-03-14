@@ -130,7 +130,7 @@ def plotvars(signalOnly = False):
     processes.update({
         'ZZ'      : [ 'p8_ee_ZZ_ecm240' ],
         'WW'      : [ 'p8_ee_WW_ecm240' ],
-        'Zgamma'  : [ 'p8_ee_Zqq_ecm240' ],
+        'Zqq'     : [ 'p8_ee_Zqq_ecm240' ],
         'nuenueZ' : [ 'wzp6_ee_nuenueZ_ecm240' ],
     })
 
@@ -174,7 +174,7 @@ def plotvars(signalOnly = False):
                 if first:
                     hist[process] = h.Clone(procLabel)
                     first = False
-                    hist[process].SetLineColor(tcolormap[process])
+                    hist[process].SetLineColor(colors[process])
                     hist[process].SetLineWidth(3)
                     hist[process].SetDirectory(0)
                 else:
