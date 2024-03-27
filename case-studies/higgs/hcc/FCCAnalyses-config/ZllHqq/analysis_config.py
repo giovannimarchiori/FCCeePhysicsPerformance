@@ -18,9 +18,9 @@ import re
 if user == 'gmarchio':
     if re.match(r'^lxplus.*\.cern\.ch$', hostname):
         hostname = 'lxplus.cern.ch'
-        basedir = '/eos/user/g/gmarchio/fcc/analysis/%s/%s/%s/' % (analysis, production, detector)
+        basedir = '/eos/user/g/gmarchio/fcc/analysis/selection/%s/%s/%s/' % (analysis, production, detector)
     elif hostname == 'apcatlas01.in2p3.fr':
-        basedir = '/home/gmarchio/work/fcc/analysis/output/%s/%s/%s/' % (analysis, production, detector)
+        basedir = '/home/gmarchio/work/fcc/analysis/selection/output/%s/%s/%s/' % (analysis, production, detector)
 print('Base directory for output: ', basedir)
 
 # Dictionary that contains all the cross section informations etc...
