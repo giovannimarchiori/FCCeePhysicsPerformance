@@ -8,68 +8,10 @@ import subprocess
 import math
 import argparse
 
-debug = True
+# directory containing the cutflow files
+basedir += 'analysis-final/hists/'
 
-# Z(ll)+jets sample is Pythia8 Z(ll) (False) or WzPy6 ee+mumu (True)
-splitZllByFlavour = True
-
-# In the tables, split ZHnonhad into WW/ZZ/tautau or not
-splitZHother = True
-
-# print significance or efficiency
-printSig = False
-
-# show bkg or not
-showBkg = False
-
-# show LFV decays or not
-showLFV = True
-
-# show uu and dd decays or not
-showFirstGen = False
-
-processes = {
-    'ZHbb'      : ['wzp6_ee_eeH_Hbb_ecm240',     'wzp6_ee_mumuH_Hbb_ecm240'],
-    'ZHcc'      : ['wzp6_ee_eeH_Hcc_ecm240',     'wzp6_ee_mumuH_Hcc_ecm240'],
-    'ZHgg'      : ['wzp6_ee_eeH_Hgg_ecm240',     'wzp6_ee_mumuH_Hgg_ecm240'],
-    'ZHss'      : ['wzp6_ee_eeH_Hss_ecm240',     'wzp6_ee_mumuH_Hss_ecm240'],
-    }
-if splitZHother:
-    processes.update({
-        'ZHWW'    : ['wzp6_ee_eeH_HWW_ecm240',     'wzp6_ee_mumuH_HWW_ecm240'],
-        'ZHZZ'    : ['wzp6_ee_eeH_HZZ_ecm240',     'wzp6_ee_mumuH_HZZ_ecm240'],
-        'ZHtautau': ['wzp6_ee_eeH_Htautau_ecm240', 'wzp6_ee_mumuH_Htautau_ecm240']})
-else:
-    processes.update({
-        'ZHnonhad': ['wzp6_ee_eeH_Htautau_ecm240', 'wzp6_ee_mumuH_Htautau_ecm240',
-                     'wzp6_ee_eeH_HWW_ecm240',     'wzp6_ee_mumuH_HWW_ecm240',
-                     'wzp6_ee_eeH_HZZ_ecm240',     'wzp6_ee_mumuH_HZZ_ecm240']})
-if showFirstGen:
-    processes.update({
-        'ZHuu'    : ['wzp6_ee_eeH_Huu_ecm240', 'wzp6_ee_mumuH_Huu_ecm240'],
-        'ZHdd'    : ['wzp6_ee_eeH_Hdd_ecm240', 'wzp6_ee_mumuH_Hdd_ecm240'],
-    })
-if showLFV:
-    processes.update({
-        'ZHcu'    : ['wzp6_ee_eeH_Hcu_ecm240', 'wzp6_ee_mumuH_Hcu_ecm240'],
-        'ZHbd'    : ['wzp6_ee_eeH_Hbd_ecm240', 'wzp6_ee_mumuH_Hbd_ecm240'],
-        'ZHbs'    : ['wzp6_ee_eeH_Hbs_ecm240', 'wzp6_ee_mumuH_Hbs_ecm240'],
-        'ZHsd'    : ['wzp6_ee_eeH_Hsd_ecm240', 'wzp6_ee_mumuH_Hsd_ecm240'],
-    })
-if showBkg:
-    processes.update({
-        'ZZ'        : ['p8_ee_ZZ_ecm240'],
-        'WW'        : ['p8_ee_WW_ecm240'],
-    })
-    if splitZllByFlavour:
-        processes.update({'Zll': ['wzp6_ee_ee_Mee_30_150_ecm240', 'wzp6_ee_mumu_ecm240']})
-    else:
-        processes.update({'Zll': ['p8_ee_Zll_ecm240']})
-    processes.update({
-        'Zqq'       : ['p8_ee_Zqq_ecm240']
-    })
-
-
+# populate the cut list
 cutList = {}
 #for cut in cutList_histOnly:
 #    cutList[cut] = cutDict[cut]['label']
@@ -79,11 +21,92 @@ cutList['finalsel'] = 'All cuts'
 cutList['finalsel_e'] = 'l=e'
 cutList['finalsel_mu'] = 'l=mu'
 
-# directory containing the cutflow files
-basedir += 'analysis-final/hists/'
-
 
 def main():
+
+    parser = argparse.ArgumentParser(description='Print the event-level cutflow')
+#    parser.add_argument('input_file', type=str, help='Path to the input file')
+#    parser.add_argument('--output', '-o', type=str, help='Path to the output file')
+    parser.add_argument('--sig', '-s', action='store_true', help='Print significance instead of efficiency')
+    parser.add_argument('--debug', '-d', action='store_true', help='Enable debug mode')
+    parser.add_argument('--nobkg', action='store_true', help='Do not show the cutflow for the bkg')
+    parser.add_argument('--nosplitZHnonhad', action='store_true', help='Split ZH(nonhad) into WW/ZZ/tautau')
+    parser.add_argument('--showZHfirstgen', action='store_true', help='Show ZH(uu) and ZH(dd)')
+    parser.add_argument('--showZHlfv', action='store_true', help='Show ZH(cu/bs/bd/sd)')
+    parser.add_argument('--nosplitZll', action='store_true', help='Do not split Z(ll) by flavour')
+
+    args = parser.parse_args()
+    
+    # debug
+    # debug = False
+    debug = args.debug
+
+    # show bkg or not
+    # showBkg = False
+    showBkg = not args.nobkg
+
+    # In the tables, split ZHnonhad into WW/ZZ/tautau or not
+    # splitZHother = True
+    splitZHother = not args.nosplitZHnonhad
+
+    # show uu and dd decays or not
+    # showFirstGen = False
+    showFirstGen = args.showZHfirstgen
+
+    # show LFV decays or not
+    # showLFV = True
+    showLFV = args.showZHlfv
+
+    # Z(ll)+jets sample is Pythia8 Z(ll) (False) or WzPy6 ee+mumu (True)
+    # splitZllByFlavour = True
+    splitZllByFlavour = not args.nosplitZll
+    
+    # print significance or efficiency
+    printSig = args.sig
+    if printSig and not showBkg:
+        print("\nWARNING: significance without background not meaningful!\n")
+    
+    processes = {
+        'ZHbb'      : ['wzp6_ee_eeH_Hbb_ecm240',     'wzp6_ee_mumuH_Hbb_ecm240'],
+        'ZHcc'      : ['wzp6_ee_eeH_Hcc_ecm240',     'wzp6_ee_mumuH_Hcc_ecm240'],
+        'ZHgg'      : ['wzp6_ee_eeH_Hgg_ecm240',     'wzp6_ee_mumuH_Hgg_ecm240'],
+        'ZHss'      : ['wzp6_ee_eeH_Hss_ecm240',     'wzp6_ee_mumuH_Hss_ecm240'],
+    }
+    if splitZHother:
+        processes.update({
+            'ZHWW'    : ['wzp6_ee_eeH_HWW_ecm240',     'wzp6_ee_mumuH_HWW_ecm240'],
+            'ZHZZ'    : ['wzp6_ee_eeH_HZZ_ecm240',     'wzp6_ee_mumuH_HZZ_ecm240'],
+            'ZHtautau': ['wzp6_ee_eeH_Htautau_ecm240', 'wzp6_ee_mumuH_Htautau_ecm240']})
+    else:
+        processes.update({
+            'ZHnonhad': ['wzp6_ee_eeH_Htautau_ecm240', 'wzp6_ee_mumuH_Htautau_ecm240',
+                         'wzp6_ee_eeH_HWW_ecm240',     'wzp6_ee_mumuH_HWW_ecm240',
+                         'wzp6_ee_eeH_HZZ_ecm240',     'wzp6_ee_mumuH_HZZ_ecm240']})
+    if showFirstGen:
+        processes.update({
+            'ZHuu'    : ['wzp6_ee_eeH_Huu_ecm240', 'wzp6_ee_mumuH_Huu_ecm240'],
+            'ZHdd'    : ['wzp6_ee_eeH_Hdd_ecm240', 'wzp6_ee_mumuH_Hdd_ecm240'],
+        })
+    if showLFV:
+        processes.update({
+            'ZHcu'    : ['wzp6_ee_eeH_Hcu_ecm240', 'wzp6_ee_mumuH_Hcu_ecm240'],
+            'ZHbd'    : ['wzp6_ee_eeH_Hbd_ecm240', 'wzp6_ee_mumuH_Hbd_ecm240'],
+            'ZHbs'    : ['wzp6_ee_eeH_Hbs_ecm240', 'wzp6_ee_mumuH_Hbs_ecm240'],
+            'ZHsd'    : ['wzp6_ee_eeH_Hsd_ecm240', 'wzp6_ee_mumuH_Hsd_ecm240'],
+        })
+    if showBkg:
+        processes.update({
+            'ZZ'        : ['p8_ee_ZZ_ecm240'],
+            'WW'        : ['p8_ee_WW_ecm240'],
+        })
+        if splitZllByFlavour:
+            processes.update({'Zll': ['wzp6_ee_ee_Mee_30_150_ecm240', 'wzp6_ee_mumu_ecm240']})
+        else:
+            processes.update({'Zll': ['p8_ee_Zll_ecm240']})
+        processes.update({
+            'Zqq'       : ['p8_ee_Zqq_ecm240']
+        })
+
     yieldsInitial = {}
     yieldsFinal = {}
     yieldsFinal_e = {}
