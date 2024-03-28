@@ -10,3 +10,8 @@ cd $FCCANALYSES
 source setup.sh
 cd $cwd
 export FCCANALYSES=$PWD/../../../../../../FCCAnalyses
+if [[ "$os" == "rocky" ]]; then
+    export FCCANAOUTPUT=
+else
+    export FCCANAOUTPUT=/eos/user/g/gmarchio/fcc/analysis/selection/ZllHqq/
+fi

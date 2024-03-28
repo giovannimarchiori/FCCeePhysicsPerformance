@@ -9,14 +9,20 @@ campaign=winter2023
 detector=IDEA
 
 # input files (from Pythia+Delphes)
+# central production
 # path=/eos/experiment/fcc/ee/generation/DelphesEvents/winter2023/${detector}
+# private production
 path=/eos/user/g/gmarchio/fcc/generation/DelphesEvents/${campaign}/${detector}
 
 # output path
-# outputpath=/eos/user/g/gmarchio/fcc-new/ZllHqq/analysis/root/${detector}
-outputpath=.
+outputpath=/eos/user/g/gmarchio/fcc/analysis/ZllHqq/${campaign}/${detector}/analysis-stage1
+# outputpath=.
 
 for process in \
+    wzp6_ee_eeH_Huu_ecm240 \
+    wzp6_ee_eeH_Hdd_ecm240 \
+    wzp6_ee_mumuH_Huu_ecm240 \
+    wzp6_ee_mumuH_Hdd_ecm240 \
     wzp6_ee_eeH_Hbs_ecm240 \
     wzp6_ee_eeH_Hbd_ecm240 \
     wzp6_ee_eeH_Hsd_ecm240 \
@@ -58,13 +64,14 @@ for process in \
 #    wzp6_ee_ZeeHbb_ecm240 \
 do
     echo "Running over files in $path/$process"
-# everything but nonhad
-    fccanalysis run $analysis_config/$analysis_script --output ${outputpath}/${process}.root --files-list ${path}/${process}/events_*.root
+    # everything but nonhad
+    mkdir -p ${outputpath}/${process}
+    fccanalysis run $analysis_config/$analysis_script --output ${outputpath}/${process}/events_all.root --files-list ${path}/${process}/events_*.root
 # debug 1000 events
-    # fccanalysis run $analysis_config/$analysis_script --output ${outputpath}/${process}.root --files-list ${path}/${process}/events_*.root  --nevents 1000
+    # fccanalysis run $analysis_config/$analysis_script --output ${outputpath}/${process}/events_all.root --files-list ${path}/${process}/events_*.root  --nevents 1000
 # debug 1 file (test MT)
     # files=`ls $path/$process/*.root | head -1`
-    # fccanalysis run $analysis_config/$analysis_script --output ${outputpath}/${process}.root --files-list ${files}    
+    # fccanalysis run $analysis_config/$analysis_script --output ${outputpath}/${process}/events_all.root --files-list ${files}    
     #
     echo ""
 done

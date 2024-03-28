@@ -1,6 +1,9 @@
 #!/usr/bin/env python
 import json
-import os
+import os, sys
+configdir = os.getenv('FCCANACONFS')
+sys.path.append(configdir)
+from analysis_config import extraSamples
 
 procDict = 'FCCee_procDict_winter2023_IDEA.json'
 lumiRef = 5e3 # fb-1
@@ -189,6 +192,10 @@ print('The output will also be saved to latex file ', outFile)
 f = open(procDict, 'r') 
 procDict = json.load(f)
 
+# expand procDict with additional samples
+print('Adding to dictionary the private samples (llH_Huu, llH_Hdd')
+procDict.update(extraSamples)
+
 print('{:15s} {:>15s} {:>10s} {:>15s} {:>15s}'.format('Process', 'sigma [fb]', 'Ngen', 'Lgen [/fb]', 'Lgen/L'))
 outf = open(outFile, 'w')
 outf.write('\\begin{table}[!htbp]\n')
@@ -205,13 +212,13 @@ outf.write('\\midrule\n')
 
 for proc in processSamples:
     pr = processSamples[proc]
-    if (pr=='wzp6_ee_eeH_Huu_ecm240' or
-        pr=='wzp6_ee_eeH_Hdd_ecm240' or
-        pr=='wzp6_ee_mumuH_Huu_ecm240' or
-        pr=='wzp6_ee_mumuH_Hdd_ecm240'):
-        print('Skipping sample', pr)
-        print('Please check if they have been produced recently and in that case remove this part of the code')
-        continue
+#    if (pr=='wzp6_ee_eeH_Huu_ecm240' or
+#        pr=='wzp6_ee_eeH_Hdd_ecm240' or
+#        pr=='wzp6_ee_mumuH_Huu_ecm240' or
+#        pr=='wzp6_ee_mumuH_Hdd_ecm240'):
+#        print('Skipping sample', pr)
+#        print('Please check if they have been produced recently and in that case remove this part of the code')
+#        continue
 
     xsection = 1e3*procDict[pr]["crossSection"]*procDict[pr]["kfactor"]*procDict[pr]["matchingEfficiency"]
     events = procDict[pr]["sumOfWeights"]

@@ -25,7 +25,10 @@ from analysis_config import *
 
 
 # input and output directories (SET AUTOMATICALLY, DO NOT MODIFY)
-indir = '/eos/experiment/fcc/ee/generation/DelphesEvents/'+production+'/'+detector+'/'
+# central production
+# indir = '/eos/experiment/fcc/ee/generation/DelphesEvents/'+production+'/'+detector+'/'
+# private production
+indir = '/eos/user/g/gmarchio/fcc/generation/DelphesEvents/'+production+'/'+detector+'/'
 outdir = basedir + '/analysis-stage1/'
 print('Input directory: ', indir)
 if not os.path.isdir(indir):
@@ -66,8 +69,8 @@ if analysis == 'ZllHqq':
         'wzp6_ee_eeH_Htautau_ecm240',
         'wzp6_ee_eeH_HWW_ecm240',
         'wzp6_ee_eeH_HZZ_ecm240',
-#        'wzp6_ee_eeH_Huu_ecm240',
-#        'wzp6_ee_eeH_Hdd_ecm240',
+        'wzp6_ee_eeH_Huu_ecm240',
+        'wzp6_ee_eeH_Hdd_ecm240',
         'wzp6_ee_eeH_Hbs_ecm240',
         'wzp6_ee_eeH_Hbd_ecm240',
         'wzp6_ee_eeH_Hsd_ecm240',
@@ -79,8 +82,8 @@ if analysis == 'ZllHqq':
         'wzp6_ee_mumuH_Htautau_ecm240',
         'wzp6_ee_mumuH_HWW_ecm240',
         'wzp6_ee_mumuH_HZZ_ecm240',
-#        'wzp6_ee_mumuH_Huu_ecm240',
-#        'wzp6_ee_mumuH_Hdd_ecm240',
+        'wzp6_ee_mumuH_Huu_ecm240',
+        'wzp6_ee_mumuH_Hdd_ecm240',
         'wzp6_ee_mumuH_Hbs_ecm240',
         'wzp6_ee_mumuH_Hbd_ecm240',
         'wzp6_ee_mumuH_Hsd_ecm240',
@@ -152,7 +155,20 @@ elif analysis == 'ZvvHqq-APC':
         #'wzp6_ee_mumu_ecm240',
         #'wzp6_ee_ee_Mee_30_150_ecm240'    
     ])
-
+samples=[
+    'wzp6_ee_eeH_Huu_ecm240',
+    'wzp6_ee_eeH_Hdd_ecm240',
+    'wzp6_ee_mumuH_Huu_ecm240',
+    'wzp6_ee_mumuH_Hdd_ecm240',
+#    'wzp6_ee_eeH_Hbs_ecm240',
+#    'wzp6_ee_eeH_Hbd_ecm240',
+#    'wzp6_ee_eeH_Hsd_ecm240',
+#    'wzp6_ee_eeH_Hcu_ecm240',
+#    'wzp6_ee_mumuH_Hbs_ecm240',
+#    'wzp6_ee_mumuH_Hbd_ecm240',
+#    'wzp6_ee_mumuH_Hsd_ecm240',
+#    'wzp6_ee_mumuH_Hcu_ecm240',
+    ]
 from datetime import datetime
 now = datetime.now()
 string = now.strftime('%Y-%m-%d-%H:%M:%S')

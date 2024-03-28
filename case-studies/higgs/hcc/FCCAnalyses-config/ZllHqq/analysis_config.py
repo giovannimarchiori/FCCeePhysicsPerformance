@@ -26,6 +26,40 @@ print('Base directory for output: ', basedir)
 # Dictionary that contains all the cross section informations etc...
 procDict = 'FCCee_procDict_%s_%s.json' % (production, detector)
 print('Dictionary: ', procDict)
+# additional custom samples
+extraSamples = {
+    "wzp6_ee_eeH_Huu_ecm240": {
+        "numberOfEvents": 400000,
+        "sumOfWeights": 400000.0,
+        "crossSection": 6.4472186e-10,
+        "kfactor": 1.0,
+        "matchingEfficiency": 1.0
+    },
+    "wzp6_ee_eeH_Hdd_ecm240": {
+        "numberOfEvents": 380000,
+        "sumOfWeights": 380000.0,
+        "crossSection": 1.5043510e-09,
+        "kfactor": 1.0,
+        "matchingEfficiency": 1.0
+    },
+    "wzp6_ee_mumuH_Huu_ecm240": {
+        "numberOfEvents": 400000,
+        "sumOfWeights": 400000.0,
+        "crossSection": 6.0901561e-10,
+        "kfactor": 1.0,
+        "matchingEfficiency": 1.0
+    },
+    "wzp6_ee_mumuH_Hdd_ecm240": {
+        "numberOfEvents": 400000,
+        "sumOfWeights": 400000.0,
+        "crossSection": 1.4210364e-09,
+        "kfactor": 1.0,
+        "matchingEfficiency": 1.0
+    },
+}
+    
+
+
 
 # Number of CPUs to use
 nCPUS = 96
