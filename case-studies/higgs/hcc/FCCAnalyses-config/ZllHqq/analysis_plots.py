@@ -8,7 +8,7 @@ import ROOT
 
 # global parameters
 showFirstGen = False
-showLFV = False
+showFV = False
 inputDir = basedir  + '/analysis-final/hists/'
 outdir = inputDir.replace('hists', 'plots')
 intLumi = 5.0e06  # in pb-1
@@ -119,7 +119,7 @@ if showFirstGen:
         'ZHdd': ['wzp6_ee_eeH_Hdd_ecm240', 'wzp6_ee_mumuH_Hdd_ecm240'],
     })
 
-if showLFV:
+if showFV:
     plots['ZH']['signal'].update({
         'ZHcu': ['wzp6_ee_eeH_Hcu_ecm240', 'wzp6_ee_mumuH_Hcu_ecm240'],
         'ZHbs': ['wzp6_ee_eeH_Hbs_ecm240', 'wzp6_ee_mumuH_Hbs_ecm240'],

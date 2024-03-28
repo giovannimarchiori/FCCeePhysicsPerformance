@@ -20,8 +20,8 @@ printSig = False
 # show bkg or not
 showBkg = False
 
-# show LFV decays or not
-showLFV = True
+# show FV decays or not
+showFV = True
 
 # show uu and dd decays or not
 showFirstGen = True
@@ -49,7 +49,7 @@ if showFirstGen:
         'vvHuu'    : ['wzp6_ee_nunuH_Huu_ecm240'],
         'vvHdd'    : ['wzp6_ee_nunuH_Hdd_ecm240'],
     })
-if showLFV:
+if showFV:
     processes.update({
         'vvHcu'    : ['wzp6_ee_nunuH_Hcu_ecm240'],
         'vvHbd'    : ['wzp6_ee_nunuH_Hbd_ecm240'],

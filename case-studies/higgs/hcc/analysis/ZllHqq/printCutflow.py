@@ -32,7 +32,7 @@ def main():
     parser.add_argument('--nobkg', action='store_true', help='Do not show the cutflow for the bkg')
     parser.add_argument('--nosplitZHnonhad', action='store_true', help='Split ZH(nonhad) into WW/ZZ/tautau')
     parser.add_argument('--showZHfirstgen', action='store_true', help='Show ZH(uu) and ZH(dd)')
-    parser.add_argument('--showZHlfv', action='store_true', help='Show ZH(cu/bs/bd/sd)')
+    parser.add_argument('--showZHfv', action='store_true', help='Show ZH(cu/bs/bd/sd)')
     parser.add_argument('--nosplitZll', action='store_true', help='Do not split Z(ll) by flavour')
 
     args = parser.parse_args()
@@ -53,9 +53,9 @@ def main():
     # showFirstGen = False
     showFirstGen = args.showZHfirstgen
 
-    # show LFV decays or not
-    # showLFV = True
-    showLFV = args.showZHlfv
+    # show FV decays or not
+    # showFV = True
+    showFV = args.showZHfv
 
     # Z(ll)+jets sample is Pythia8 Z(ll) (False) or WzPy6 ee+mumu (True)
     # splitZllByFlavour = True
@@ -87,7 +87,7 @@ def main():
             'ZHuu'    : ['wzp6_ee_eeH_Huu_ecm240', 'wzp6_ee_mumuH_Huu_ecm240'],
             'ZHdd'    : ['wzp6_ee_eeH_Hdd_ecm240', 'wzp6_ee_mumuH_Hdd_ecm240'],
         })
-    if showLFV:
+    if showFV:
         processes.update({
             'ZHcu'    : ['wzp6_ee_eeH_Hcu_ecm240', 'wzp6_ee_mumuH_Hcu_ecm240'],
             'ZHbd'    : ['wzp6_ee_eeH_Hbd_ecm240', 'wzp6_ee_mumuH_Hbd_ecm240'],

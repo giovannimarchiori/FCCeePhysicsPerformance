@@ -36,8 +36,8 @@ procDictAdd = {
         "matchingEfficiency": 1.0
     },
     "wzp6_ee_eeH_Hdd_ecm240": {
-        "numberOfEvents": 380000,
-        "sumOfWeights": 380000.0,
+        "numberOfEvents": 400000,
+        "sumOfWeights": 400000.0,
         "crossSection": 1.5043510e-09,
         "kfactor": 1.0,
         "matchingEfficiency": 1.0
@@ -53,6 +53,63 @@ procDictAdd = {
         "numberOfEvents": 400000,
         "sumOfWeights": 400000.0,
         "crossSection": 1.4210364e-09,
+        "kfactor": 1.0,
+        "matchingEfficiency": 1.0
+    },
+    # override
+    "wzp6_ee_eeH_Hbs_ecm240": {
+        "numberOfEvents": 450000,
+        "sumOfWeights": 450000.,
+        "crossSection": 1.0,
+        "kfactor": 1.0,
+        "matchingEfficiency": 1.0
+    },
+    "wzp6_ee_eeH_Hbd_ecm240": {
+        "numberOfEvents": 450000,
+        "sumOfWeights": 450000.,
+        "crossSection": 1.0,
+        "kfactor": 1.0,
+        "matchingEfficiency": 1.0
+    },
+    "wzp6_ee_eeH_Hsd_ecm240": {
+        "numberOfEvents": 450000,
+        "sumOfWeights": 450000.,
+        "crossSection": 1.0,
+        "kfactor": 1.0,
+        "matchingEfficiency": 1.0
+    },
+    "wzp6_ee_eeH_Hcu_ecm240": {
+        "numberOfEvents": 450000,
+        "sumOfWeights": 450000.,
+        "crossSection": 1.0,
+        "kfactor": 1.0,
+        "matchingEfficiency": 1.0
+    },
+    "wzp6_ee_mumuH_Hbs_ecm240": {
+        "numberOfEvents": 450000,
+        "sumOfWeights": 450000.,
+        "crossSection": 1.0,
+        "kfactor": 1.0,
+        "matchingEfficiency": 1.0
+    },
+    "wzp6_ee_mumuH_Hbd_ecm240": {
+        "numberOfEvents": 450000,
+        "sumOfWeights": 450000.,
+        "crossSection": 1.0,
+        "kfactor": 1.0,
+        "matchingEfficiency": 1.0
+    },
+    "wzp6_ee_mumuH_Hsd_ecm240": {
+        "numberOfEvents": 450000,
+        "sumOfWeights": 450000.,
+        "crossSection": 1.0,
+        "kfactor": 1.0,
+        "matchingEfficiency": 1.0
+    },
+    "wzp6_ee_mumuH_Hcu_ecm240": {
+        "numberOfEvents": 450000,
+        "sumOfWeights": 450000.,
+        "crossSection": 1.0,
         "kfactor": 1.0,
         "matchingEfficiency": 1.0
     },
@@ -301,7 +358,7 @@ processLabels.update({
     'ZHother' : 'llH(other)',
     'ZHcu' : 'llH(c#bar{u})',
     'ZHbs' : 'llH(b#bar{s})',
-    'ZHbd' : 'llH(b#bar{b})',
+    'ZHbd' : 'llH(b#bar{d})',
     'ZHsd' : 'llH(s#bar{d})',
     'ZZ' : 'ZZ',
     'WW' : 'WW',
