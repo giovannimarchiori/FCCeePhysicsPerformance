@@ -196,7 +196,7 @@ procDict = json.load(f)
 print('Adding to dictionary the private samples (llH_Huu, llH_Hdd')
 procDict.update(procDictAdd)
 
-print('{:15s} {:>15s} {:>10s} {:>15s} {:>15s}'.format('Process', 'sigma [fb]', 'Ngen', 'Lgen [/fb]', 'Lgen/L'))
+print('{:15s} {:>15s} {:>10s} {:>15s} {:>15s} {:>12s}'.format('Process', 'sigma [fb]', 'Ngen', 'Lgen [/fb]', 'Lgen/L', 'Production'))
 outf = open(outFile, 'w')
 outf.write('\\begin{table}[!htbp]\n')
 outf.write('\\centering\n')
@@ -224,7 +224,10 @@ for proc in processSamples:
     events = procDict[pr]["sumOfWeights"]
     lumi = events/xsection
     lumiratio = lumi/lumiRef
-    print('{:15s} {:15.9f} {:10.0f} {:15.0f} {:15.3f}'.format(proc, xsection, events, lumi, lumiratio))
+    prodtype = "official"
+    if pr in procDictAdd.keys():
+        prodtype = "private"
+    print('{:15s} {:15.9f} {:10.0f} {:15.0f} {:15.3f} {:>12s}'.format(proc, xsection, events, lumi, lumiratio, prodtype))
     outf.write('{:20s} & {:15.9f} & {:15.0f} & {:15.0f} & {:15.3f} \\\\\n'.format(processLabels[proc], xsection, events, lumi, lumiratio))
 outf.write('\\bottomrule\n')
 outf.write('\\end{tabular}\n')
