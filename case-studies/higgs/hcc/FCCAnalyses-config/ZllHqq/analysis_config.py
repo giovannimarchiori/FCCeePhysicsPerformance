@@ -27,7 +27,7 @@ print('Base directory for output: ', basedir)
 procDict = 'FCCee_procDict_%s_%s.json' % (production, detector)
 print('Dictionary: ', procDict)
 # additional custom samples
-extraSamples = {
+procDictAdd = {
     "wzp6_ee_eeH_Huu_ecm240": {
         "numberOfEvents": 400000,
         "sumOfWeights": 400000.0,

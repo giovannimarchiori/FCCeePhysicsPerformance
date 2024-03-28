@@ -3,7 +3,7 @@ import json
 import os, sys
 configdir = os.getenv('FCCANACONFS')
 sys.path.append(configdir)
-from analysis_config import extraSamples
+from analysis_config import procDictAdd
 
 procDict = 'FCCee_procDict_winter2023_IDEA.json'
 lumiRef = 5e3 # fb-1
@@ -194,7 +194,7 @@ procDict = json.load(f)
 
 # expand procDict with additional samples
 print('Adding to dictionary the private samples (llH_Huu, llH_Hdd')
-procDict.update(extraSamples)
+procDict.update(procDictAdd)
 
 print('{:15s} {:>15s} {:>10s} {:>15s} {:>15s}'.format('Process', 'sigma [fb]', 'Ngen', 'Lgen [/fb]', 'Lgen/L'))
 outf = open(outFile, 'w')
