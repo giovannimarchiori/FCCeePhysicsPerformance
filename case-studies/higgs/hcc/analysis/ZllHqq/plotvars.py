@@ -18,8 +18,8 @@ import argparse
 splitZHother = True
 #splitZHother = False
 
-showFirstGen = False
-showLFV = True
+showFirstGen = True
+showFV = True
 
 def plotvars(signalOnly = False):
 
@@ -139,7 +139,7 @@ def plotvars(signalOnly = False):
                     'wzp6_ee_eeH_HZZ_ecm240',    'wzp6_ee_mumuH_HZZ_ecm240'
                 ]
             })
-    if showLFV:
+    if showFV:
         processes.update({
             'ZHcu'     : ['wzp6_ee_eeH_Hcu_ecm240', 'wzp6_ee_mumuH_Hcu_ecm240'],
             'ZHbd'     : ['wzp6_ee_eeH_Hbd_ecm240', 'wzp6_ee_mumuH_Hbd_ecm240'],

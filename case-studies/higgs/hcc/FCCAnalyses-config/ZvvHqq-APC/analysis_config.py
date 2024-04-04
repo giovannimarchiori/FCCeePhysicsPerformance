@@ -20,7 +20,7 @@ if user == 'gmarchio':
         hostname = 'lxplus.cern.ch'
         basedir = '/eos/user/g/gmarchio/fcc/analysis/%s/%s/%s/' % (analysis, production, detector)
     elif hostname == 'apcatlas01.in2p3.fr':
-        basedir = '/home/gmarchio/work/fcc/analysis/output/%s/%s/%s/' % (analysis, production, detector)
+        basedir = '/home/gmarchio/work/fcc/analysis/fcc-hqq-analysis/selection/output/%s/%s/%s/' % (analysis, production, detector)
 print('Base directory for output: ', basedir)
 
 # Dictionary that contains all the cross section informations etc...
@@ -116,8 +116,8 @@ cutDict = {
         'label' : 'cos(phi_j1-phi_j2)<0.999',
     },
     'sel_mvis_mmiss'   : {
-        'cut' : '(mvis > 70 && mvis < 150 && higgs_hadronic_recoil_m>60 && higgs_hadronic_recoil_m<250)',
-        'label' : '70<mvis<150, 60<mmiss<250 GeV'
+        'cut' : '(mvis > 70 && mvis < 150 && higgs_hadronic_recoil_m>60 && higgs_hadronic_recoil_m<220)',
+        'label' : '70<mvis<150, 60<mmiss<220 GeV'
     },    
     'sel_dmergeok'   : {
         # '(event_d23 >0.) && (event_d34>0.) && (event_d45>0.)'

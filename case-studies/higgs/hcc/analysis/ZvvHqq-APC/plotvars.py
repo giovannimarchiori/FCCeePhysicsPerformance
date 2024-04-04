@@ -19,7 +19,7 @@ splitZHother = True
 #splitZHother = False
 
 showFirstGen = True
-showLFV = True
+showFV = True
 
 def plotvars(signalOnly = False):
 
@@ -120,7 +120,7 @@ def plotvars(signalOnly = False):
                     'wzp6_ee_nunuH_HZZ_ecm240'
                 ]
             })
-    if showLFV:
+    if showFV:
         processes.update({
             'ZHcu'     : ['wzp6_ee_nunuH_Hcu_ecm240'],
             'ZHbd'     : ['wzp6_ee_nunuH_Hbd_ecm240'],
