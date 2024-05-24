@@ -205,8 +205,8 @@ def main():
 
 
     # Print efficiency separately for ee and mumu channels
-    xsec_eeh =  procDict['wzp6_ee_eeH_Hbb_ecm365']["crossSection"]
-    xsec_mmh = procDict['wzp6_ee_mumuH_Hbb_ecm365']["crossSection"]
+    xsec_eeh =  procDictionary['wzp6_ee_eeH_Hbb_ecm365']["crossSection"]
+    xsec_mmh = procDictionary['wzp6_ee_mumuH_Hbb_ecm365']["crossSection"]
     str = '{:25s}'.format('Eff. in e channel (%)')
     for process in processes: str+='{:>10s}'.format(process)
     print(str)

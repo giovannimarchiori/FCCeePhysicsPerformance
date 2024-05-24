@@ -3,7 +3,7 @@ import json
 import os, sys
 configdir = os.getenv('FCCANACONFS')
 sys.path.append(configdir)
-from analysis_config import procDict, procDictAdd, lumiRef
+from analysis_config import procDictionary, procDictAdd, lumiRef
 
 outFile = 'samples_winter2023.tex'
 
@@ -158,7 +158,7 @@ processLabels = {
     'Zqq'        : '\\zqq',
     'Zee'        : '\\zee',
     'Zmumu'      : '\\zmumu',
-    'ttbar'      : '$t\bar{t}$',
+    'ttbar'      : '$t\\bar{t}$',
 }
 
 print('The output will also be saved to latex file ', outFile)
@@ -170,7 +170,9 @@ outf.write('\\centering\n')
 outf.write('\\caption{For each simulated signal and background process, the theoretical\n')
 outf.write('cross-section $\\sigma$, the number of generated events $N_\\mathrm{gen}$,\n')
 outf.write('the equivalent luminosity $L_\\mathrm{gen} = N_\\mathrm{gen}/\\sigma$ and\n')
-outf.write('its ratio to the nominal luminosity $L=5$~ab$^{-1}$.}\n') 
+outf.write('its ratio to the nominal luminosity $L=')
+outf.write('{:.1f}'.format(lumiRef/1e3))
+outf.write('$~ab$^{-1}$.}\n')
 outf.write('\\label{tab:samples}\n')
 outf.write('\\begin{tabular}{llrrr}\n')
 outf.write('\\toprule\n')
@@ -187,8 +189,8 @@ for proc in processSamples:
 #        print('Please check if they have been produced recently and in that case remove this part of the code')
 #        continue
 
-    xsection = 1e3*procDict[pr]["crossSection"]*procDict[pr]["kfactor"]*procDict[pr]["matchingEfficiency"]
-    events = procDict[pr]["sumOfWeights"]
+    xsection = 1e3*procDictionary[pr]["crossSection"]*procDictionary[pr]["kfactor"]*procDictionary[pr]["matchingEfficiency"]
+    events = procDictionary[pr]["sumOfWeights"]
     lumi = events/xsection
     lumiratio = lumi/lumiRef
     prodtype = "official"

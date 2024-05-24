@@ -300,8 +300,9 @@ processLabels.update({
 #
 dictFound=False
 import os
+procDictFile = ""
 if os.path.isfile('./' + procDict):
-    procDict = './' + procDict
+    procDictFile = './' + procDict
     dictFound=True
 else:
     print('Dictionary not found in local directory, trying alternative folders: ')
@@ -310,26 +311,26 @@ else:
         folder = '/cvmfs/fcc.cern.ch/FCCDicts'
         print(folder)
         if os.path.isfile(folder + '/' + procDict):
-            procDict = folder + '/' + procDict
+            procDictFile = folder + '/' + procDict
             dictFound = True
     else:
         for folder in procFolders:
             print(folder)
             if os.path.isfile(folder + '/' + procDict):
-                procDict = folder + '/' + procDict
+                procDictFile = folder + '/' + procDict
                 dictFound = True
                 break
 if not dictFound:
     print('Dictionary not found, exiting')
     exit(1)
 
-print('Using dictionary: ', procDict)
+print('Using dictionary: ', procDictFile)
 print('Using a reference luminosity of %f fb' % lumiRef)
 
-f = open(procDict, 'r')
+f = open(procDictFile, 'r')
 import json
-procDict = json.load(f)
+procDictionary = json.load(f)
 
 # expand procDict with additional samples
 print('Adding to dictionary the private samples (if any)')
-procDict.update(procDictAdd)
+procDictionary.update(procDictAdd)
