@@ -29,7 +29,7 @@ print('Dictionary: ', procDict)
 # additional custom samples
 procDictAdd = {
     }
-#    "wzp6_ee_eeH_Huu_ecm240": {
+#    "wzp6_ee_eeH_Huu_ecm365": {
 #        "numberOfEvents": 400000,
 #        "sumOfWeights": 400000.0,
 #        "crossSection": 6.4472186e-10,
@@ -142,7 +142,7 @@ sel = [
     'sel_mrecoil',
     # 'sel_mjj',     # removed, will kill H(tautau) otherwise)
     # 'sel_emiss',   # removed, will kill H(tautau) otherwise)
-    'sel_leptonveto',
+    # 'sel_leptonveto',
     'sel_dmergeok',
 ]
 final_sel_cut = 'sel_dmergeok'
