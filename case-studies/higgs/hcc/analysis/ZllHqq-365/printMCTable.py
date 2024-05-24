@@ -3,10 +3,8 @@ import json
 import os, sys
 configdir = os.getenv('FCCANACONFS')
 sys.path.append(configdir)
-from analysis_config import procDictAdd
+from analysis_config import procDict, procDictAdd, lumiRef
 
-procDict = 'FCCee_procDict_winter2023_IDEA.json'
-lumiRef = 2.3e3 # fb-1
 outFile = 'samples_winter2023.tex'
 
 processSamples = {
@@ -160,42 +158,10 @@ processLabels = {
     'Zqq'        : '\\zqq',
     'Zee'        : '\\zee',
     'Zmumu'      : '\\zmumu',
+    'ttbar'      : '$t\bar{t}$',
 }
 
-dictFound=False
-if os.path.isfile('./' + procDict):
-    procDict = './' + procDict
-    dictFound=True
-else:
-    print('Dictionary not found in local directory, trying alternative folders: ')
-    procFolders = os.getenv('FCCDICTSDIR').split(':')
-    if len(procFolders) == 0:
-        folder = '/cvmfs/fcc.cern.ch/FCCDicts'
-        print(folder)
-        if os.path.isfile(folder + '/' + procDict):
-            procDict = folder + '/' + procDict
-            dictFound = True
-    else:
-        for folder in procFolders:
-            print(folder)
-            if os.path.isfile(folder + '/' + procDict):
-                procDict = folder + '/' + procDict
-                dictFound = True
-                break
-if not dictFound:
-    print('Dictionary not found, exiting')
-    exit(1)
-
-print('Using dictionary: ', procDict)
-print('Using a reference luminosity of %f fb' % lumiRef)
 print('The output will also be saved to latex file ', outFile)
-
-f = open(procDict, 'r') 
-procDict = json.load(f)
-
-# expand procDict with additional samples
-print('Adding to dictionary the private samples (if any)')
-procDict.update(procDictAdd)
 
 print('{:15s} {:>15s} {:>10s} {:>15s} {:>15s} {:>12s}'.format('Process', 'sigma [fb]', 'Ngen', 'Lgen [/fb]', 'Lgen/L', 'Production'))
 outf = open(outFile, 'w')

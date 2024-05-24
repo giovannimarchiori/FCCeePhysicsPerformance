@@ -1,6 +1,7 @@
 analysis = 'ZllHqq-365'
 production = 'winter2023'
 detector = 'IDEA'
+lumiRef = 2.3e3 # fb-1
 
 print('Analysis: ', analysis)
 print('Production: ', production)
@@ -292,3 +293,43 @@ processLabels.update({
     'Zgamma' : 'Z/#gamma*(ee/#mu#mu/q#bar{q})',
     'ttbar' : 't#bar{t}',
 })
+
+
+#
+# load the dictionary of processes
+#
+dictFound=False
+import os
+if os.path.isfile('./' + procDict):
+    procDict = './' + procDict
+    dictFound=True
+else:
+    print('Dictionary not found in local directory, trying alternative folders: ')
+    procFolders = os.getenv('FCCDICTSDIR').split(':')
+    if len(procFolders) == 0:
+        folder = '/cvmfs/fcc.cern.ch/FCCDicts'
+        print(folder)
+        if os.path.isfile(folder + '/' + procDict):
+            procDict = folder + '/' + procDict
+            dictFound = True
+    else:
+        for folder in procFolders:
+            print(folder)
+            if os.path.isfile(folder + '/' + procDict):
+                procDict = folder + '/' + procDict
+                dictFound = True
+                break
+if not dictFound:
+    print('Dictionary not found, exiting')
+    exit(1)
+
+print('Using dictionary: ', procDict)
+print('Using a reference luminosity of %f fb' % lumiRef)
+
+f = open(procDict, 'r')
+import json
+procDict = json.load(f)
+
+# expand procDict with additional samples
+print('Adding to dictionary the private samples (if any)')
+procDict.update(procDictAdd)

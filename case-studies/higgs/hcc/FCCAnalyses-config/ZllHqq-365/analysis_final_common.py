@@ -10,8 +10,8 @@ inputDir = ''
 outputDir = ''
 
 if user == 'almaloiz':
-    inputDir = ' /eos/user/a/almaloiz/thesis/fcc/root/IDEA_newtagger/ZllHqq/'
-    outputDir = '/eos/user/a/almaloiz/thesis/fcc/root/IDEA_newtagger/ZllHqq/finalsel/'
+    inputDir = ' /eos/user/a/almaloiz/thesis/fcc/root/IDEA_newtagger/ZllHqq-365/'
+    outputDir = '/eos/user/a/almaloiz/thesis/fcc/root/IDEA_newtagger/ZllHqq-365/finalsel/'
 elif user == 'gmarchio':
     inputDir = basedir + '/analysis-stage1/'
     outputDir = basedir + '/analysis-final/'

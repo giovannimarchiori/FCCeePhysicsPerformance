@@ -154,7 +154,6 @@ def plotvars(signalOnly = False):
         'Zll'   : ['wzp6_ee_ee_Mee_30_150_ecm365', 'wzp6_ee_mumu_ecm365']
     })
 
-    # baseDir = '/eos/user/g/gmarchio/fcc-test/ZllHqq/analysis-final/root/IDEA'
     # directory containing the cutflow files
     basedir += 'analysis-final/hists/'
     plotpath = basedir.replace('hists','plots') + '/nostack'
