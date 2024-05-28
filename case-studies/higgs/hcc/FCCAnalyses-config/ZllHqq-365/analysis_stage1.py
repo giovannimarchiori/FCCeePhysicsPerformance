@@ -127,6 +127,8 @@ class RDFanalysis:
             .Define("isolated_leptons", "FCCAnalyses::ZHfunctions::sel_iso(1.0)(leptons, leptons_iso)")
             .Define('n_all_leptons', 'ReconstructedParticle::get_n(leptons)')
             .Define('n_iso_leptons', 'ReconstructedParticle::get_n(isolated_leptons)')
+            .Define('isolated_leptons_p', 'ReconstructedParticle::get_p(isolated_leptons)')
+            .Define('isolated_leptons_pmax', 'Utils::getmax(isolated_leptons_p)*(n_iso_leptons>0)')
             # select muons based on p
             .Define(
                 'selected_muons',
@@ -388,6 +390,8 @@ class RDFanalysis:
             'n_iso_leptons',
             'leptons_p',
             'leptons_iso',
+            'isolated_leptons_p',
+            'isolated_leptons_pmax',
             # selected leptons
             'n_selected_electrons',
             'n_selected_muons',

@@ -15,6 +15,8 @@ import os, sys
 # this points to the yaml files for getting sample statistics
 # prodTag = 'FCCee/%s/%s/' % (production, detector)
 
+includePaths = ["functions.h"]
+
 outputDirEos = '/eos/user/g/gmarchio/fcc/ZvvHqq/analysis/root/IDEA/'
 eosType = 'eosuser'
 
@@ -252,6 +254,12 @@ class RDFanalysis:
             .Define('n_selected_leptons', 'ReconstructedParticle::get_n(selected_leptons)')
             .Define('leptons_p', 'ReconstructedParticle::get_p(leptons)')
             .Define('selected_leptons_p', 'ReconstructedParticle::get_p(selected_leptons)')
+            # calculate lepton isolation
+            .Define("leptons_iso", "FCCAnalyses::ZHfunctions::coneIsolation(0.01, 0.5)(leptons, ReconstructedParticles)")
+            .Define("isolated_leptons", "FCCAnalyses::ZHfunctions::sel_iso(1.0)(leptons, leptons_iso)")
+            .Define('n_iso_leptons', 'ReconstructedParticle::get_n(isolated_leptons)')
+            .Define('isolated_leptons_p', 'ReconstructedParticle::get_p(isolated_leptons)')
+            .Define('isolated_leptons_pmax', 'Utils::getmax(isolated_leptons_p)*(n_iso_leptons>0)')
         )
 
         return df2
@@ -294,8 +302,11 @@ class RDFanalysis:
             'pmiss',
             'n_all_leptons',
             'n_selected_leptons',
+            'n_iso_leptons',
             'leptons_p',
-            'selected_leptons_p'
+            'selected_leptons_p',
+            'isolated_leptons_p',
+            'isolated_leptons_pmax'
         ]
 
         #  output jet properties

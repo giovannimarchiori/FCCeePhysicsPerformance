@@ -10,8 +10,8 @@ detector=IDEA
 path=/eos/experiment/fcc/ee/generation/DelphesEvents/winter2023/${detector}
 
 # output path
-# outputpath=/eos/user/g/gmarchio/fcc-new/ZvvHqq-365/analysis/root/${detector}
-outputpath=.
+outputpath=/eos/user/g/gmarchio/fcc/analysis/selection/ZvvHqq-365/${campaign}/${detector}/analysis-stage1/test/
+# outputpath=.
 
 for process in \
     wzp6_ee_nunuH_Hbb_ecm365 \
@@ -24,12 +24,12 @@ for process in \
 do
     echo "Running over files in $path/$process"
 # everything
-#    fccanalysis run $analysis --output ${outputpath}/${process}.root --files-list ${path}/${process}/events_*.root
-# debug 100 events
-    fccanalysis run $analysis_config/$analysis_script --output ${outputpath}/${process}.root --files-list ${path}/${process}/events_*.root  --nevents 100
+#    fccanalysis run $analysis --output ${outputpath}/${process}/events_all.root --files-list ${path}/${process}/events_*.root
+# debug 1000 events
+    fccanalysis run $analysis_config/$analysis_script --output ${outputpath}/${process}/events_all.root --files-list ${path}/${process}/events_*.root  --nevents 1000
 # debug 1 file (test MT)
     # files=`ls $path/$process/*.root | head -1`
-    # fccanalysis run $analysis_config/$analysis_script --output ${outputpath}/${process}.root --files-list ${files}    
+    # fccanalysis run $analysis_config/$analysis_script --output ${outputpath}/${process}/events_all.root --files-list ${files}    
     #
     echo ""
 done
