@@ -15,12 +15,13 @@ path=/eos/experiment/fcc/ee/generation/DelphesEvents/winter2023/${detector}
 # path=/eos/user/g/gmarchio/fcc/generation/DelphesEvents/${campaign}/${detector}
 
 # output path
-outputpath=/eos/user/g/gmarchio/fcc/analysis/ZllHqq-365/${campaign}/${detector}/analysis-stage1
+outputpath=/eos/user/g/gmarchio/fcc/analysis/selection/ZllHqq-365/${campaign}/${detector}/analysis-stage1/test/
 # outputpath=.
 
 for process in \
-    wzp6_ee_mumuH_Hbb_ecm365 \
-#    wzp6_ee_eeH_Hbb_ecm365 \
+    wzp6_ee_eeH_Hbb_ecm365 \
+#    wzp6_ee_mumuH_Hbb_ecm365 \
+#    p8_ee_tt_ecm365 \
 #    wzp6_ee_eeH_Huu_ecm365 \
 #    wzp6_ee_eeH_Hdd_ecm365 \
 #    wzp6_ee_mumuH_Huu_ecm365 \

@@ -8,6 +8,8 @@ from analysis_config import *
 # this points to the yaml files for getting sample statistics
 prodTag = 'FCCee/%s/%s/' % (production, detector)
 
+includePaths = ["functions.h"]
+
 outputDirEos = '/eos/user/g/gmarchio/fcc-test/ZllHqq/analysis/root/IDEA/'
 eosType = 'eosuser'
 
@@ -77,8 +79,8 @@ jetClusteringHelper = None
 
 jet_p_min = '15'
 jet_p_max = '1000'
-lep_p_min = '15'
-lep_p_max = '800'
+lep_p_min = '13'
+lep_p_max = '160'
 
 # jet_p_min = '15'
 # jet_p_max = '100'
@@ -124,7 +126,11 @@ class RDFanalysis:
             .Define('leptons', 'ReconstructedParticle::merge(electrons, muons)')
             # create branch with all lepton momenta
             .Define('leptons_p', 'ReconstructedParticle::get_p(leptons)')
+            # calculate lepton isolation
+            .Define("leptons_iso", "FCCAnalyses::ZHfunctions::coneIsolation(0.01, 0.5)(leptons, ReconstructedParticles)")
+            .Define("isolated_leptons", "FCCAnalyses::ZHfunctions::sel_iso(1.0)(leptons, leptons_iso)")
             .Define('n_all_leptons', 'ReconstructedParticle::get_n(leptons)')
+            .Define('n_iso_leptons', 'ReconstructedParticle::get_n(isolated_leptons)')
             # select muons based on p
             .Define(
                 'selected_muons',
@@ -383,7 +389,9 @@ class RDFanalysis:
             'n_all_electrons',
             'n_all_muons',
             'n_all_leptons',
+            'n_iso_leptons',
             'leptons_p',
+            'leptons_iso',
             # selected leptons
             'n_selected_electrons',
             'n_selected_muons',
