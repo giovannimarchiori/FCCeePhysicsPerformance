@@ -97,7 +97,7 @@ if analysis == 'ZllHqq-365':
         'wzp6_ee_mumu_ecm365',
         'wzp6_ee_ee_Mee_30_150_ecm365'
         ])
-elif analysis == 'ZvvHqq-365-APC':
+elif analysis == 'ZvvHqq-365':
     samples = [
         # Z(nunu)H
         'wzp6_ee_nunuH_Hbb_ecm365',
@@ -151,6 +151,7 @@ elif analysis == 'ZvvHqq-365-APC':
         'p8_ee_WW_ecm365',
         'p8_ee_ZZ_ecm365',
         'p8_ee_Zqq_ecm365',
+        'p8_ee_tt_ecm365',
         'wzp6_ee_nuenueZ_ecm365'
         #'wzp6_ee_mumu_ecm365',
         #'wzp6_ee_ee_Mee_30_150_ecm365'    

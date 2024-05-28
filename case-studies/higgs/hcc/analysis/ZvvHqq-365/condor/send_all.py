@@ -233,7 +233,7 @@ elif analysis == 'ZvvHqq-365':
         'p8_ee_WW_ecm365',
         'p8_ee_ZZ_ecm365',
         'p8_ee_Zqq_ecm365',
-        'p8_ee_tt_ecm365',        
+        'p8_ee_tt_ecm365',
         'wzp6_ee_nuenueZ_ecm365'
         #'wzp6_ee_mumu_ecm365',
         #'wzp6_ee_ee_Mee_30_150_ecm365'    
@@ -270,6 +270,7 @@ outf.write('Condor events per job: %s\n\n' % nev_per_job)
 
 ### run condor jobs
 # os.system('rm -rf std/*')
+os.makedirs("std", exist_ok = True)
 for s in samples:
     print('')
     cmd = 'python submitAnalysisJobs.py --indir {}/{} '.format(indir, s)
