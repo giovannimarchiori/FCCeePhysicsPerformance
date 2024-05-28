@@ -14,7 +14,7 @@ doTree = False
 # histograms will be scaled to 1/pb instead
 saveTabular = True
 doScale = True  # scale to reference lumi
-intLumi = 5000000 # reference lumi in 1/pb
+intLumi = lumiRef*1e3  # reference lumi in 1/pb
 
 cutList = cutList_histOnly
 

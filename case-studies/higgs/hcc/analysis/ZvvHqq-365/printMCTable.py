@@ -3,8 +3,10 @@ import json
 import os, sys
 configdir = os.getenv('FCCANACONFS')
 sys.path.append(configdir)
-from analysis_config import procDictionary, procDictAdd, lumiRef
+from analysis_config import procDictAdd
 
+procDict = 'FCCee_procDict_winter2023_IDEA.json'
+lumiRef = 5e3 # fb-1
 outFile = 'samples_winter2023.tex'
 
 processSamples = {
@@ -15,12 +17,12 @@ processSamples = {
     'vvHtautau'  : 'wzp6_ee_nunuH_Htautau_ecm365',
     'vvHWW'      : 'wzp6_ee_nunuH_HWW_ecm365',
     'vvHZZ'      : 'wzp6_ee_nunuH_HZZ_ecm365',
-#    'vvHuu'      : 'wzp6_ee_nunuH_Huu_ecm365',
-#    'vvHdd'      : 'wzp6_ee_nunuH_Hdd_ecm365',
-#    'vvHbd'      : 'wzp6_ee_nunuH_Hbd_ecm365',
-#    'vvHbs'      : 'wzp6_ee_nunuH_Hbs_ecm365',
-#    'vvHsd'      : 'wzp6_ee_nunuH_Hsd_ecm365',
-#    'vvHcu'      : 'wzp6_ee_nunuH_Hcu_ecm365',
+    'vvHuu'      : 'wzp6_ee_nunuH_Huu_ecm365',
+    'vvHdd'      : 'wzp6_ee_nunuH_Hdd_ecm365',
+    'vvHbd'      : 'wzp6_ee_nunuH_Hbd_ecm365',
+    'vvHbs'      : 'wzp6_ee_nunuH_Hbs_ecm365',
+    'vvHsd'      : 'wzp6_ee_nunuH_Hsd_ecm365',
+    'vvHcu'      : 'wzp6_ee_nunuH_Hcu_ecm365',
     'eeHbb'      : 'wzp6_ee_eeH_Hbb_ecm365',
     'eeHcc'      : 'wzp6_ee_eeH_Hcc_ecm365',
     'eeHss'      : 'wzp6_ee_eeH_Hss_ecm365',
@@ -28,12 +30,12 @@ processSamples = {
     'eeHtautau'  : 'wzp6_ee_eeH_Htautau_ecm365',
     'eeHWW'      : 'wzp6_ee_eeH_HWW_ecm365',
     'eeHZZ'      : 'wzp6_ee_eeH_HZZ_ecm365',
-#    'eeHuu'      : 'wzp6_ee_eeH_Huu_ecm365',
-#    'eeHdd'      : 'wzp6_ee_eeH_Hdd_ecm365',
-#    'eeHbd'      : 'wzp6_ee_eeH_Hbd_ecm365',
-#    'eeHbs'      : 'wzp6_ee_eeH_Hbs_ecm365',
-#    'eeHsd'      : 'wzp6_ee_eeH_Hsd_ecm365',
-#    'eeHcu'      : 'wzp6_ee_eeH_Hcu_ecm365',
+    'eeHuu'      : 'wzp6_ee_eeH_Huu_ecm365',
+    'eeHdd'      : 'wzp6_ee_eeH_Hdd_ecm365',
+    'eeHbd'      : 'wzp6_ee_eeH_Hbd_ecm365',
+    'eeHbs'      : 'wzp6_ee_eeH_Hbs_ecm365',
+    'eeHsd'      : 'wzp6_ee_eeH_Hsd_ecm365',
+    'eeHcu'      : 'wzp6_ee_eeH_Hcu_ecm365',
     'mumuHbb'    : 'wzp6_ee_mumuH_Hbb_ecm365',
     'mumuHcc'    : 'wzp6_ee_mumuH_Hcc_ecm365',
     'mumuHss'    : 'wzp6_ee_mumuH_Hss_ecm365',
@@ -41,12 +43,12 @@ processSamples = {
     'mumuHtautau': 'wzp6_ee_mumuH_Htautau_ecm365',
     'mumuHWW'    : 'wzp6_ee_mumuH_HWW_ecm365',
     'mumuHZZ'    : 'wzp6_ee_mumuH_HZZ_ecm365',
-#    'mumuHuu'    : 'wzp6_ee_mumuH_Huu_ecm365',
-#    'mumuHdd'    : 'wzp6_ee_mumuH_Hdd_ecm365',
-#    'mumuHbd'    : 'wzp6_ee_mumuH_Hbd_ecm365',
-#    'mumuHbs'    : 'wzp6_ee_mumuH_Hbs_ecm365',
-#    'mumuHsd'    : 'wzp6_ee_mumuH_Hsd_ecm365',
-#    'mumuHcu'    : 'wzp6_ee_mumuH_Hcu_ecm365',
+    'mumuHuu'    : 'wzp6_ee_mumuH_Huu_ecm365',
+    'mumuHdd'    : 'wzp6_ee_mumuH_Hdd_ecm365',
+    'mumuHbd'    : 'wzp6_ee_mumuH_Hbd_ecm365',
+    'mumuHbs'    : 'wzp6_ee_mumuH_Hbs_ecm365',
+    'mumuHsd'    : 'wzp6_ee_mumuH_Hsd_ecm365',
+    'mumuHcu'    : 'wzp6_ee_mumuH_Hcu_ecm365',
     'qqHbb'      : 'wzp6_ee_qqH_Hbb_ecm365',
     'qqHcc'      : 'wzp6_ee_qqH_Hcc_ecm365',
     'qqHss'      : 'wzp6_ee_qqH_Hss_ecm365',
@@ -81,7 +83,6 @@ processSamples = {
     'Zqq'        : 'p8_ee_Zqq_ecm365',
     'Zee'        : 'wzp6_ee_ee_Mee_30_150_ecm365',
     'Zmumu'      : 'wzp6_ee_mumu_ecm365',
-    'ttbar'      : 'p8_ee_tt_ecm365'
 }
 
 processLabels = {
@@ -158,10 +159,42 @@ processLabels = {
     'Zqq'        : '\\zqq',
     'Zee'        : '\\zee',
     'Zmumu'      : '\\zmumu',
-    'ttbar'      : '$t\\bar{t}$',
 }
 
+dictFound=False
+if os.path.isfile('./' + procDict):
+    procDict = './' + procDict
+    dictFound=True
+else:
+    print('Dictionary not found in local directory, trying alternative folders: ')
+    procFolders = os.getenv('FCCDICTSDIR').split(':')
+    if len(procFolders) == 0:
+        folder = '/cvmfs/fcc.cern.ch/FCCDicts'
+        print(folder)
+        if os.path.isfile(folder + '/' + procDict):
+            procDict = folder + '/' + procDict
+            dictFound = True
+    else:
+        for folder in procFolders:
+            print(folder)
+            if os.path.isfile(folder + '/' + procDict):
+                procDict = folder + '/' + procDict
+                dictFound = True
+                break
+if not dictFound:
+    print('Dictionary not found, exiting')
+    exit(1)
+
+print('Using dictionary: ', procDict)
+print('Using a reference luminosity of %f fb' % lumiRef)
 print('The output will also be saved to latex file ', outFile)
+
+f = open(procDict, 'r') 
+procDict = json.load(f)
+
+# expand procDict with additional samples
+print('Adding to dictionary the private samples (llH_Huu, llH_Hdd')
+procDict.update(procDictAdd)
 
 print('{:15s} {:>15s} {:>10s} {:>15s} {:>15s} {:>12s}'.format('Process', 'sigma [fb]', 'Ngen', 'Lgen [/fb]', 'Lgen/L', 'Production'))
 outf = open(outFile, 'w')
@@ -170,9 +203,7 @@ outf.write('\\centering\n')
 outf.write('\\caption{For each simulated signal and background process, the theoretical\n')
 outf.write('cross-section $\\sigma$, the number of generated events $N_\\mathrm{gen}$,\n')
 outf.write('the equivalent luminosity $L_\\mathrm{gen} = N_\\mathrm{gen}/\\sigma$ and\n')
-outf.write('its ratio to the nominal luminosity $L=')
-outf.write('{:.1f}'.format(lumiRef/1e3))
-outf.write('$~ab$^{-1}$.}\n')
+outf.write('its ratio to the nominal luminosity $L=5$~ab$^{-1}$.}\n') 
 outf.write('\\label{tab:samples}\n')
 outf.write('\\begin{tabular}{llrrr}\n')
 outf.write('\\toprule\n')
@@ -189,8 +220,8 @@ for proc in processSamples:
 #        print('Please check if they have been produced recently and in that case remove this part of the code')
 #        continue
 
-    xsection = 1e3*procDictionary[pr]["crossSection"]*procDictionary[pr]["kfactor"]*procDictionary[pr]["matchingEfficiency"]
-    events = procDictionary[pr]["sumOfWeights"]
+    xsection = 1e3*procDict[pr]["crossSection"]*procDict[pr]["kfactor"]*procDict[pr]["matchingEfficiency"]
+    events = procDict[pr]["sumOfWeights"]
     lumi = events/xsection
     lumiratio = lumi/lumiRef
     prodtype = "official"

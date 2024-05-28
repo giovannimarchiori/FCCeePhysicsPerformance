@@ -11,10 +11,10 @@ showFirstGen = False
 showFV = False
 inputDir = basedir  + '/analysis-final/hists/'
 outdir = inputDir.replace('hists', 'plots')
-intLumi = 5.0e06  # in pb-1
+intLumi = lumiRef*1e3  # in pb-1
 ana_tex = 'e^{+}e^{-} #rightarrow ZH #rightarrow l^{+}l^{-} + X'
 delphesVersion = '3.4.2'
-energy = 240.0
+energy = 365.0
 collider = 'FCC-ee'
 BES = False
 formats = ['pdf']
@@ -84,30 +84,30 @@ plots = {}
 
 plots['ZH'] = {
     'signal': {
-        'ZHbb': ['wzp6_ee_eeH_Hbb_ecm240', 'wzp6_ee_mumuH_Hbb_ecm240'],
-        'ZHgg': ['wzp6_ee_eeH_Hgg_ecm240', 'wzp6_ee_mumuH_Hgg_ecm240'],
-        'ZHcc': ['wzp6_ee_eeH_Hcc_ecm240', 'wzp6_ee_mumuH_Hcc_ecm240'],
-        'ZHss': ['wzp6_ee_eeH_Hss_ecm240', 'wzp6_ee_mumuH_Hss_ecm240'],
-        'ZHtautau': ['wzp6_ee_eeH_Htautau_ecm240', 'wzp6_ee_mumuH_Htautau_ecm240'],
-        'ZHWW': ['wzp6_ee_eeH_HWW_ecm240', 'wzp6_ee_mumuH_HWW_ecm240'],
-        'ZHZZ': ['wzp6_ee_eeH_HZZ_ecm240', 'wzp6_ee_mumuH_HZZ_ecm240'],
+        'ZHbb': ['wzp6_ee_eeH_Hbb_ecm365', 'wzp6_ee_mumuH_Hbb_ecm365'],
+        'ZHgg': ['wzp6_ee_eeH_Hgg_ecm365', 'wzp6_ee_mumuH_Hgg_ecm365'],
+        'ZHcc': ['wzp6_ee_eeH_Hcc_ecm365', 'wzp6_ee_mumuH_Hcc_ecm365'],
+        'ZHss': ['wzp6_ee_eeH_Hss_ecm365', 'wzp6_ee_mumuH_Hss_ecm365'],
+        'ZHtautau': ['wzp6_ee_eeH_Htautau_ecm365', 'wzp6_ee_mumuH_Htautau_ecm365'],
+        'ZHWW': ['wzp6_ee_eeH_HWW_ecm365', 'wzp6_ee_mumuH_HWW_ecm365'],
+        'ZHZZ': ['wzp6_ee_eeH_HZZ_ecm365', 'wzp6_ee_mumuH_HZZ_ecm365'],
     },
     'backgrounds': {
-        'WW': ['p8_ee_WW_ecm240'],
-        'ZZ': ['p8_ee_ZZ_ecm240'],
+        'WW': ['p8_ee_WW_ecm365'],
+        'ZZ': ['p8_ee_ZZ_ecm365'],
         'Zgamma': [
-            'wzp6_ee_mumu_ecm240',
-            'wzp6_ee_ee_Mee_30_150_ecm240',
-            'p8_ee_Zqq_ecm240',
+            'wzp6_ee_mumu_ecm365',
+            'wzp6_ee_ee_Mee_30_150_ecm365',
+            'p8_ee_Zqq_ecm365',
         ],
         
         # 'ZHnonhad': [
-        #     'wzp6_ee_eeH_Htautau_ecm240',
-        #     'wzp6_ee_mumuH_Htautau_ecm240',
-        #     'wzp6_ee_eeH_HWW_ecm240',
-        #     'wzp6_ee_mumuH_HWW_ecm240',
-        #     'wzp6_ee_eeH_HZZ_ecm240',
-        #     'wzp6_ee_mumuH_HZZ_ecm240',
+        #     'wzp6_ee_eeH_Htautau_ecm365',
+        #     'wzp6_ee_mumuH_Htautau_ecm365',
+        #     'wzp6_ee_eeH_HWW_ecm365',
+        #     'wzp6_ee_mumuH_HWW_ecm365',
+        #     'wzp6_ee_eeH_HZZ_ecm365',
+        #     'wzp6_ee_mumuH_HZZ_ecm365',
         # ],
 
     },
@@ -115,16 +115,16 @@ plots['ZH'] = {
 
 if showFirstGen:
     plots['ZH']['signal'].update({
-        'ZHuu': ['wzp6_ee_eeH_Huu_ecm240', 'wzp6_ee_mumuH_Huu_ecm240'],
-        'ZHdd': ['wzp6_ee_eeH_Hdd_ecm240', 'wzp6_ee_mumuH_Hdd_ecm240'],
+        'ZHuu': ['wzp6_ee_eeH_Huu_ecm365', 'wzp6_ee_mumuH_Huu_ecm365'],
+        'ZHdd': ['wzp6_ee_eeH_Hdd_ecm365', 'wzp6_ee_mumuH_Hdd_ecm365'],
     })
 
 if showFV:
     plots['ZH']['signal'].update({
-        'ZHcu': ['wzp6_ee_eeH_Hcu_ecm240', 'wzp6_ee_mumuH_Hcu_ecm240'],
-        'ZHbs': ['wzp6_ee_eeH_Hbs_ecm240', 'wzp6_ee_mumuH_Hbs_ecm240'],
-        'ZHbd': ['wzp6_ee_eeH_Hbd_ecm240', 'wzp6_ee_mumuH_Hbd_ecm240'],
-        'ZHsd': ['wzp6_ee_eeH_Hsd_ecm240', 'wzp6_ee_mumuH_Hsd_ecm240'],
+        'ZHcu': ['wzp6_ee_eeH_Hcu_ecm365', 'wzp6_ee_mumuH_Hcu_ecm365'],
+        'ZHbs': ['wzp6_ee_eeH_Hbs_ecm365', 'wzp6_ee_mumuH_Hbs_ecm365'],
+        'ZHbd': ['wzp6_ee_eeH_Hbd_ecm365', 'wzp6_ee_mumuH_Hbd_ecm365'],
+        'ZHsd': ['wzp6_ee_eeH_Hsd_ecm365', 'wzp6_ee_mumuH_Hsd_ecm365'],
     })
     
 legend = {}

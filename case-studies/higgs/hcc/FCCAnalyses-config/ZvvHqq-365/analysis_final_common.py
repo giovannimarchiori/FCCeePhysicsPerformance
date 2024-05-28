@@ -10,8 +10,8 @@ inputDir = ''
 outputDir = ''
 
 if user == 'almaloiz':
-    inputDir = ' /eos/user/a/almaloiz/thesis/fcc/root/IDEA_newtagger/ZllHqq-365/'
-    outputDir = '/eos/user/a/almaloiz/thesis/fcc/root/IDEA_newtagger/ZllHqq-365/finalsel/'
+    inputDir = ' /eos/user/a/almaloiz/thesis/fcc/root/IDEA_newtagger/ZnunuHqq/'
+    outputDir = '/eos/user/a/almaloiz/thesis/fcc/root/IDEA_newtagger/ZnunuHqq/finalsel/'
 elif user == 'gmarchio':
     inputDir = basedir + '/analysis-stage1/'
     outputDir = basedir + '/analysis-final/'
@@ -25,21 +25,14 @@ print('Output_directory: ', outputDir)
 # List of samples (defined in analysis_config)
 # Can be overridden with:
 # processList = { : {} }
-#processList = {
-#    'wzp6_ee_eeH_Huu_ecm365' : {},
-#    'wzp6_ee_eeH_Hdd_ecm365' : {},
-#    'wzp6_ee_mumuH_Huu_ecm365' : {},
-#    'wzp6_ee_mumuH_Hdd_ecm365' : {},
-#    'wzp6_ee_eeH_Hbs_ecm365' : {},
-#    'wzp6_ee_eeH_Hbd_ecm365' : {},
-#    'wzp6_ee_eeH_Hsd_ecm365' : {},
-#    'wzp6_ee_eeH_Hcu_ecm365' : {},
-#    'wzp6_ee_mumuH_Hbs_ecm365' : {},
-#    'wzp6_ee_mumuH_Hbd_ecm365' : {},
-#    'wzp6_ee_mumuH_Hsd_ecm365' : {},
-#    'wzp6_ee_mumuH_Hcu_ecm365' : {},
-#}
-
+# processList = {
+#     'wzp6_ee_nunuH_Huu_ecm365' : {},
+#     'wzp6_ee_nunuH_Hdd_ecm365' : {},
+#     'wzp6_ee_nunuH_Hbs_ecm365' : {},
+#     'wzp6_ee_nunuH_Hbd_ecm365' : {},
+#     'wzp6_ee_nunuH_Hsd_ecm365' : {},
+#     'wzp6_ee_nunuH_Hcu_ecm365' : {},
+# }
 # Dictionary of the list of cuts when applying the selection and saving the trees.
 # The key is the name of the selection that will be added to the output file
 # Defined in analysis_config, can be overridden with:

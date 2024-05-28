@@ -8,6 +8,8 @@ import subprocess
 import math
 import argparse
 
+from ROOT import TFile, TTree
+
 # directory containing the cutflow files
 basedir += 'analysis-final/hists/'
 
@@ -18,8 +20,21 @@ cutList = {}
 for cut in sel:
     cutList[cut] = cutDict[cut]['label']
 cutList['finalsel'] = 'All cuts'
-cutList['finalsel_e'] = 'l=e'
-cutList['finalsel_mu'] = 'l=mu'
+
+def getHadFraction(decay):
+    fileName = basedir.replace("hists", "trees") + ("wzp6_ee_nunuH_H%s_ecm365_finalsel.root" % decay)
+    f = TFile.Open(fileName, "READ")
+    events = f.Get("events")
+    decayId = 0
+    if decay=="WW":
+        decayId = 51
+    elif decay=="ZZ":
+        decayId = 40
+    elif decay=="tautau":
+        decayId = 10
+    fraction = events.GetEntries("MC_HiggsDecay==%d" % decayId)*1./events.GetEntries()
+    f.Close()
+    return fraction
 
 
 def main():
@@ -56,87 +71,109 @@ def main():
     # show FV decays or not
     # showFV = True
     showFV = args.showZHfv
-
-    # Z(ll)+jets sample is Pythia8 Z(ll) (False) or WzPy6 ee+mumu (True)
-    # splitZllByFlavour = True
-    splitZllByFlavour = not args.nosplitZll
     
     # print significance or efficiency
     printSig = args.sig
     if printSig and not showBkg:
         print("\nWARNING: significance without background not meaningful!\n")
-    
+
+
     processes = {
-        'ZHbb'      : ['wzp6_ee_eeH_Hbb_ecm365',     'wzp6_ee_mumuH_Hbb_ecm365'],
-        'ZHcc'      : ['wzp6_ee_eeH_Hcc_ecm365',     'wzp6_ee_mumuH_Hcc_ecm365'],
-        'ZHgg'      : ['wzp6_ee_eeH_Hgg_ecm365',     'wzp6_ee_mumuH_Hgg_ecm365'],
-        'ZHss'      : ['wzp6_ee_eeH_Hss_ecm365',     'wzp6_ee_mumuH_Hss_ecm365'],
+        'vvHbb'      : ['wzp6_ee_nunuH_Hbb_ecm365'],
+        'vvHcc'      : ['wzp6_ee_nunuH_Hcc_ecm365'],
+        'vvHgg'      : ['wzp6_ee_nunuH_Hgg_ecm365'],
+        'vvHss'      : ['wzp6_ee_nunuH_Hss_ecm365'],
     }
     if splitZHother:
         processes.update({
-            'ZHWW'    : ['wzp6_ee_eeH_HWW_ecm365',     'wzp6_ee_mumuH_HWW_ecm365'],
-            'ZHZZ'    : ['wzp6_ee_eeH_HZZ_ecm365',     'wzp6_ee_mumuH_HZZ_ecm365'],
-            'ZHtautau': ['wzp6_ee_eeH_Htautau_ecm365', 'wzp6_ee_mumuH_Htautau_ecm365']})
+            'vvHWW'    : ['wzp6_ee_nunuH_HWW_ecm365'],
+            'vvHZZ'    : ['wzp6_ee_nunuH_HZZ_ecm365'],
+            'vvHtautau': ['wzp6_ee_nunuH_Htautau_ecm365']
+        })
     else:
         processes.update({
-            'ZHnonhad': ['wzp6_ee_eeH_Htautau_ecm365', 'wzp6_ee_mumuH_Htautau_ecm365',
-                         'wzp6_ee_eeH_HWW_ecm365',     'wzp6_ee_mumuH_HWW_ecm365',
-                         'wzp6_ee_eeH_HZZ_ecm365',     'wzp6_ee_mumuH_HZZ_ecm365']})
+            'vvHnonhad': ['wzp6_ee_nunuH_Htautau_ecm365',
+                          'wzp6_ee_nunuH_HWW_ecm365',
+                          'wzp6_ee_nunuH_HZZ_ecm365']
+        })
     if showFirstGen:
         processes.update({
-            'ZHuu'    : ['wzp6_ee_eeH_Huu_ecm365', 'wzp6_ee_mumuH_Huu_ecm365'],
-            'ZHdd'    : ['wzp6_ee_eeH_Hdd_ecm365', 'wzp6_ee_mumuH_Hdd_ecm365'],
+            'vvHuu'    : ['wzp6_ee_nunuH_Huu_ecm365'],
+            'vvHdd'    : ['wzp6_ee_nunuH_Hdd_ecm365'],
         })
     if showFV:
         processes.update({
-            'ZHcu'    : ['wzp6_ee_eeH_Hcu_ecm365', 'wzp6_ee_mumuH_Hcu_ecm365'],
-            'ZHbd'    : ['wzp6_ee_eeH_Hbd_ecm365', 'wzp6_ee_mumuH_Hbd_ecm365'],
-            'ZHbs'    : ['wzp6_ee_eeH_Hbs_ecm365', 'wzp6_ee_mumuH_Hbs_ecm365'],
-            'ZHsd'    : ['wzp6_ee_eeH_Hsd_ecm365', 'wzp6_ee_mumuH_Hsd_ecm365'],
+            'vvHcu'    : ['wzp6_ee_nunuH_Hcu_ecm365'],
+            'vvHbd'    : ['wzp6_ee_nunuH_Hbd_ecm365'],
+            'vvHbs'    : ['wzp6_ee_nunuH_Hbs_ecm365'],
+            'vvHsd'    : ['wzp6_ee_nunuH_Hsd_ecm365'],
         })
+
     if showBkg:
         processes.update({
-            'ZZ'        : ['p8_ee_ZZ_ecm365'],
+            'qqH'       : ['wzp6_ee_qqH_Hbb_ecm365',
+                           'wzp6_ee_qqH_Hcc_ecm365',
+                           'wzp6_ee_qqH_Hss_ecm365',
+                           'wzp6_ee_qqH_Hgg_ecm365',
+                           'wzp6_ee_qqH_Htautau_ecm365',
+                           'wzp6_ee_qqH_HWW_ecm365',
+                           'wzp6_ee_qqH_HZZ_ecm365',
+                           'wzp6_ee_ssH_Hbb_ecm365',
+                           'wzp6_ee_ssH_Hcc_ecm365',
+                           'wzp6_ee_ssH_Hss_ecm365',
+                           'wzp6_ee_ssH_Hgg_ecm365',
+                           'wzp6_ee_ssH_Htautau_ecm365',
+                           'wzp6_ee_ssH_HWW_ecm365',
+                           'wzp6_ee_ssH_HZZ_ecm365',
+                           'wzp6_ee_ccH_Hbb_ecm365',
+                           'wzp6_ee_ccH_Hcc_ecm365',
+                           'wzp6_ee_ccH_Hss_ecm365',
+                           'wzp6_ee_ccH_Hgg_ecm365',
+                           'wzp6_ee_ccH_Htautau_ecm365',
+                           'wzp6_ee_ccH_HWW_ecm365',
+                           'wzp6_ee_ccH_HZZ_ecm365',
+                           'wzp6_ee_bbH_Hbb_ecm365',
+                           'wzp6_ee_bbH_Hcc_ecm365',
+                           'wzp6_ee_bbH_Hss_ecm365',
+                           'wzp6_ee_bbH_Hgg_ecm365',
+                           'wzp6_ee_bbH_Htautau_ecm365',
+                           'wzp6_ee_bbH_HWW_ecm365',
+                           'wzp6_ee_bbH_HZZ_ecm365'],
+            'nuenueZ'   : ['wzp6_ee_nuenueZ_ecm365'],
+            'Zqq'       : ['p8_ee_Zqq_ecm365'],
             'WW'        : ['p8_ee_WW_ecm365'],
-            'tt'        : ['p8_ee_tt_ecm365'],
+            'ZZ'        : ['p8_ee_ZZ_ecm365']
         })
-        if splitZllByFlavour:
-            processes.update({'Zll': ['wzp6_ee_ee_Mee_30_150_ecm365', 'wzp6_ee_mumu_ecm365']})
-        else:
-            processes.update({'Zll': ['p8_ee_Zll_ecm365']})
-        processes.update({
-            'Zqq'       : ['p8_ee_Zqq_ecm365']
-        })
+
+
 
     yieldsInitial = {}
     yieldsFinal = {}
-    yieldsFinal_e = {}
-    yieldsFinal_mu = {}
     yieldsPrevious = {}
-    
+
     # print title of table
     print('')
     if printSig:
-        print('{:25s} '.format('Cut'), end='')
+        print('{:30s} '.format('Cut'), end='')
         for proc in processes:
-            if 'ZH' in proc:
+            if 'vvH' in proc:
                 print('{:>10s} {:>5s} '.format(proc, ''), end='')
             else:
                 print('{:>10s} '.format(proc), end='')
         print('')
-        print('{:25s} '.format(''), end='')
+        print('{:30s} '.format(''), end='')
         for proc in processes:
-            if 'ZH' in proc:
+            if 'vvH' in proc:
                 print('{:>10s} {:>5s} '.format('Yield', 'Sig'), end='')
             else:
                 print('{:>10s} '.format('Yield'), end='')
         print('')              
     else:
-        print('{:25s} '.format('Cut'), end='')
+        print('{:30s} '.format('Cut'), end='')
         for proc in processes:
             print('{:>10s} {:>5s} '.format(proc, ''), end='')
         print('')
-        print('{:25s} '.format(''), end='')
+        print('{:30s} '.format(''), end='')
         for proc in processes:
             print('{:>10s} {:>5s} '.format('Yield', 'Eff'), end='')
         print('')               
@@ -161,15 +198,11 @@ def main():
             sumYields += yields[proc]
         if (cut=='selNone'): yieldsInitial=dict(yields)
         if (cut=='finalsel'): yieldsFinal=dict(yields)
-        #if (cut=='selN_nn'): yieldsFinal=dict(yields)
-        #if (cut=='selN_lepveto'): yieldsFinal=dict(yields)
-        if (cut=='finalsel_e'): yieldsFinal_e=dict(yields)
-        if (cut=='finalsel_mu'): yieldsFinal_mu = dict(yields)
-        print('{:25s} '.format(cutList[cut]), end='')
+        print('{:30s} '.format(cutList[cut]), end='')
         if printSig:
             sig = {}
             for proc in processes:
-                if 'ZH' in proc:
+                if 'vvH' in proc:
                     sig[proc] = yields[proc]/math.sqrt(sumYields)
                     print('{:10.0f} {:5.0f} '.format(yields[proc],sig[proc]), end='')
                 else:
@@ -177,12 +210,9 @@ def main():
             print('')
         else:
             eff = {}        
-            if cut!='selNone' and cut!='finalsel_e' and cut!='finalsel_mu':
+            if cut!='selNone':
                 for proc in processes:
-                    if yieldsPrevious[proc]!=0.0:
-                        eff[proc] = 100.*yields[proc]/yieldsPrevious[proc]
-                    else:
-                        eff[proc] = 0.
+                    eff[proc] = 100.*yields[proc]/yieldsPrevious[proc]
                     print('{:10.0f} {:5.0f} '.format(yields[proc], eff[proc]), end='')
             else:
                 for proc in processes:
@@ -191,41 +221,13 @@ def main():
             yieldsPrevious = dict(yields)  
     print('\n')
 
-    str = '{:25s}'.format('Efficiency (%)')
+    str = '{:30s}'.format('Efficiency (%)')
     for proc in processes: str+='{:>10s}'.format(proc)
     print(str)
-    str = '{:25s}'.format('')
+    str = '{:30s}'.format('')
     for proc in processes:
         if (yieldsInitial[proc]!=0.):
             str+='{:10.2f}'.format(yieldsFinal[proc]*100./yieldsInitial[proc])
-        else:
-            str+='{:10s}'.format('')
-    print(str)
-    print('')
-
-
-    # Print efficiency separately for ee and mumu channels
-    xsec_eeh =  procDictionary['wzp6_ee_eeH_Hbb_ecm365']["crossSection"]
-    xsec_mmh = procDictionary['wzp6_ee_mumuH_Hbb_ecm365']["crossSection"]
-    str = '{:25s}'.format('Eff. in e channel (%)')
-    for process in processes: str+='{:>10s}'.format(process)
-    print(str)
-    str = '{:25s}'.format('')
-    for proc in processes:
-        if (yieldsInitial[proc]!=0.):
-            str+='{:10.2f}'.format(yieldsFinal_e[proc]*100.*(xsec_eeh+xsec_mmh)/xsec_eeh/yieldsInitial[proc])
-        else:
-            str+='{:10s}'.format('')
-    print(str)
-    print('')
-
-    str = '{:25s}'.format('Eff. in mu channel (%)')
-    for process in processes: str+='{:>10s}'.format(process)
-    print(str)
-    str = '{:25s}'.format('')
-    for proc in processes: 
-        if (yieldsInitial[proc]!=0.):
-            str+='{:10.2f}'.format(yieldsFinal_mu[proc]*100.*(xsec_eeh+xsec_mmh)/xsec_mmh/yieldsInitial[proc])
         else:
             str+='{:10s}'.format('')
     print(str)
@@ -241,19 +243,19 @@ def main():
             'ZZ': 0.489,
             'tautau': 0.42
         }
-        # calculated from mumuH_HWW/ZZ/tautau after finalsel
+        # calculated from nunuH_HWW/ZZ/tautau after finalsel
         fracHad = {
-            'WW': 0.62539938,
-            'ZZ': 0.53700247,
-            'tautau': 0.56990203
-            }
+            'WW': getHadFraction("WW"),
+            'ZZ': getHadFraction("ZZ"),
+            'tautau': getHadFraction("tautau"),
+        }
         str = '{:50s}'.format('Eff. in ZH(other) channels wrt had decays (%)')
         for decay in BRhad:
             str+='{:>10s}'.format(decay)
         print(str)
         str = '{:50s}'.format('')
         for decay in BRhad:
-            str+='{:10.2f}'.format(yieldsFinal['ZH'+decay]*100./yieldsInitial['ZH'+decay]*fracHad[decay]/BRhad[decay])  
+            str+='{:10.2f}'.format(yieldsFinal['vvH'+decay]*100./yieldsInitial['vvH'+decay]*fracHad[decay]/BRhad[decay])  
         print(str)
         print('')
 

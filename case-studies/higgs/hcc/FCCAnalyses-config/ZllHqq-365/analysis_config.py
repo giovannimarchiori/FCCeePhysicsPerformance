@@ -1,6 +1,7 @@
 analysis = 'ZllHqq-365'
 production = 'winter2023'
 detector = 'IDEA'
+lumiRef = 2.3e3 # fb-1
 
 print('Analysis: ', analysis)
 print('Production: ', production)
@@ -29,7 +30,7 @@ print('Dictionary: ', procDict)
 # additional custom samples
 procDictAdd = {
     }
-#    "wzp6_ee_eeH_Huu_ecm240": {
+#    "wzp6_ee_eeH_Huu_ecm365": {
 #        "numberOfEvents": 400000,
 #        "sumOfWeights": 400000.0,
 #        "crossSection": 6.4472186e-10,
@@ -51,12 +52,12 @@ process_list_sig = {
     'wzp6_ee_eeH_Htautau_ecm365': {},
     'wzp6_ee_eeH_HWW_ecm365': {},
     'wzp6_ee_eeH_HZZ_ecm365': {},
-    'wzp6_ee_eeH_Huu_ecm365': {},
-    'wzp6_ee_eeH_Hdd_ecm365': {},
-    'wzp6_ee_eeH_Hbs_ecm365': {},
-    'wzp6_ee_eeH_Hbd_ecm365': {},
-    'wzp6_ee_eeH_Hsd_ecm365': {},
-    'wzp6_ee_eeH_Hcu_ecm365': {},
+#    'wzp6_ee_eeH_Huu_ecm365': {},
+#    'wzp6_ee_eeH_Hdd_ecm365': {},
+#    'wzp6_ee_eeH_Hbs_ecm365': {},
+#    'wzp6_ee_eeH_Hbd_ecm365': {},
+#    'wzp6_ee_eeH_Hsd_ecm365': {},
+#    'wzp6_ee_eeH_Hcu_ecm365': {},
     #
     'wzp6_ee_mumuH_Hbb_ecm365': {},
     'wzp6_ee_mumuH_Hcc_ecm365': {},
@@ -142,7 +143,7 @@ sel = [
     'sel_mrecoil',
     # 'sel_mjj',     # removed, will kill H(tautau) otherwise)
     # 'sel_emiss',   # removed, will kill H(tautau) otherwise)
-    'sel_leptonveto',
+    # 'sel_leptonveto',
     'sel_dmergeok',
 ]
 final_sel_cut = 'sel_dmergeok'
@@ -292,3 +293,44 @@ processLabels.update({
     'Zgamma' : 'Z/#gamma*(ee/#mu#mu/q#bar{q})',
     'ttbar' : 't#bar{t}',
 })
+
+
+#
+# load the dictionary of processes
+#
+dictFound=False
+import os
+procDictFile = ""
+if os.path.isfile('./' + procDict):
+    procDictFile = './' + procDict
+    dictFound=True
+else:
+    print('Dictionary not found in local directory, trying alternative folders: ')
+    procFolders = os.getenv('FCCDICTSDIR').split(':')
+    if len(procFolders) == 0:
+        folder = '/cvmfs/fcc.cern.ch/FCCDicts'
+        print(folder)
+        if os.path.isfile(folder + '/' + procDict):
+            procDictFile = folder + '/' + procDict
+            dictFound = True
+    else:
+        for folder in procFolders:
+            print(folder)
+            if os.path.isfile(folder + '/' + procDict):
+                procDictFile = folder + '/' + procDict
+                dictFound = True
+                break
+if not dictFound:
+    print('Dictionary not found, exiting')
+    exit(1)
+
+print('Using dictionary: ', procDictFile)
+print('Using a reference luminosity of %f fb' % lumiRef)
+
+f = open(procDictFile, 'r')
+import json
+procDictionary = json.load(f)
+
+# expand procDict with additional samples
+print('Adding to dictionary the private samples (if any)')
+procDictionary.update(procDictAdd)

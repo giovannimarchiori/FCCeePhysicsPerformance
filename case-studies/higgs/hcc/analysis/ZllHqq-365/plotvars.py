@@ -18,8 +18,8 @@ import argparse
 splitZHother = True
 #splitZHother = False
 
-showFirstGen = True
-showFV = True
+showFirstGen = False
+showFV = False
 
 def plotvars(signalOnly = False):
 
@@ -100,60 +100,60 @@ def plotvars(signalOnly = False):
 
     # list of processes to draw (and how to group them)
     processes = {
-        'ZHbb' : ['wzp6_ee_eeH_Hbb_ecm240',    'wzp6_ee_mumuH_Hbb_ecm240'],
-        'ZHcc' : ['wzp6_ee_eeH_Hcc_ecm240',    'wzp6_ee_mumuH_Hcc_ecm240'],
-        'ZHgg' : ['wzp6_ee_eeH_Hss_ecm240',    'wzp6_ee_mumuH_Hss_ecm240'],
-        'ZHgg' : ['wzp6_ee_eeH_Hgg_ecm240',    'wzp6_ee_mumuH_Hgg_ecm240'],
+        'ZHbb' : ['wzp6_ee_eeH_Hbb_ecm365',    'wzp6_ee_mumuH_Hbb_ecm365'],
+        'ZHcc' : ['wzp6_ee_eeH_Hcc_ecm365',    'wzp6_ee_mumuH_Hcc_ecm365'],
+        'ZHgg' : ['wzp6_ee_eeH_Hss_ecm365',    'wzp6_ee_mumuH_Hss_ecm365'],
+        'ZHgg' : ['wzp6_ee_eeH_Hgg_ecm365',    'wzp6_ee_mumuH_Hgg_ecm365'],
     }
     if splitZHother:
         if showFirstGen:
             processes.update({
-                'ZHuu'     : ['wzp6_ee_eeH_Huu_ecm240', 'wzp6_ee_mumuH_Huu_ecm240'],
-                'ZHdd'     : ['wzp6_ee_eeH_Hdd_ecm240', 'wzp6_ee_mumuH_Hdd_ecm240'],
-                'ZHtautau' : ['wzp6_ee_eeH_Htautau_ecm240','wzp6_ee_mumuH_Htautau_ecm240'],
-                'ZHWW'     : ['wzp6_ee_eeH_HWW_ecm240',    'wzp6_ee_mumuH_HWW_ecm240'],
-                'ZHZZ'     : ['wzp6_ee_eeH_HZZ_ecm240',    'wzp6_ee_mumuH_HZZ_ecm240']
+                'ZHuu'     : ['wzp6_ee_eeH_Huu_ecm365', 'wzp6_ee_mumuH_Huu_ecm365'],
+                'ZHdd'     : ['wzp6_ee_eeH_Hdd_ecm365', 'wzp6_ee_mumuH_Hdd_ecm365'],
+                'ZHtautau' : ['wzp6_ee_eeH_Htautau_ecm365','wzp6_ee_mumuH_Htautau_ecm365'],
+                'ZHWW'     : ['wzp6_ee_eeH_HWW_ecm365',    'wzp6_ee_mumuH_HWW_ecm365'],
+                'ZHZZ'     : ['wzp6_ee_eeH_HZZ_ecm365',    'wzp6_ee_mumuH_HZZ_ecm365']
             })
         else:
             processes.update({
-                'ZHtautau' : ['wzp6_ee_eeH_Htautau_ecm240','wzp6_ee_mumuH_Htautau_ecm240'],
-                'ZHWW'     : ['wzp6_ee_eeH_HWW_ecm240',    'wzp6_ee_mumuH_HWW_ecm240'],
-                'ZHZZ'     : ['wzp6_ee_eeH_HZZ_ecm240',    'wzp6_ee_mumuH_HZZ_ecm240']
+                'ZHtautau' : ['wzp6_ee_eeH_Htautau_ecm365','wzp6_ee_mumuH_Htautau_ecm365'],
+                'ZHWW'     : ['wzp6_ee_eeH_HWW_ecm365',    'wzp6_ee_mumuH_HWW_ecm365'],
+                'ZHZZ'     : ['wzp6_ee_eeH_HZZ_ecm365',    'wzp6_ee_mumuH_HZZ_ecm365']
         })
     else:
         if showFirstGen:
             processes.update({
                 'ZHother' : [
-                    'wzp6_ee_eeH_Huu_ecm240', 'wzp6_ee_mumuH_Huu_ecm240',
-                    'wzp6_ee_eeH_Hdd_ecm240', 'wzp6_ee_mumuH_Hdd_ecm240',
-                    'wzp6_ee_eeH_Htautau_ecm240','wzp6_ee_mumuH_Htautau_ecm240',
-                    'wzp6_ee_eeH_HWW_ecm240',    'wzp6_ee_mumuH_HWW_ecm240',
-                    'wzp6_ee_eeH_HZZ_ecm240',    'wzp6_ee_mumuH_HZZ_ecm240'
+                    'wzp6_ee_eeH_Huu_ecm365', 'wzp6_ee_mumuH_Huu_ecm365',
+                    'wzp6_ee_eeH_Hdd_ecm365', 'wzp6_ee_mumuH_Hdd_ecm365',
+                    'wzp6_ee_eeH_Htautau_ecm365','wzp6_ee_mumuH_Htautau_ecm365',
+                    'wzp6_ee_eeH_HWW_ecm365',    'wzp6_ee_mumuH_HWW_ecm365',
+                    'wzp6_ee_eeH_HZZ_ecm365',    'wzp6_ee_mumuH_HZZ_ecm365'
                 ]
             })
         else:
             processes.update({
                 'ZHother' : [
-                    'wzp6_ee_eeH_Htautau_ecm240','wzp6_ee_mumuH_Htautau_ecm240',
-                    'wzp6_ee_eeH_HWW_ecm240',    'wzp6_ee_mumuH_HWW_ecm240',
-                    'wzp6_ee_eeH_HZZ_ecm240',    'wzp6_ee_mumuH_HZZ_ecm240'
+                    'wzp6_ee_eeH_Htautau_ecm365','wzp6_ee_mumuH_Htautau_ecm365',
+                    'wzp6_ee_eeH_HWW_ecm365',    'wzp6_ee_mumuH_HWW_ecm365',
+                    'wzp6_ee_eeH_HZZ_ecm365',    'wzp6_ee_mumuH_HZZ_ecm365'
                 ]
             })
     if showFV:
         processes.update({
-            'ZHcu'     : ['wzp6_ee_eeH_Hcu_ecm240', 'wzp6_ee_mumuH_Hcu_ecm240'],
-            'ZHbd'     : ['wzp6_ee_eeH_Hbd_ecm240', 'wzp6_ee_mumuH_Hbd_ecm240'],
-            'ZHbs'     : ['wzp6_ee_eeH_Hbs_ecm240', 'wzp6_ee_mumuH_Hbs_ecm240'],
-            'ZHsd'     : ['wzp6_ee_eeH_Hsd_ecm240', 'wzp6_ee_mumuH_Hsd_ecm240'],
+            'ZHcu'     : ['wzp6_ee_eeH_Hcu_ecm365', 'wzp6_ee_mumuH_Hcu_ecm365'],
+            'ZHbd'     : ['wzp6_ee_eeH_Hbd_ecm365', 'wzp6_ee_mumuH_Hbd_ecm365'],
+            'ZHbs'     : ['wzp6_ee_eeH_Hbs_ecm365', 'wzp6_ee_mumuH_Hbs_ecm365'],
+            'ZHsd'     : ['wzp6_ee_eeH_Hsd_ecm365', 'wzp6_ee_mumuH_Hsd_ecm365'],
         })
     processes.update({
-        'ZZ'  : ['p8_ee_ZZ_ecm240'],
-        'WW'  : ['p8_ee_WW_ecm240'],
-        'Zqq' : ['p8_ee_Zqq_ecm240'],
-        'Zll' : ['wzp6_ee_ee_Mee_30_150_ecm240', 'wzp6_ee_mumu_ecm240']
+        'ZZ'    : ['p8_ee_ZZ_ecm365'],
+        'WW'    : ['p8_ee_WW_ecm365'],
+        'ttbar' : ['p8_ee_tt_ecm365'],
+        'Zqq'   : ['p8_ee_Zqq_ecm365'],
+        'Zll'   : ['wzp6_ee_ee_Mee_30_150_ecm365', 'wzp6_ee_mumu_ecm365']
     })
 
-    # baseDir = '/eos/user/g/gmarchio/fcc-test/ZllHqq/analysis-final/root/IDEA'
     # directory containing the cutflow files
     basedir += 'analysis-final/hists/'
     plotpath = basedir.replace('hists','plots') + '/nostack'

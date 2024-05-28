@@ -10,7 +10,7 @@ prodTag = 'FCCee/%s/%s/' % (production, detector)
 
 includePaths = ["functions.h"]
 
-outputDirEos = '/eos/user/g/gmarchio/fcc-test/ZllHqq/analysis/root/IDEA/'
+outputDirEos = '/eos/user/g/gmarchio/fcc-test/ZllHqq-365/analysis/root/IDEA/'
 eosType = 'eosuser'
 
 # Optional: ncpus, default is 4
@@ -66,10 +66,6 @@ local_model = '{}/{}.onnx'.format(model_dir, model_name)
 # get local file, else download from url
 weaver_preproc = get_file_path(url_preproc, local_preproc)
 weaver_model = get_file_path(url_model, local_model)
-
-# Fix to import following libraries from the ZxxHqq folders
-# if os.getcwd().split('/')[-1] == 'ZllHqq':
-# sys.path.append('/afs/cern.ch/user/a/almaloiz/eos/thesis/fcc/newAnalysis/FCCAnalyses/')
 
 from addons.ONNXRuntime.jetFlavourHelper import JetFlavourHelper
 from addons.FastJet.jetClusteringHelper import ExclusiveJetClusteringHelper
