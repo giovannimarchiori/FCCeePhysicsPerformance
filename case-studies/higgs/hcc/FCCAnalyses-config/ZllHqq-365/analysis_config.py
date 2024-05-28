@@ -122,7 +122,7 @@ cutDict = {
     'sel_dmergeok'   : {
         # '(event_d23 >0.) && (event_d34>0.) && (event_d45>0.)'
         'cut' : '(event_d23 >0.) && (event_d34>0.)',
-        'label' :  'd23>0, d34>0',
+        'label' : 'd23>0, d34>0',
     },
     'sel_Zee' : {
         'cut' : '(zed_leptonic_flavour==1)',

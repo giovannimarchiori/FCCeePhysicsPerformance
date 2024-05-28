@@ -1,6 +1,7 @@
 analysis = 'ZvvHqq-365'
 production = 'winter2023'
 detector = 'IDEA'
+lumiRef = 2.3e3 # fb-1
 
 print('Analysis: ', analysis)
 print('Production: ', production)
@@ -18,7 +19,7 @@ import re
 if user == 'gmarchio':
     if re.match(r'^lxplus.*\.cern\.ch$', hostname):
         hostname = 'lxplus.cern.ch'
-        basedir = '/eos/user/g/gmarchio/fcc/analysis/%s/%s/%s/' % (analysis, production, detector)
+        basedir = '/eos/user/g/gmarchio/fcc/analysis/selection/%s/%s/%s/' % (analysis, production, detector)
     elif hostname == 'apcatlas01.in2p3.fr':
         basedir = '/home/gmarchio/work/fcc/analysis/fcc-hqq-analysis/selection/output/%s/%s/%s/' % (analysis, production, detector)
 print('Base directory for output: ', basedir)
@@ -26,6 +27,9 @@ print('Base directory for output: ', basedir)
 # Dictionary that contains all the cross section informations etc...
 procDict = 'FCCee_procDict_%s_%s.json' % (production, detector)
 print('Dictionary: ', procDict)
+# additional custom samples
+procDictAdd = {
+    }
 
 # Number of CPUs to use
 nCPUS = 96
@@ -83,7 +87,8 @@ process_list_bkg = {
     'p8_ee_ZZ_ecm365': {},
     'p8_ee_WW_ecm365': {},
     'p8_ee_Zqq_ecm365': {},
-    'wzp6_ee_nuenueZ_ecm365' : {}
+    'wzp6_ee_nuenueZ_ecm365' : {},
+    'p8_ee_tt_ecm365': {},
 }
 processList = process_list_sig | process_list_bkg
 # for debug use only one sample
@@ -96,8 +101,8 @@ cutDict = {
         'label' : 'No cuts',
     },
     'sel_nolep' : {
-        'cut': 'n_selected_leptons<1',
-        'label' : 'No leptons with p>20 GeV',
+        'cut': 'iso_leptons_pmax<40',
+        'label' : 'No isolated leptons with p>40 GeV',
     },
     'sel_jetE' : {
         'cut' : '(jet1_E>15 && jet1_E<105 && jet2_E>10 && jet2_E<70)',
@@ -184,6 +189,8 @@ colordict = {
     'khaki': '#f0e68c',
     'plum':  '#dda0dd',
     'deeppink': '#ff1493',
+    # add black
+    'black': '#000000'
 }
 
 processColors = {
@@ -205,27 +212,29 @@ processColors = {
     'ZZ': 'fuchsia',
     'WW': 'khaki',
     'Zqq': 'plum',
-    'nuenueZ' : 'deeppink'
+    'nuenueZ' : 'deeppink',
+    'ttbar' : 'black'
     }
 
 processColors.update({
-     'wzp6_ee_nunuH_Hbb_ecm365' : processColors['ZHbb'],
-     'wzp6_ee_nunuH_Hcc_ecm365' : processColors['ZHcc'],
-     'wzp6_ee_nunuH_Hss_ecm365' : processColors['ZHss'],
-     'wzp6_ee_nunuH_Hgg_ecm365' : processColors['ZHgg'],
-     'wzp6_ee_nunuH_Htautau_ecm365' : processColors['ZHtautau'],
-     'wzp6_ee_nunuH_HWW_ecm365' : processColors['ZHWW'],
-     'wzp6_ee_nunuH_HZZ_ecm365' : processColors['ZHZZ'],
-     'wzp6_ee_nunuH_Huu_ecm365' : processColors['ZHuu'],
-     'wzp6_ee_nunuH_Hdd_ecm365' : processColors['ZHdd'],
-     'wzp6_ee_nunuH_Hbs_ecm365' : processColors['ZHbs'],
-     'wzp6_ee_nunuH_Hbd_ecm365' : processColors['ZHbd'],
-     'wzp6_ee_nunuH_Hsd_ecm365' : processColors['ZHsd'],
-     'wzp6_ee_nunuH_Hcu_ecm365' : processColors['ZHcu'],
-     'p8_ee_ZZ_ecm365': processColors['ZZ'],
-     'p8_ee_WW_ecm365': processColors['WW'],
-     'p8_ee_Zqq_ecm365': processColors['Zqq'],
-     'wzp6_ee_nuenueZ_ecm365' : processColors['nuenueZ'],
+    'wzp6_ee_nunuH_Hbb_ecm365' : processColors['ZHbb'],
+    'wzp6_ee_nunuH_Hcc_ecm365' : processColors['ZHcc'],
+    'wzp6_ee_nunuH_Hss_ecm365' : processColors['ZHss'],
+    'wzp6_ee_nunuH_Hgg_ecm365' : processColors['ZHgg'],
+    'wzp6_ee_nunuH_Htautau_ecm365' : processColors['ZHtautau'],
+    'wzp6_ee_nunuH_HWW_ecm365' : processColors['ZHWW'],
+    'wzp6_ee_nunuH_HZZ_ecm365' : processColors['ZHZZ'],
+    'wzp6_ee_nunuH_Huu_ecm365' : processColors['ZHuu'],
+    'wzp6_ee_nunuH_Hdd_ecm365' : processColors['ZHdd'],
+    'wzp6_ee_nunuH_Hbs_ecm365' : processColors['ZHbs'],
+    'wzp6_ee_nunuH_Hbd_ecm365' : processColors['ZHbd'],
+    'wzp6_ee_nunuH_Hsd_ecm365' : processColors['ZHsd'],
+    'wzp6_ee_nunuH_Hcu_ecm365' : processColors['ZHcu'],
+    'p8_ee_ZZ_ecm365': processColors['ZZ'],
+    'p8_ee_WW_ecm365': processColors['WW'],
+    'p8_ee_Zqq_ecm365': processColors['Zqq'],
+    'p8_ee_tt_ecm365': processColors['ttbar'],
+    'wzp6_ee_nuenueZ_ecm365' : processColors['nuenueZ'],
 })
 
 processLabels = {
@@ -243,6 +252,7 @@ processLabels = {
     'p8_ee_WW_ecm365' : 'WW',
     'p8_ee_Zqq_ecm365' : 'Z/#gamma*(q#bar{q})',
     'wzp6_ee_nuenueZ_ecm365' : '#nu_{e}#bar{#nu}_{e}Z',
+    'p8_ee_tt_ecm365': 't#bar{t}',
 }
 
 processLabels.update({
@@ -265,4 +275,46 @@ processLabels.update({
     'Zqq' : 'Z/#gamma*(q#bar{q})',
     'nuenueZ' : '#nu_{e}#bar{#nu}_{e}Z',
     'qqH' : 'q#bar{q}H',
+    'ttbar' : 't#bar{t}',
 })
+
+
+#
+# load the dictionary of processes
+#
+dictFound=False
+import os
+procDictFile = ""
+if os.path.isfile('./' + procDict):
+    procDictFile = './' + procDict
+    dictFound=True
+else:
+    print('Dictionary not found in local directory, trying alternative folders: ')
+    procFolders = os.getenv('FCCDICTSDIR').split(':')
+    if len(procFolders) == 0:
+        folder = '/cvmfs/fcc.cern.ch/FCCDicts'
+        print(folder)
+        if os.path.isfile(folder + '/' + procDict):
+            procDictFile = folder + '/' + procDict
+            dictFound = True
+    else:
+        for folder in procFolders:
+            print(folder)
+            if os.path.isfile(folder + '/' + procDict):
+                procDictFile = folder + '/' + procDict
+                dictFound = True
+                break
+if not dictFound:
+    print('Dictionary not found, exiting')
+    exit(1)
+
+print('Using dictionary: ', procDictFile)
+print('Using a reference luminosity of %f fb' % lumiRef)
+
+f = open(procDictFile, 'r')
+import json
+procDictionary = json.load(f)
+
+# expand procDict with additional samples
+print('Adding to dictionary the private samples (if any)')
+procDictionary.update(procDictAdd)
