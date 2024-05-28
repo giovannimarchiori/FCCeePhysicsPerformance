@@ -105,6 +105,10 @@ cutDict = {
         'cut' : '(zed_leptonic_recoil_m > 120 && zed_leptonic_recoil_m < 140)',
         'label' : 'm(recoil) 120-140 GeV',
     },
+    'sel_ej2' : {
+        'cut' : 'jet2_E>15',
+        'label' : 'E(j2)>15 GeV',
+    },
     'sel_mjj' : {
       #  'cut' : '(higgs_hadronic_m>100 && higgs_hadronic_m<140)',
       #  'label' : '100<m(jets)<140 GeV',
@@ -132,15 +136,26 @@ cutDict = {
         'cut' : '(zed_leptonic_flavour==2)',
         'label' : 'l=mu',
     },
+    'sel_Hhad' : {
+        'cut' : '(MC_HiggsDecay<=10 || MC_HiggsDecay==40 || MC_HiggsDecay==51)',
+        'label' : 'Hadronic Higgs decays',
+    },
+    'sel_Hnonhad' : {
+        'cut' : '(MC_HiggsDecay>10 && MC_HiggsDecay!=40 && MC_HiggsDecay!=51)',
+        'label' : 'Non-hadronic Higgs decays',
+    },
+
 }
 
 # the selection to be applied:
 sel = [
     'selNone',
+#    'sel_Hhad',
     'sel_Z',
     'sel_mZ',
     'sel_cosThetaZ',
     'sel_mrecoil',
+    'sel_ej2',
     # 'sel_mjj',     # removed, will kill H(tautau) otherwise)
     # 'sel_emiss',   # removed, will kill H(tautau) otherwise)
     # 'sel_leptonveto',
@@ -173,6 +188,8 @@ cutList_histOnly = cuts
 cutList_histOnly['finalsel'    ] = final_selec
 cutList_histOnly['finalsel_e'  ] = final_selec + ' && ' + cutDict['sel_Zee']['cut']
 cutList_histOnly['finalsel_mu' ] = final_selec + ' && ' + cutDict['sel_Zmumu']['cut']
+cutList_histOnly['finalsel_hhad'    ] = final_selec + ' && ' + cutDict['sel_Hhad']['cut']
+cutList_histOnly['finalsel_hnonhad' ] = final_selec + ' && ' + cutDict['sel_Hnonhad']['cut']
 
 # Dictionary of colors
 # 18 colors generated with https://mokole.com/palette.html

@@ -20,6 +20,8 @@ for cut in sel:
 cutList['finalsel'] = 'All cuts'
 cutList['finalsel_e'] = 'l=e'
 cutList['finalsel_mu'] = 'l=mu'
+cutList['finalsel_hhad'] = 'H->had'
+cutList['finalsel_hnonhad'] = 'H->oth'
 
 
 def main():
@@ -112,6 +114,8 @@ def main():
     yieldsFinal = {}
     yieldsFinal_e = {}
     yieldsFinal_mu = {}
+    yieldsFinal_had = {}
+    yieldsFinal_oth = {}
     yieldsPrevious = {}
     
     # print title of table
@@ -165,6 +169,8 @@ def main():
         #if (cut=='selN_lepveto'): yieldsFinal=dict(yields)
         if (cut=='finalsel_e'): yieldsFinal_e=dict(yields)
         if (cut=='finalsel_mu'): yieldsFinal_mu = dict(yields)
+        if (cut=='finalsel_hhad'): yieldsFinal_had=dict(yields)
+        if (cut=='finalsel_hnonhad'): yieldsFinal_oth = dict(yields)
         print('{:25s} '.format(cutList[cut]), end='')
         if printSig:
             sig = {}
@@ -177,7 +183,7 @@ def main():
             print('')
         else:
             eff = {}        
-            if cut!='selNone' and cut!='finalsel_e' and cut!='finalsel_mu':
+            if cut!='selNone' and cut!='finalsel_e' and cut!='finalsel_mu' and cut!='finalsel_hhad' and cut!='finalsel_hnonhad':
                 for proc in processes:
                     if yieldsPrevious[proc]!=0.0:
                         eff[proc] = 100.*yields[proc]/yieldsPrevious[proc]

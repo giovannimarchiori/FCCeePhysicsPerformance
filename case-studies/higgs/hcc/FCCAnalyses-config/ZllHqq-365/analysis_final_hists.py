@@ -272,4 +272,11 @@ histoList = {
         "xmin": 0.0,
         "xmax": 1.0,
     },
+    "jet2_E": {
+        "name": "jet2_E",
+        "title": "E(j_{2}) [GeV]",
+        "bin": 100,
+        "xmin": 0,
+        "xmax": 200,
+    },
 }

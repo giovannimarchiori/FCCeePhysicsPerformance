@@ -96,6 +96,9 @@ def plotvars(signalOnly = False):
 
         ('jets_d23',       'finalsel', 9999., -9999.,  'd_{23}', 0.7, 'lin'),
         ('jets_d34',       'finalsel', 9999., -9999.,  'd_{34}', 0.7, 'lin'),
+
+        # subleading jet energy
+        ('jet2_E',         'finalsel', 9999., -9999.,  'E_{j2} [GeV]', 0.7, 'lin'),
     ]
 
     # list of processes to draw (and how to group them)
