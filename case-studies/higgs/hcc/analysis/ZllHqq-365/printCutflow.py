@@ -8,6 +8,8 @@ import subprocess
 import math
 import argparse
 
+from ROOT import TFile, TTree
+
 # directory containing the cutflow files
 basedir += 'analysis-final/hists/'
 
@@ -22,6 +24,22 @@ cutList['finalsel_e'] = 'l=e'
 cutList['finalsel_mu'] = 'l=mu'
 cutList['finalsel_hhad'] = 'H->had'
 cutList['finalsel_hnonhad'] = 'H->oth'
+
+
+def getHadFraction(lepch, decay):
+    fileName = basedir.replace("hists", "trees") + ("wzp6_ee_%sH_H%s_ecm365_finalsel.root" % (lepch,decay))
+    f = TFile.Open(fileName, "READ")
+    events = f.Get("events")
+    decayId = 0
+    if decay=="WW":
+        decayId = 51
+    elif decay=="ZZ":
+        decayId = 40
+    elif decay=="tautau":
+        decayId = 10
+    fraction = events.GetEntries("MC_HiggsDecay==%d" % decayId)*1./events.GetEntries()
+    f.Close()
+    return fraction
 
 
 def main():
@@ -121,14 +139,14 @@ def main():
     # print title of table
     print('')
     if printSig:
-        print('{:25s} '.format('Cut'), end='')
+        print('{:30s} '.format('Cut'), end='')
         for proc in processes:
             if 'ZH' in proc:
                 print('{:>10s} {:>5s} '.format(proc, ''), end='')
             else:
                 print('{:>10s} '.format(proc), end='')
         print('')
-        print('{:25s} '.format(''), end='')
+        print('{:30s} '.format(''), end='')
         for proc in processes:
             if 'ZH' in proc:
                 print('{:>10s} {:>5s} '.format('Yield', 'Sig'), end='')
@@ -136,11 +154,11 @@ def main():
                 print('{:>10s} '.format('Yield'), end='')
         print('')              
     else:
-        print('{:25s} '.format('Cut'), end='')
+        print('{:30s} '.format('Cut'), end='')
         for proc in processes:
             print('{:>10s} {:>5s} '.format(proc, ''), end='')
         print('')
-        print('{:25s} '.format(''), end='')
+        print('{:30s} '.format(''), end='')
         for proc in processes:
             print('{:>10s} {:>5s} '.format('Yield', 'Eff'), end='')
         print('')               
@@ -171,7 +189,7 @@ def main():
         if (cut=='finalsel_mu'): yieldsFinal_mu = dict(yields)
         if (cut=='finalsel_hhad'): yieldsFinal_had=dict(yields)
         if (cut=='finalsel_hnonhad'): yieldsFinal_oth = dict(yields)
-        print('{:25s} '.format(cutList[cut]), end='')
+        print('{:30s} '.format(cutList[cut]), end='')
         if printSig:
             sig = {}
             for proc in processes:
@@ -197,10 +215,10 @@ def main():
             yieldsPrevious = dict(yields)  
     print('\n')
 
-    str = '{:25s}'.format('Efficiency (%)')
+    str = '{:30s}'.format('Efficiency (%)')
     for proc in processes: str+='{:>10s}'.format(proc)
     print(str)
-    str = '{:25s}'.format('')
+    str = '{:30s}'.format('')
     for proc in processes:
         if (yieldsInitial[proc]!=0.):
             str+='{:10.2f}'.format(yieldsFinal[proc]*100./yieldsInitial[proc])
@@ -213,10 +231,10 @@ def main():
     # Print efficiency separately for ee and mumu channels
     xsec_eeh =  procDictionary['wzp6_ee_eeH_Hbb_ecm365']["crossSection"]
     xsec_mmh = procDictionary['wzp6_ee_mumuH_Hbb_ecm365']["crossSection"]
-    str = '{:25s}'.format('Eff. in e channel (%)')
+    str = '{:30s}'.format('Eff. in e channel (%)')
     for process in processes: str+='{:>10s}'.format(process)
     print(str)
-    str = '{:25s}'.format('')
+    str = '{:30s}'.format('')
     for proc in processes:
         if (yieldsInitial[proc]!=0.):
             str+='{:10.2f}'.format(yieldsFinal_e[proc]*100.*(xsec_eeh+xsec_mmh)/xsec_eeh/yieldsInitial[proc])
@@ -225,10 +243,10 @@ def main():
     print(str)
     print('')
 
-    str = '{:25s}'.format('Eff. in mu channel (%)')
+    str = '{:30s}'.format('Eff. in mu channel (%)')
     for process in processes: str+='{:>10s}'.format(process)
     print(str)
-    str = '{:25s}'.format('')
+    str = '{:30s}'.format('')
     for proc in processes: 
         if (yieldsInitial[proc]!=0.):
             str+='{:10.2f}'.format(yieldsFinal_mu[proc]*100.*(xsec_eeh+xsec_mmh)/xsec_mmh/yieldsInitial[proc])
@@ -249,9 +267,9 @@ def main():
         }
         # calculated from mumuH_HWW/ZZ/tautau after finalsel
         fracHad = {
-            'WW': 0.62539938,
-            'ZZ': 0.53700247,
-            'tautau': 0.56990203
+            'WW': getHadFraction("mumu", "WW"),
+            'ZZ': getHadFraction("mumu", "ZZ"),
+            'tautau': getHadFraction("mumu", "tautau")
             }
         str = '{:50s}'.format('Eff. in ZH(other) channels wrt had decays (%)')
         for decay in BRhad:

@@ -89,6 +89,10 @@ cutDict = {
         'cut' : '(0<1)',
         'label' : 'No cuts',
     },
+    'sel_lep' : {
+        'cut': 'isolated_leptons_pmax>40',
+        'label' : '>0 iso-leptons with p>40 GeV',
+    },
     'sel_Z' : {
         'cut' : '(zed_leptonic_flavour>0)',
         'label' : 'one Z->ll candidate',
@@ -120,8 +124,9 @@ cutDict = {
         'label' : 'Emiss < 30 GeV',
     },                
     'sel_leptonveto' : {
-        'cut' : '(n_extraleptons<1)',
-        'label' : 'max p(extra lep) < 25 GeV',
+        'cut' : '(n_iso_leptons<3)',
+        #'label' : 'max p(extra lep) < 25 GeV',
+        'label' : '<=2 iso leptons',
     },
     'sel_dmergeok'   : {
         # '(event_d23 >0.) && (event_d34>0.) && (event_d45>0.)'
@@ -150,7 +155,7 @@ cutDict = {
 # the selection to be applied:
 sel = [
     'selNone',
-#    'sel_Hhad',
+    'sel_lep',
     'sel_Z',
     'sel_mZ',
     'sel_cosThetaZ',
@@ -158,7 +163,7 @@ sel = [
     'sel_ej2',
     # 'sel_mjj',     # removed, will kill H(tautau) otherwise)
     # 'sel_emiss',   # removed, will kill H(tautau) otherwise)
-    # 'sel_leptonveto',
+    'sel_leptonveto',
     'sel_dmergeok',
 ]
 final_sel_cut = 'sel_dmergeok'
