@@ -3,10 +3,8 @@ import json
 import os, sys
 configdir = os.getenv('FCCANACONFS')
 sys.path.append(configdir)
-from analysis_config import procDictAdd
+from analysis_config import procDictionary, procDictAdd, lumiRef, sqrts
 
-procDict = 'FCCee_procDict_winter2023_IDEA.json'
-lumiRef = 5e3 # fb-1
 outFile = 'samples_winter2023.tex'
 
 processSamples = {
@@ -161,40 +159,7 @@ processLabels = {
     'Zmumu'      : '\\zmumu',
 }
 
-dictFound=False
-if os.path.isfile('./' + procDict):
-    procDict = './' + procDict
-    dictFound=True
-else:
-    print('Dictionary not found in local directory, trying alternative folders: ')
-    procFolders = os.getenv('FCCDICTSDIR').split(':')
-    if len(procFolders) == 0:
-        folder = '/cvmfs/fcc.cern.ch/FCCDicts'
-        print(folder)
-        if os.path.isfile(folder + '/' + procDict):
-            procDict = folder + '/' + procDict
-            dictFound = True
-    else:
-        for folder in procFolders:
-            print(folder)
-            if os.path.isfile(folder + '/' + procDict):
-                procDict = folder + '/' + procDict
-                dictFound = True
-                break
-if not dictFound:
-    print('Dictionary not found, exiting')
-    exit(1)
-
-print('Using dictionary: ', procDict)
-print('Using a reference luminosity of %f fb' % lumiRef)
-print('The output will also be saved to latex file ', outFile)
-
-f = open(procDict, 'r') 
-procDict = json.load(f)
-
-# expand procDict with additional samples
-print('Adding to dictionary the private samples (llH_Huu, llH_Hdd')
-procDict.update(procDictAdd)
+print('The output will also be saved to latex file %s\n' % outFile)
 
 print('{:15s} {:>15s} {:>10s} {:>15s} {:>15s} {:>12s}'.format('Process', 'sigma [fb]', 'Ngen', 'Lgen [/fb]', 'Lgen/L', 'Production'))
 outf = open(outFile, 'w')
@@ -203,7 +168,10 @@ outf.write('\\centering\n')
 outf.write('\\caption{For each simulated signal and background process, the theoretical\n')
 outf.write('cross-section $\\sigma$, the number of generated events $N_\\mathrm{gen}$,\n')
 outf.write('the equivalent luminosity $L_\\mathrm{gen} = N_\\mathrm{gen}/\\sigma$ and\n')
-outf.write('its ratio to the nominal luminosity $L=5$~ab$^{-1}$.}\n') 
+outf.write('{:.1f}'.format(lumiRef/1e3))
+outf.write('$~ab$^{-1}$ for FCC-ee at $\\sqrt{s}=')
+outf.write('{:d}'.format(sqrts))
+outf.write('$ GeV.}\n')
 outf.write('\\label{tab:samples}\n')
 outf.write('\\begin{tabular}{llrrr}\n')
 outf.write('\\toprule\n')
@@ -220,8 +188,8 @@ for proc in processSamples:
 #        print('Please check if they have been produced recently and in that case remove this part of the code')
 #        continue
 
-    xsection = 1e3*procDict[pr]["crossSection"]*procDict[pr]["kfactor"]*procDict[pr]["matchingEfficiency"]
-    events = procDict[pr]["sumOfWeights"]
+    xsection = 1e3*procDictionary[pr]["crossSection"]*procDictionary[pr]["kfactor"]*procDictionary[pr]["matchingEfficiency"]
+    events = procDictionary[pr]["sumOfWeights"]
     lumi = events/xsection
     lumiratio = lumi/lumiRef
     prodtype = "official"
