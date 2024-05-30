@@ -141,16 +141,16 @@ histoList = {
     "m_recoil": {
         "name": "zed_leptonic_recoil_m",
         "title": "m_{recoil} [GeV]",
-        "bin": 80,
+        "bin": 160,
         "xmin": 120,
-        "xmax": 140,
+        "xmax": 200,
     },
     "m_recoil_2": {
         "name": "zed_leptonic_recoil_m",
         "title": "m_{recoil} [GeV]",
-        "bin": 90,
+        "bin": 160,
         "xmin": 70,
-        "xmax": 160,
+        "xmax": 210,
     },
     "jets_d23": {
         "name": "event_d23",

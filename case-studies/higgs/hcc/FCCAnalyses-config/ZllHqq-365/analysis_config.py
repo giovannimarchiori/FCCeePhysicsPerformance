@@ -112,8 +112,8 @@ cutDict = {
         'label' : '|cos(theta_ll)|<0.8',
     },
     'sel_mrecoil' : {
-        'cut' : '(zed_leptonic_recoil_m > 120 && zed_leptonic_recoil_m < 140)',
-        'label' : 'm(recoil) 120-140 GeV',
+        'cut' : '(zed_leptonic_recoil_m > 120 && zed_leptonic_recoil_m < 200)',
+        'label' : 'm(recoil) 120-200 GeV',
     },
     'sel_ej2' : {
         'cut' : 'jet2_E>15',
