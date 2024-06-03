@@ -145,7 +145,8 @@ def main():
             'nuenueZ'   : ['wzp6_ee_nuenueZ_ecm365'],
             'Zqq'       : ['p8_ee_Zqq_ecm365'],
             'WW'        : ['p8_ee_WW_ecm365'],
-            'ZZ'        : ['p8_ee_ZZ_ecm365']
+            'ZZ'        : ['p8_ee_ZZ_ecm365'],
+            'tt'        : ['p8_ee_tt_ecm365'],
         })
 
 
