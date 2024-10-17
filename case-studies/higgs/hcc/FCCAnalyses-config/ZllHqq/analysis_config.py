@@ -160,7 +160,7 @@ process_list_bkg = {
     'p8_ee_WW_ecm240': {},
     'p8_ee_Zqq_ecm240': {},
     'wzp6_ee_mumu_ecm240': {},
-    'wzp6_ee_ee_Mee_35_150_ecm240': {},
+    'wzp6_ee_ee_Mee_30_150_ecm240': {},
 }
 processList = process_list_sig | process_list_bkg
 
