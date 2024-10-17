@@ -2,7 +2,7 @@ analysis = 'ZllHqq-365'
 production = 'winter2023'
 detector = 'IDEA'
 sqrts = 365 # GeV
-lumiRef = 2.3e3 # fb-1
+lumiRef = 3.0e3 # fb-1
 
 print("")
 print('-' * 120)
@@ -96,7 +96,7 @@ cutDict = {
         'label' : 'No cuts',
     },
     'sel_lep' : {
-        'cut': 'isolated_leptons_pmax>40',
+        'cut' : 'isolated_leptons_pmax>40',
         'label' : '>0 iso-leptons with p>40 GeV',
     },
     'sel_Z' : {

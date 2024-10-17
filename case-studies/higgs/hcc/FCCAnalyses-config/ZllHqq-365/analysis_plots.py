@@ -58,12 +58,14 @@ selections['ZH'] = sel
 # these could be moved to analysis config
 extralabel = {}
 extralabel['selNone'] = 'No selection'
-extralabel['sel_Z'] = '1 Z(ll) candidate (2 SFOS l, 25<p_{l}<80GeV)'
+extralabel['sel_lep'] = '>0 iso leptons (p>40 GeV)'
+extralabel['sel_Z'] = '1 Z(ll) candidate (2 SFOS l, 13<p_{l}<160GeV)'
 extralabel['sel_mZ'] = '81<m_{ll}<101 GeV'
 extralabel['sel_cosThetaZ'] = '81<m_{ll}<101 GeV, |cos#theta_{ll}|<0.8'
 extralabel['sel_mrecoil'] = '81<m_{ll}<101 GeV, |cos#theta_{ll}|<0.8, 120<m_{recoil}<200 GeV'
 extralabel['sel_mjj'] = '81<m_{ll}<101 GeV, |cos#theta_{ll}|<0.8, 120<m_{recoil}<200 GeV, 100<m_{jets}<140 GeV'
 extralabel['sel_emiss'] = '81<m_{ll}<101 GeV, |cos#theta_{ll}|<0.8, 120<m_{recoil}<200 GeV, 100<m_{jets}<140 GeV, E_{miss}<30 GeV'
+extralabel['sel_ej2'] = 'E_{j2}>15 GeV'
 extralabel['sel_leptonveto'] = 'Z(ll), m_{ll}, |cos#theta_{ll}|, m_{recoil}, m_{jets}, E_{miss}, lep. veto'
 extralabel['sel_dmergeok'] = 'Z(ll), m_{ll}, |cos#theta_{ll}|, m_{recoil}, m_{jets}, E_{miss}, lep. veto, d_{ij}>0'
 extralabel['finalsel'] = 'Z(ll), m_{ll}, |cos#theta_{ll}|, m_{recoil}, m_{jets}, E_{miss}, lep. veto'

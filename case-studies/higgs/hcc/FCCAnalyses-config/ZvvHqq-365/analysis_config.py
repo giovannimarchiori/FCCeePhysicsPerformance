@@ -2,7 +2,7 @@ analysis = 'ZvvHqq-365'
 production = 'winter2023'
 detector = 'IDEA'
 sqrts = 365 # GeV
-lumiRef = 2.3e3 # fb-1
+lumiRef = 3.0e3 # fb-1
 
 print("")
 print('-' * 120)

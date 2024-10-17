@@ -2,7 +2,7 @@ analysis = 'ZvvHqq-APC'
 production = 'winter2023'
 detector = 'IDEA'
 sqrts = 240 # GeV
-lumiRef = 7.2e3 # fb-1
+lumiRef = 10.8e3 # fb-1
 
 print("")
 print('-' * 120)
