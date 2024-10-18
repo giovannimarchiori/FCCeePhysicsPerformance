@@ -28,6 +28,13 @@ procDict = 'FCCee_procDict_%s_%s.json' % (production, detector)
 print('Dictionary: ', procDict)
 # additional custom samples
 procDictAdd = {
+    "wzp6_ee_ZH_Zee_Hbb_ecm240": {
+        "numberOfEvents": 400000,
+        "sumOfWeights": 400000.0,
+        "crossSection": 0.00394,
+        "kfactor": 1.0,
+        "matchingEfficiency": 1.0
+    },
     "wzp6_ee_eeH_Huu_ecm240": {
         "numberOfEvents": 400000,
         "sumOfWeights": 400000.0,
@@ -297,6 +304,7 @@ processColors = {
     }
 
 processColors.update({
+    'wzp6_ee_ZH_Zee_Hbb_ecm240' : processColors['ZHbb'],
     'wzp6_ee_eeH_Hbb_ecm240' : processColors['ZHbb'],
     'wzp6_ee_eeH_Hcc_ecm240' : processColors['ZHcc'],
     'wzp6_ee_eeH_Hss_ecm240' : processColors['ZHss'],
@@ -318,6 +326,7 @@ processColors.update({
 })
 
 processLabels = {
+    'wzp6_ee_ZH_Zee_Hbb_ecm240' : 'Z(ee)H(b#bar{b})',
     'wzp6_ee_eeH_Hbb_ecm240' : 'eeH(b#bar{b})',
     'wzp6_ee_eeH_Hcc_ecm240' : 'eeH(c#bar{c})',
     'wzp6_ee_eeH_Hss_ecm240' : 'eeH(s#bar{s})',
