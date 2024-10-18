@@ -15,6 +15,6 @@ echo "Setting up the nightly. If the code does not work, try setting up an older
 echo "source setup.sh -r 2024-04-12"
 source setup.sh
 cd $cwd
-export FCCANALYSES=$PWD/../../../../../../FCCAnalyses
+
 
 
