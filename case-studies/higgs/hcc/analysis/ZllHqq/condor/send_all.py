@@ -26,9 +26,9 @@ from analysis_config import *
 
 # input and output directories (SET AUTOMATICALLY, DO NOT MODIFY)
 # central production
-indir = '/eos/experiment/fcc/ee/generation/DelphesEvents/'+production+'/'+detector+'/'
+# indir = '/eos/experiment/fcc/ee/generation/DelphesEvents/'+production+'/'+detector+'/'
 # private production
-# indir = '/eos/user/g/gmarchio/fcc/generation/DelphesEvents/'+production+'/'+detector+'/'
+indir = '/eos/user/g/gmarchio/fcc/generation/DelphesEvents/'+production+'/'+detector+'/'
 outdir = basedir + '/analysis-stage1/'
 print('Input directory: ', indir)
 if not os.path.isdir(indir):
@@ -155,7 +155,10 @@ elif analysis == 'ZvvHqq-APC':
         #'wzp6_ee_mumu_ecm240',
         #'wzp6_ee_ee_Mee_30_150_ecm240'    
     ])
-# samples=[
+
+# override, to produce only some samples
+samples=[
+    'wzp6_ee_ZH_Zee_Hbb_ecm240',
 #    'wzp6_ee_eeH_Huu_ecm240',
 #    'wzp6_ee_eeH_Hdd_ecm240',
 #    'wzp6_ee_mumuH_Huu_ecm240',

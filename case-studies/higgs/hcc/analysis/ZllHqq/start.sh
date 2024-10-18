@@ -11,6 +11,8 @@ export FCCANALYSIS=$PWD
 export FCCANACONFS=$PWD/../../FCCAnalyses-config/ZllHqq
 cwd=$PWD
 cd $FCCANALYSES
+echo "Setting up the nightly. If the code does not work, try setting up an older nightly e.g."
+echo "source setup.sh -r 2024-04-12"
 source setup.sh
 cd $cwd
 export FCCANALYSES=$PWD/../../../../../../FCCAnalyses
