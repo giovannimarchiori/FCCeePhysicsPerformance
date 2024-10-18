@@ -1,11 +1,17 @@
 analysis = 'ZllHqq-365'
 production = 'winter2023'
 detector = 'IDEA'
-lumiRef = 2.3e3 # fb-1
+sqrts = 365 # GeV
+lumiRef = 3.0e3 # fb-1
 
-print('Analysis: ', analysis)
-print('Production: ', production)
-print('Detector: ', detector)
+print("")
+print('-' * 120)
+print("")
+print('%-35s: %s' % ('Analysis', analysis))
+print('%-35s: %s' % ('Production', production))
+print('%-35s: %s' % ('Detector', detector))
+print('%-35s: %d' % ('Energy [GeV]', sqrts))
+print('%-35s: %.1f' % ('Luminosity [ab-1]', lumiRef/1e3))
 
 import getpass
 user = getpass.getuser()
@@ -22,11 +28,11 @@ if user == 'gmarchio':
         basedir = '/eos/user/g/gmarchio/fcc/analysis/selection/%s/%s/%s/' % (analysis, production, detector)
     elif hostname == 'apcatlas01.in2p3.fr':
         basedir = '/home/gmarchio/work/fcc/analysis/fcc-hqq-analysis/selection/output/%s/%s/%s/' % (analysis, production, detector)
-print('Base directory for output: ', basedir)
+print('%-35s: %s' % ('Base directory for output', basedir))
 
 # Dictionary that contains all the cross section informations etc...
 procDict = 'FCCee_procDict_%s_%s.json' % (production, detector)
-print('Dictionary: ', procDict)
+# print('%-35s: %s' % ('Dictionary', procDict))
 # additional custom samples
 procDictAdd = {
     }
@@ -89,6 +95,10 @@ cutDict = {
         'cut' : '(0<1)',
         'label' : 'No cuts',
     },
+    'sel_lep' : {
+        'cut' : 'isolated_leptons_pmax>40',
+        'label' : '>0 iso-leptons with p>40 GeV',
+    },
     'sel_Z' : {
         'cut' : '(zed_leptonic_flavour>0)',
         'label' : 'one Z->ll candidate',
@@ -102,8 +112,8 @@ cutDict = {
         'label' : '|cos(theta_ll)|<0.8',
     },
     'sel_mrecoil' : {
-        'cut' : '(zed_leptonic_recoil_m > 120 && zed_leptonic_recoil_m < 140)',
-        'label' : 'm(recoil) 120-140 GeV',
+        'cut' : '(zed_leptonic_recoil_m > 120 && zed_leptonic_recoil_m < 200)',
+        'label' : 'm(recoil) 120-200 GeV',
     },
     'sel_ej2' : {
         'cut' : 'jet2_E>15',
@@ -120,8 +130,9 @@ cutDict = {
         'label' : 'Emiss < 30 GeV',
     },                
     'sel_leptonveto' : {
-        'cut' : '(n_extraleptons<1)',
-        'label' : 'max p(extra lep) < 25 GeV',
+        'cut' : '(n_iso_leptons<3)',
+        #'label' : 'max p(extra lep) < 25 GeV',
+        'label' : '<=2 iso leptons',
     },
     'sel_dmergeok'   : {
         # '(event_d23 >0.) && (event_d34>0.) && (event_d45>0.)'
@@ -150,7 +161,7 @@ cutDict = {
 # the selection to be applied:
 sel = [
     'selNone',
-#    'sel_Hhad',
+    'sel_lep',
     'sel_Z',
     'sel_mZ',
     'sel_cosThetaZ',
@@ -158,7 +169,7 @@ sel = [
     'sel_ej2',
     # 'sel_mjj',     # removed, will kill H(tautau) otherwise)
     # 'sel_emiss',   # removed, will kill H(tautau) otherwise)
-    # 'sel_leptonveto',
+    'sel_leptonveto',
     'sel_dmergeok',
 ]
 final_sel_cut = 'sel_dmergeok'
@@ -322,11 +333,11 @@ if os.path.isfile('./' + procDict):
     procDictFile = './' + procDict
     dictFound=True
 else:
-    print('Dictionary not found in local directory, trying alternative folders: ')
+    #print('Dictionary not found in local directory, trying alternative folders: ')
     procFolders = os.getenv('FCCDICTSDIR').split(':')
     if len(procFolders) == 0:
         folder = '/cvmfs/fcc.cern.ch/FCCDicts'
-        print(folder)
+        #print(folder)
         if os.path.isfile(folder + '/' + procDict):
             procDictFile = folder + '/' + procDict
             dictFound = True
@@ -341,13 +352,17 @@ if not dictFound:
     print('Dictionary not found, exiting')
     exit(1)
 
-print('Using dictionary: ', procDictFile)
-print('Using a reference luminosity of %f fb' % lumiRef)
+print('\n%-35s: %s' % ('Dictionary', procDictFile))
 
 f = open(procDictFile, 'r')
 import json
 procDictionary = json.load(f)
 
 # expand procDict with additional samples
-print('Adding to dictionary the private samples (if any)')
+# print('Adding to dictionary the private samples (if any)')
 procDictionary.update(procDictAdd)
+print('%-35s: ' % ('Extra samples added to dictionary'), end="")
+for sample in procDictAdd: print(sample, end=" ")
+print("\n")
+print('-' * 120)
+print("\n")

@@ -1,4 +1,4 @@
-# rm -rf $FCCANALYSES/build
-# rm -rf $FCCANALYSES/install
+# rm -rf $FCCANALYSESPKG/build
+# rm -rf $FCCANALYSESPKG/install
 rm -f *~
 rm -f $FCCANACONFS/*~

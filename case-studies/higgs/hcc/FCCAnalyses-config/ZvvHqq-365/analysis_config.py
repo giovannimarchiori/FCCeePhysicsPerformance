@@ -1,11 +1,17 @@
 analysis = 'ZvvHqq-365'
 production = 'winter2023'
 detector = 'IDEA'
-lumiRef = 2.3e3 # fb-1
+sqrts = 365 # GeV
+lumiRef = 3.0e3 # fb-1
 
-print('Analysis: ', analysis)
-print('Production: ', production)
-print('Detector: ', detector)
+print("")
+print('-' * 120)
+print("")
+print('%-35s: %s' % ('Analysis', analysis))
+print('%-35s: %s' % ('Production', production))
+print('%-35s: %s' % ('Detector', detector))
+print('%-35s: %d' % ('Energy [GeV]', sqrts))
+print('%-35s: %.1f' % ('Luminosity [ab-1]', lumiRef/1e3))
 
 import getpass
 user = getpass.getuser()
@@ -22,11 +28,11 @@ if user == 'gmarchio':
         basedir = '/eos/user/g/gmarchio/fcc/analysis/selection/%s/%s/%s/' % (analysis, production, detector)
     elif hostname == 'apcatlas01.in2p3.fr':
         basedir = '/home/gmarchio/work/fcc/analysis/fcc-hqq-analysis/selection/output/%s/%s/%s/' % (analysis, production, detector)
-print('Base directory for output: ', basedir)
+print('%-35s: %s' % ('Base directory for output', basedir))
 
 # Dictionary that contains all the cross section informations etc...
 procDict = 'FCCee_procDict_%s_%s.json' % (production, detector)
-print('Dictionary: ', procDict)
+# print('%-35s: %s' % ('Dictionary', procDict))
 # additional custom samples
 procDictAdd = {
     }
@@ -44,12 +50,12 @@ process_list_sig = {
     'wzp6_ee_nunuH_Htautau_ecm365' : {},
     'wzp6_ee_nunuH_HWW_ecm365' : {},
     'wzp6_ee_nunuH_HZZ_ecm365' : {},
-    'wzp6_ee_nunuH_Huu_ecm365' : {},
-    'wzp6_ee_nunuH_Hdd_ecm365' : {},
-    'wzp6_ee_nunuH_Hbs_ecm365' : {},
-    'wzp6_ee_nunuH_Hbd_ecm365' : {},
-    'wzp6_ee_nunuH_Hsd_ecm365' : {},
-    'wzp6_ee_nunuH_Hcu_ecm365' : {},
+#    'wzp6_ee_nunuH_Huu_ecm365' : {},
+#    'wzp6_ee_nunuH_Hdd_ecm365' : {},
+#    'wzp6_ee_nunuH_Hbs_ecm365' : {},
+#    'wzp6_ee_nunuH_Hbd_ecm365' : {},
+#    'wzp6_ee_nunuH_Hsd_ecm365' : {},
+#    'wzp6_ee_nunuH_Hcu_ecm365' : {},
     # Z(bb)H
     'wzp6_ee_bbH_Hbb_ecm365' : {},
     'wzp6_ee_bbH_Hcc_ecm365' : {},
@@ -101,11 +107,11 @@ cutDict = {
         'label' : 'No cuts',
     },
     'sel_nolep' : {
-        'cut': 'iso_leptons_pmax<40',
-        'label' : 'No isolated leptons with p>40 GeV',
+        'cut': 'isolated_leptons_pmax<1',
+        'label' : 'No iso-leptons with p>1 GeV',
     },
     'sel_jetE' : {
-        'cut' : '(jet1_E>15 && jet1_E<105 && jet2_E>10 && jet2_E<70)',
+        'cut' : '(jet1_E>40 && jet1_E<180 && jet2_E>15 && jet2_E<100)',
         'label' : '15<E_j1<105, 10<E_j2<70 GeV',
     },
     'sel_cosThetaJJ' : {
@@ -121,13 +127,21 @@ cutDict = {
         'label' : 'cos(phi_j1-phi_j2)<0.999',
     },
     'sel_mvis_mmiss'   : {
-        'cut' : '(mvis > 70 && mvis < 150 && higgs_hadronic_recoil_m>60 && higgs_hadronic_recoil_m<220)',
-        'label' : '70<mvis<150, 60<mmiss<220 GeV'
+        'cut' : '(mvis > 80 && mvis < 280 && higgs_hadronic_recoil_m>50 && higgs_hadronic_recoil_m<350)',
+        'label' : '80<mvis<280, 50<mmiss<350 GeV'
     },    
     'sel_dmergeok'   : {
         # '(event_d23 >0.) && (event_d34>0.) && (event_d45>0.)'
         'cut' : '(event_d23 >0.) && (event_d34>0.)',
         'label' : 'd23>0, d34>0',
+    },
+    'sel_Hhad' : {
+        'cut' : '(MC_HiggsDecay<=10 || MC_HiggsDecay==40 || MC_HiggsDecay==51)',
+        'label' : 'Hadronic Higgs decays',
+    },
+    'sel_Hnonhad' : {
+        'cut' : '(MC_HiggsDecay>10 && MC_HiggsDecay!=40 && MC_HiggsDecay!=51)',
+        'label' : 'Non-hadronic Higgs decays',
     },
 }
 
@@ -167,6 +181,8 @@ cutList_treeOnly = {
 # The key is the name of the selection that will be added to the output file.
 cutList_histOnly = cuts
 cutList_histOnly['finalsel'    ] = final_selec
+cutList_histOnly['finalsel_hhad'    ] = final_selec + ' && ' + cutDict['sel_Hhad']['cut']
+cutList_histOnly['finalsel_hnonhad' ] = final_selec + ' && ' + cutDict['sel_Hnonhad']['cut']
 
 # Dictionary of colors
 # 18 colors generated with https://mokole.com/palette.html
@@ -289,17 +305,17 @@ if os.path.isfile('./' + procDict):
     procDictFile = './' + procDict
     dictFound=True
 else:
-    print('Dictionary not found in local directory, trying alternative folders: ')
+    #print('Dictionary not found in local directory, trying alternative folders: ')
     procFolders = os.getenv('FCCDICTSDIR').split(':')
     if len(procFolders) == 0:
         folder = '/cvmfs/fcc.cern.ch/FCCDicts'
-        print(folder)
+        #print(folder)
         if os.path.isfile(folder + '/' + procDict):
             procDictFile = folder + '/' + procDict
             dictFound = True
     else:
         for folder in procFolders:
-            print(folder)
+            #print(folder)
             if os.path.isfile(folder + '/' + procDict):
                 procDictFile = folder + '/' + procDict
                 dictFound = True
@@ -308,13 +324,17 @@ if not dictFound:
     print('Dictionary not found, exiting')
     exit(1)
 
-print('Using dictionary: ', procDictFile)
-print('Using a reference luminosity of %f fb' % lumiRef)
+print('\n%-35s: %s' % ('Dictionary', procDictFile))
 
 f = open(procDictFile, 'r')
 import json
 procDictionary = json.load(f)
 
 # expand procDict with additional samples
-print('Adding to dictionary the private samples (if any)')
+# print('Adding to dictionary the private samples (if any)')
 procDictionary.update(procDictAdd)
+print('%-35s: ' % ('Extra samples added to dictionary'), end="")
+for sample in procDictAdd: print(sample, end=" ")
+print("\n")
+print('-' * 120)
+print("\n")

@@ -20,6 +20,9 @@ cutList = {}
 for cut in sel:
     cutList[cut] = cutDict[cut]['label']
 cutList['finalsel'] = 'All cuts'
+cutList['finalsel_hhad'] = 'H->had'
+cutList['finalsel_hnonhad'] = 'H->oth'
+
 
 def getHadFraction(decay):
     fileName = basedir.replace("hists", "trees") + ("wzp6_ee_nunuH_H%s_ecm365_finalsel.root" % decay)
@@ -142,7 +145,8 @@ def main():
             'nuenueZ'   : ['wzp6_ee_nuenueZ_ecm365'],
             'Zqq'       : ['p8_ee_Zqq_ecm365'],
             'WW'        : ['p8_ee_WW_ecm365'],
-            'ZZ'        : ['p8_ee_ZZ_ecm365']
+            'ZZ'        : ['p8_ee_ZZ_ecm365'],
+            'tt'        : ['p8_ee_tt_ecm365'],
         })
 
 
@@ -198,6 +202,8 @@ def main():
             sumYields += yields[proc]
         if (cut=='selNone'): yieldsInitial=dict(yields)
         if (cut=='finalsel'): yieldsFinal=dict(yields)
+        if (cut=='finalsel_hhad'): yieldsFinal_had=dict(yields)
+        if (cut=='finalsel_hnonhad'): yieldsFinal_oth = dict(yields)
         print('{:30s} '.format(cutList[cut]), end='')
         if printSig:
             sig = {}
@@ -210,7 +216,7 @@ def main():
             print('')
         else:
             eff = {}        
-            if cut!='selNone':
+            if cut!='selNone' and cut!='finalsel_hhad' and cut!='finalsel_hnonhad':
                 for proc in processes:
                     eff[proc] = 100.*yields[proc]/yieldsPrevious[proc]
                     print('{:10.0f} {:5.0f} '.format(yields[proc], eff[proc]), end='')

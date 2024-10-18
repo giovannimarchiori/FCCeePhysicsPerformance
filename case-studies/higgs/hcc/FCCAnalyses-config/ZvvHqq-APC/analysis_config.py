@@ -1,10 +1,17 @@
 analysis = 'ZvvHqq-APC'
 production = 'winter2023'
 detector = 'IDEA'
+sqrts = 240 # GeV
+lumiRef = 10.8e3 # fb-1
 
-print('Analysis: ', analysis)
-print('Production: ', production)
-print('Detector: ', detector)
+print("")
+print('-' * 120)
+print("")
+print('%-35s: %s' % ('Analysis', analysis))
+print('%-35s: %s' % ('Production', production))
+print('%-35s: %s' % ('Detector', detector))
+print('%-35s: %d' % ('Energy [GeV]', sqrts))
+print('%-35s: %.1f' % ('Luminosity [ab-1]', lumiRef/1e3))
 
 import getpass
 user = getpass.getuser()
@@ -21,11 +28,14 @@ if user == 'gmarchio':
         basedir = '/eos/user/g/gmarchio/fcc/analysis/selection/%s/%s/%s/' % (analysis, production, detector)
     elif hostname == 'apcatlas01.in2p3.fr':
         basedir = '/home/gmarchio/work/fcc/analysis/fcc-hqq-analysis/selection/output/%s/%s/%s/' % (analysis, production, detector)
-print('Base directory for output: ', basedir)
+print('%-35s: %s' % ('Base directory for output', basedir))
 
 # Dictionary that contains all the cross section informations etc...
 procDict = 'FCCee_procDict_%s_%s.json' % (production, detector)
-print('Dictionary: ', procDict)
+# print('%-35s: %s' % ('Dictionary', procDict))
+# additional custom samples
+procDictAdd = {
+    }
 
 # Number of CPUs to use
 nCPUS = 96
@@ -266,3 +276,47 @@ processLabels.update({
     'nuenueZ' : '#nu_{e}#bar{#nu}_{e}Z',
     'qqH' : 'q#bar{q}H',
 })
+
+#
+# load the dictionary of processes
+#
+dictFound=False
+import os
+procDictFile = ""
+if os.path.isfile('./' + procDict):
+    procDictFile = './' + procDict
+    dictFound=True
+else:
+    # print('Dictionary not found in local directory, trying alternative folders: ')
+    procFolders = os.getenv('FCCDICTSDIR').split(':')
+    if len(procFolders) == 0:
+        folder = '/cvmfs/fcc.cern.ch/FCCDicts'
+        # print(folder)
+        if os.path.isfile(folder + '/' + procDict):
+            procDictFile = folder + '/' + procDict
+            dictFound = True
+    else:
+        for folder in procFolders:
+            # print(folder)
+            if os.path.isfile(folder + '/' + procDict):
+                procDictFile = folder + '/' + procDict
+                dictFound = True
+                break
+if not dictFound:
+    print('Dictionary not found, exiting')
+    exit(1)
+
+print('\n%-35s: %s' % ('Dictionary', procDictFile))
+
+f = open(procDictFile, 'r')
+import json
+procDictionary = json.load(f)
+
+# expand procDict with additional samples
+# print('Adding to dictionary the private samples (if any)')
+procDictionary.update(procDictAdd)
+print('%-35s: ' % ('Extra samples added to dictionary'), end="")
+for sample in procDictAdd: print(sample, end=" ")
+print("\n")
+print('-' * 120)
+print("\n")
