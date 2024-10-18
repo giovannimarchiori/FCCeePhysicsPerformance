@@ -1,2 +1,2 @@
-rm -rf $FCCANALYSESPKG/build
-rm -rf $FCCANALYSESPKG/install
+rm -rf $FCCANALYSES/build
+rm -rf $FCCANALYSES/install
