@@ -1,6 +1,6 @@
 import subprocess
 #result = subprocess.run(["ls -l std/*.err | awk '$5>1000'"], stdout=subprocess.PIPE).stdout.decode()
-result = subprocess.check_output("ls -l std/*.err | awk '$5>1000'", shell=True).decode().split("\n")
+result = subprocess.check_output("ls -l std/*.err | awk '$5>1010'", shell=True).decode().split("\n")
 for line in result:
     if (line != ""):
         err = line.split()[-1]

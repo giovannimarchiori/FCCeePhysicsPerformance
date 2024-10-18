@@ -19,18 +19,19 @@ outputpath=/eos/user/g/gmarchio/fcc/analysis/ZllHqq/${campaign}/${detector}/anal
 # outputpath=.
 
 for process in \
-    wzp6_ee_eeH_Huu_ecm240 \
-    wzp6_ee_eeH_Hdd_ecm240 \
-    wzp6_ee_mumuH_Huu_ecm240 \
-    wzp6_ee_mumuH_Hdd_ecm240 \
-    wzp6_ee_eeH_Hbs_ecm240 \
-    wzp6_ee_eeH_Hbd_ecm240 \
-    wzp6_ee_eeH_Hsd_ecm240 \
-    wzp6_ee_eeH_Hcu_ecm240 \
-    wzp6_ee_mumuH_Hbs_ecm240 \
-    wzp6_ee_mumuH_Hbd_ecm240 \
-    wzp6_ee_mumuH_Hsd_ecm240 \
-    wzp6_ee_mumuH_Hcu_ecm240 \
+    wzp6_ee_ZH_Zee_Hbb_ecm240 \
+#    wzp6_ee_eeH_Huu_ecm240 \
+#    wzp6_ee_eeH_Hdd_ecm240 \
+#    wzp6_ee_mumuH_Huu_ecm240 \
+#    wzp6_ee_mumuH_Hdd_ecm240 \
+#    wzp6_ee_eeH_Hbs_ecm240 \
+#    wzp6_ee_eeH_Hbd_ecm240 \
+#    wzp6_ee_eeH_Hsd_ecm240 \
+#    wzp6_ee_eeH_Hcu_ecm240 \
+#    wzp6_ee_mumuH_Hbs_ecm240 \
+#    wzp6_ee_mumuH_Hbd_ecm240 \
+#    wzp6_ee_mumuH_Hsd_ecm240 \
+#    wzp6_ee_mumuH_Hcu_ecm240 \
 #    wzp6_ee_eeH_Hbb_ecm240 \
 #    wzp6_ee_eeH_HZZ_ecm240 
 #    wzp6_ee_mumuH_Hgg_ecm240 

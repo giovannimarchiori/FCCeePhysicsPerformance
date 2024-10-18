@@ -17,11 +17,11 @@ import os, sys
 
 includePaths = ["functions.h"]
 
-outputDirEos = '/eos/user/g/gmarchio/fcc/ZvvHqq/analysis/root/IDEA/'
+outputDirEos = '/eos/user/g/gmarchio/fcc/analysis/selection/ZvvHqq-365/winter2023/IDEA/analysis-stage1/'
 eosType = 'eosuser'
 
 # Optional: ncpus, default is 4
-# nCPUS = 32
+nCPUS = 32
 
 # Optional running on HTCondor, default is False
 runBatch = False
