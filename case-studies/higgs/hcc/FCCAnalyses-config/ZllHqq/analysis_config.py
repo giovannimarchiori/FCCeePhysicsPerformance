@@ -176,49 +176,60 @@ cutDict = {
     'selNone' : {
         'cut' : '(0<1)',
         'label' : 'No cuts',
+        'latexLabel' : 'No selection',
     },
     'sel_Z' : {
         'cut' : '(zed_leptonic_flavour>0)',
         'label' : 'one Z->ll candidate',
+        'latexLabel' : '1 Z(ll) candidate (2 SFOS l, 25<p_{l}<80GeV)'
         },
     'sel_mZ' : {
         'cut' : '(zed_leptonic_m > 81 && zed_leptonic_m < 101)',
         'label' : 'm(ll) 81-101 GeV',
+        'latexLabel' : '81<m_{ll}<101 GeV'
         },
     'sel_cosThetaZ' : {
         'cut' : '(zed_leptonic_cos_theta < 0.8)',
         'label' : '|cos(theta_ll)|<0.8',
+        'latexLabel' : '|cos#theta_{ll}|<0.8'
     },
     'sel_mrecoil' : {
         'cut' : '(zed_leptonic_recoil_m > 120 && zed_leptonic_recoil_m < 140)',
         'label' : 'm(recoil) 120-140 GeV',
+        'latexLabel' : '120<m_{recoil}<140 GeV'
     },
     'sel_mjj' : {
       #  'cut' : '(higgs_hadronic_m>100 && higgs_hadronic_m<140)',
       #  'label' : '100<m(jets)<140 GeV',
         'cut' : '(higgs_hadronic_m>50 && higgs_hadronic_m<140)',
         'label' : '50<m(jets)<140 GeV',
+        'latexLabel' : '50<m_{jets}<140 GeV'
     },
     'sel_emiss' : {
         'cut' : '(etmiss < 35)',
         'label' : 'Emiss < 35 GeV',
+        'latexLabel' : 'E_{miss}<35 GeV'
     },                
     'sel_leptonveto' : {
         'cut' : '(n_extraleptons<1)',
         'label' : 'max p(extra lep) < 25 GeV',
+        'latexLabel' : 'extra lep. veto'
     },
     'sel_dmergeok'   : {
         # '(event_d23 >0.) && (event_d34>0.) && (event_d45>0.)'
         'cut' : '(event_d23 >0.) && (event_d34>0.)',
         'label' :  'd23>0, d34>0',
+        'latexLabel' : 'd_{23},d_{34}>0',
     },
     'sel_Zee' : {
         'cut' : '(zed_leptonic_flavour==1)',
         'label' : 'l=e',
+        'latexLabel' : 'l=e',
     },
     'sel_Zmumu' : {
         'cut' : '(zed_leptonic_flavour==2)',
         'label' : 'l=mu',
+        'latexLabel' : 'l=#mu',
     },
 }
 
